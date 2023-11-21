@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "226368054818",
+    "project_id": "final-mobile-1bc80",
+    "storage_bucket": "final-mobile-1bc80.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:226368054818:android:9dbc70d0d46f95f6d84c7b",
+        "android_client_info": {
+          "package_name": "com.example.revibemarket"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDO7OWn-PCWv_M1oIQAZBC72eAZ05eeLxY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
