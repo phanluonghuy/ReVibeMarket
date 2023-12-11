@@ -33,11 +33,11 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            Intent i = new Intent(this, MainActivity.class);
-            startActivity(i);
-        }
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        if (user != null) {
+//            Intent i = new Intent(this, MainActivity.class);
+//            startActivity(i);
+//        }
 
 
         mAuth = FirebaseAuth.getInstance();
