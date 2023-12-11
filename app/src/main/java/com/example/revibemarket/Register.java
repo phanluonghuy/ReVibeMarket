@@ -3,26 +3,38 @@ package com.example.revibemarket;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.revibemarket.Models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Register extends AppCompatActivity {
-    EditText edtEmail, edtPassword;
-    Button btnRegister,btnBackLogin;
+    EditText edtEmail, edtPassword, edtConfirmPassword, edtName, edtAddress, edtPhone;
+    Button btnRegister;
+    TextView btnBackLogin;
+    ImageView imageViewLogin;
     FirebaseAuth mAuth;
-    ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,49 +43,114 @@ public class Register extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         edtEmail = findViewById(R.id.editTextEmail);
         edtPassword = findViewById(R.id.editTextPassword);
+        edtConfirmPassword = findViewById(R.id.editTextConfirmPassword);
+        edtName = findViewById(R.id.editTextName);
+        edtPhone = findViewById(R.id.editTextPhone);
+        edtAddress = findViewById(R.id.editTextAddress);
         btnRegister = findViewById(R.id.buttonRegister);
         btnBackLogin = findViewById(R.id.buttonBackToLogin);
-        progressBar = findViewById(R.id.progressBar);
-        btnBackLogin.setOnClickListener(new View.OnClickListener() {
+        imageViewLogin = findViewById(R.id.imageViewLogin);
+
+        View.OnClickListener loginClickListener = new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Register.this,Login.class);
+            public void onClick(View v) {
+                Intent intent = new Intent(Register.this, Login.class);
                 startActivity(intent);
                 finish();
             }
-        });
+        };
+        imageViewLogin.setOnClickListener(loginClickListener);
+        btnBackLogin.setOnClickListener(loginClickListener);
+
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String TAG = "Register";
-                progressBar.setVisibility(View.VISIBLE);
+                String name = edtName.getText().toString();
                 String email = edtEmail.getText().toString();
                 String password = edtPassword.getText().toString();
+                String confirm_password = edtConfirmPassword.getText().toString();
+                String address = edtAddress.getText().toString();
+                String phone = edtPhone.getText().toString();
 
-                mAuth.createUserWithEmailAndPassword(email, password)
+                if (!CheckAllFields()) return;
+
+                    mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                progressBar.setVisibility(View.GONE);
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
-                                    Log.d(TAG, "createUserWithEmail:success");
                                     Toast.makeText(Register.this, "Your account is created !",
                                             Toast.LENGTH_SHORT).show();
+
+                                    DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    String userID = user.getUid();
+
+                                    User newUser = new User(userID, name, email, address, phone);
+                                    usersRef.child(userID).setValue(newUser);
+
                                     Intent intent = new Intent(Register.this,Login.class);
                                     startActivity(intent);
                                     finish();
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                   // updateUI(user);
+//                                    FirebaseUser user = mAuth.getCurrentUser();
                                 } else {
                                     // If sign in fails, display a message to the user.
-                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                    Toast.makeText(Register.this, "Authentication failed.",
+                                    Toast.makeText(Register.this, "Authentication failed!",
                                             Toast.LENGTH_SHORT).show();
-                                    //updateUI(null);
                                 }
                             }
                         });
+            }
+
+            private boolean CheckAllFields() {
+                if (edtName.length() == 0) {
+                    edtName.setError("Name is required");
+                    return false;
+                }
+
+                if (edtPhone.length() == 0) {
+                    edtPhone.setError("Phone is required");
+                    return false;
+                }
+
+                if (edtEmail.length() == 0) {
+                    edtEmail.setError("Email is required");
+                    return false;
+                }
+
+                if (!Patterns.EMAIL_ADDRESS.matcher(edtEmail.getText().toString()).matches())
+                {
+                    edtEmail.setError("Invalid email address");
+                    return false;
+                }
+
+                if (edtPassword.length() == 0) {
+                    edtPassword.setError("Password is required");
+                    return false;
+                } else if (edtPassword.length() < 8) {
+                    edtPassword.setError("Password must be minimum 8 characters");
+                    return false;
+                }
+
+                if (edtConfirmPassword.length() == 0) {
+                    edtConfirmPassword.setError("Confirm password is required");
+                    return false;
+                }
+
+                if (!edtConfirmPassword.getText().toString().equals(edtPassword.getText().toString())) {
+                    edtConfirmPassword.setError("No match!");
+                    return false;
+                }
+
+                if (edtAddress.length() == 0) {
+                    edtAddress.setError("Address is required");
+                    return false;
+                }
+
+
+                // after all validation return true.
+                return true;
             }
         });
 
