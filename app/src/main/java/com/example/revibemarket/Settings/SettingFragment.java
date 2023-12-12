@@ -1,4 +1,4 @@
-package com.example.revibemarket;
+package com.example.revibemarket.Settings;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.revibemarket.LoginRegister.Login;
+import com.example.revibemarket.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,8 +31,9 @@ public class SettingFragment extends Fragment {
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     ImageView imageView;
     TextView textViewName;
-    TextView editProfile;
+    TextView editProfile,editPassword;
     ProfileFragment profileFragment = new ProfileFragment();
+    ChangePasswordFragment changePasswordFragment = new ChangePasswordFragment();
     TextView btnLogout;
 
     @Override
@@ -40,6 +43,7 @@ public class SettingFragment extends Fragment {
         imageView = view.findViewById(R.id.profileCircleImageView);
         textViewName = view.findViewById(R.id.usernameTextView);
         editProfile = view.findViewById(R.id.profile);
+        editPassword = view.findViewById(R.id.editPassword);
         btnLogout = view.findViewById(R.id.btnLogout);
 
         reloadProfile();
@@ -52,6 +56,21 @@ public class SettingFragment extends Fragment {
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                     fragmentTransaction.replace(R.id.container, profileFragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
+            }
+        });
+
+        editPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getFragmentManager();
+
+                if (fragmentManager != null) {
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                    fragmentTransaction.replace(R.id.container, changePasswordFragment);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                 }

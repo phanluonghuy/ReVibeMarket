@@ -1,27 +1,20 @@
-package com.example.revibemarket;
+package com.example.revibemarket.LoginRegister;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.TextView;
 
-import com.example.revibemarket.Models.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomappbar.BottomAppBar;
+import com.example.revibemarket.AddFragment;
+import com.example.revibemarket.CartFragment;
+import com.example.revibemarket.ExploreFragment;
+import com.example.revibemarket.HomeFragment;
+import com.example.revibemarket.R;
+import com.example.revibemarket.Settings.ProfileFragment;
+import com.example.revibemarket.Settings.SettingFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 

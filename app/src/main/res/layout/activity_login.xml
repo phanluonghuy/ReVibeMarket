@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     style="@style/loginParent"
-    tools:context="com.example.revibemarket.Login">
+    tools:context="com.example.revibemarket.LoginRegister.Login">
     <ScrollView
         style="@style/parent">
 
@@ -97,6 +97,7 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <TextView
+                            android:id="@+id/buttonForgot"
                             style="@style/viewParent"
                             android:text="Forgot Password?"
                             android:textColor="@color/primaryTextColor"

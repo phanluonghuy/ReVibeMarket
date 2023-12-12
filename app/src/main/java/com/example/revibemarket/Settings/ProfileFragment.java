@@ -1,4 +1,4 @@
-package com.example.revibemarket;
+package com.example.revibemarket.Settings;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.revibemarket.Models.User;
+import com.example.revibemarket.R;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -180,7 +181,5 @@ public class ProfileFragment extends Fragment {
         txtPhone.setFocusable(b);
         txtAddress.setFocusableInTouchMode(b);
         txtAddress.setFocusable(b);
-        txtEmail.setFocusableInTouchMode(b);
-        txtEmail.setFocusable(b);
     }
 }

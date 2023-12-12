@@ -1,4 +1,4 @@
-package com.example.revibemarket;
+package com.example.revibemarket.LoginRegister;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,19 +13,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.revibemarket.Models.User;
+import com.example.revibemarket.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class Login extends AppCompatActivity {
     EditText edtEmail, edtPassword;
     Button btnLogin;
-    TextView btnBackToRegister;
+    TextView btnBackToRegister,buttonForgot;
     FirebaseAuth mAuth;
 
     @Override
@@ -45,6 +43,7 @@ public class Login extends AppCompatActivity {
         edtPassword = findViewById(R.id.editTextPassword);
         btnLogin = findViewById(R.id.buttonLogin);
         btnBackToRegister = findViewById(R.id.buttonRegister);
+        buttonForgot = findViewById(R.id.buttonForgot);
 
         btnBackToRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +51,14 @@ public class Login extends AppCompatActivity {
                 Intent intent = new Intent(Login.this, Register.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+        buttonForgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Login.this, ForgotPassword.class);
+                startActivity(intent);
             }
         });
 
