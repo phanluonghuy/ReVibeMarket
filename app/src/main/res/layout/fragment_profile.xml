@@ -46,44 +46,36 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-
-                    <!--                    <TextView-->
-                    <!--                        style="@style/headerText"-->
-                    <!--                        android:layout_gravity="center"-->
-                    <!--                        android:text="@string/app_name"-->
-                    <!--                        android:layout_marginTop="40dp"/>-->
-
-                    <!--                    <androidx.cardview.widget.CardView-->
-                    <!--                        xmlns:android="http://schemas.android.com/apk/res/android"-->
-                    <!--                        xmlns:app="http://schemas.android.com/apk/res-auto"-->
-                    <!--                        style="@style/loginCard"-->
-                    <!--                        app:cardCornerRadius="@dimen/loginCardRadius"-->
-                    <!--                        android:elevation="5dp"-->
-                    <!--                        android:layout_gravity="center"-->
-                    <!--                        android:layout_marginTop="@dimen/loginViewsMargin"-->
-                    <!--                        android:layout_marginBottom="@dimen/loginViewsMargin"-->
-                    <!--                        android:background="@color/w-->
                     <TextView
-                        android:id="@+id/textView2"
+                        android:id="@+id/textViewName"
                         style="@style/headerText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="32dp"
-                        android:text="Phan Luong Huy"
+                        android:layout_marginTop="80dp"
+                        android:text="UserName"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textView10"
+                        style="@style/headerText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="phanhuy4623@gmail.com"
-                        android:textColor="@color/whiteTextColor"
-                        app:layout_constraintEnd_toEndOf="@+id/textView2"
+                        android:text="Welcome,"
+                        app:layout_constraintBottom_toTopOf="@+id/textViewName"
+                        app:layout_constraintEnd_toEndOf="@+id/textViewName"
                         app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="@+id/textView2"
-                        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                        app:layout_constraintStart_toStartOf="@+id/textViewName" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/floatingActionButtonUpload"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="-32dp"
+                        android:clickable="true"
+                        android:src="@drawable/baseline_photo_camera_24"
+                        app:backgroundTint="@color/loginBkColor"
+                        app:layout_constraintBottom_toBottomOf="@+id/cardView"
+                        app:layout_constraintStart_toStartOf="@+id/cardView" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardView"
@@ -95,17 +87,16 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
-                            android:id="@+id/imageView5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:id="@+id/imageViewProfile"
+                            android:layout_width="380px"
+                            android:layout_height="380px"
+                            android:scaleType="centerCrop"
                             app:srcCompat="@drawable/avatar" />
                     </androidx.cardview.widget.CardView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.cardview.widget.CardView
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
                     style="@style/loginCard"
                     app:cardCornerRadius="@dimen/loginCardRadius"
                     android:elevation="5dp"
@@ -120,12 +111,88 @@
                         style="@style/linearParent"
                         android:layout_gravity="center"
                         android:padding="@dimen/loginViewsMargin">
+                        <TextView
+                            style="@style/modifiedEditText"
+                            android:text="Full Name"
+                            android:maxLines="1"
+                            android:layout_marginTop="@dimen/loginViewsMargin"/>
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/parent">
+
+                            <EditText
+                                android:id="@+id/editTextName"
+                                style="@style/modifiedEditText"
+                                android:inputType="textEmailAddress"
+                                android:maxLines="1"
+                                android:text="Name" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <TextView
+                            style="@style/modifiedEditText"
+                            android:text="Email"
+                            android:maxLines="1"
+                            android:layout_marginTop="@dimen/loginViewsMargin"/>
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/parent">
+
+                            <EditText
+                                android:id="@+id/editTextEmail"
+                                style="@style/modifiedEditText"
+                                android:inputType="textEmailAddress"
+                                android:maxLines="1"
+                                android:text="Email" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <TextView
+                            style="@style/modifiedEditText"
+                            android:text="Phone"
+                            android:maxLines="1"
+                            android:layout_marginTop="@dimen/loginViewsMargin"/>
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputEmail"
+                            style="@style/parent">
+                            <EditText
+                                android:id="@+id/editTextPhone"
+                                style="@style/modifiedEditText"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:text="Phone"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <TextView
+                            style="@style/modifiedEditText"
+                            android:text="Address"
+                            android:maxLines="1"
+                            android:layout_marginTop="@dimen/loginViewsMargin"/>
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/parent">
+                            <EditText
+                                android:id="@+id/editTextAddress"
+                                style="@style/modifiedEditText"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:text="Address"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
 
 
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
+                <Button
+                    android:id="@+id/buttonUpdate"
+                    style="@style/loginButton"
+                    android:text="Update profile"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/loginViewsMargin" />
+
             </LinearLayout>
+            <ImageView
+                android:id="@+id/buttonBackSetting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="10dp"
+                android:src="@android:drawable/ic_menu_close_clear_cancel" />
         </RelativeLayout>
 
     </ScrollView>

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -63,44 +64,51 @@ public class Register extends AppCompatActivity {
         btnBackLogin.setOnClickListener(loginClickListener);
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SuspiciousIndentation")
             @Override
             public void onClick(View v) {
                 String name = edtName.getText().toString();
                 String email = edtEmail.getText().toString();
                 String password = edtPassword.getText().toString();
-                String confirm_password = edtConfirmPassword.getText().toString();
                 String address = edtAddress.getText().toString();
                 String phone = edtPhone.getText().toString();
 
                 if (!CheckAllFields()) return;
 
-                    mAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    Toast.makeText(Register.this, "Your account is created !",
-                                            Toast.LENGTH_SHORT).show();
+                mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Toast.makeText(Register.this, "Your account is created !",
+                                        Toast.LENGTH_SHORT).show();
 
-                                    DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    String userID = user.getUid();
 
-                                    User newUser = new User(userID, name, email, address, phone);
-                                    usersRef.child(userID).setValue(newUser);
 
-                                    Intent intent = new Intent(Register.this,Login.class);
-                                    startActivity(intent);
-                                    finish();
-//                                    FirebaseUser user = mAuth.getCurrentUser();
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Toast.makeText(Register.this, "Authentication failed!",
-                                            Toast.LENGTH_SHORT).show();
-                                }
+                                DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                String userID = user.getUid();
+
+                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(name)
+                                        .build();
+                                user.updateProfile(profileUpdates);
+
+                                User newUser = new User(userID, name, email, address, phone);
+                                usersRef.child(userID).setValue(newUser);
+
+                                Intent intent = new Intent(Register.this,Login.class);
+                                startActivity(intent);
+                                finish();
+//
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Toast.makeText(Register.this, "Authentication failed!",
+                                        Toast.LENGTH_SHORT).show();
                             }
-                        });
+                        }
+                    });
             }
 
             private boolean CheckAllFields() {

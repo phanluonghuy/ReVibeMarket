@@ -36,10 +36,11 @@ android {
 }
 
 dependencies {
-    implementation ("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
-    implementation ("com.google.android.material:material:1.10.0")
-    implementation ("com.google.firebase:firebase-analytics:21.5.0")
-    implementation ("com.google.firebase:firebase-database:20.3.0")
+    implementation("com.github.dhaval2404:imagepicker:2.1")
+    implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
+    implementation("com.google.android.material:material:1.10.0")
+    implementation("com.google.firebase:firebase-analytics:21.5.0")
+    implementation("com.google.firebase:firebase-database:20.3.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")

@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     AddFragment addFragment = new AddFragment();
     ExploreFragment exploreFragment = new ExploreFragment();
     ProfileFragment profileFragment = new ProfileFragment();
+    SettingFragment settingFragment = new SettingFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.container,exploreFragment).commit();
                     return true;
                 } else if (item.getItemId() == R.id.profile) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container,profileFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container,settingFragment).commit();
                     return true;
                 }
                 return false;
