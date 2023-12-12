@@ -19,4 +19,17 @@
     <string name="collection">Collection</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="categories_english">
+        <item>Clothing</item>
+        <item>Mobile Phones</item>
+        <item>Electronics</item>
+        <item>Food and Beverages</item>
+        <item>Books</item>
+        <item>Home Appliances</item>
+        <item>Pharmaceuticals</item>
+        <item>Beauty Products</item>
+        <item>Automobiles</item>
+        <item>Toys and Games</item>
+    </string-array>
+
 </resources>
