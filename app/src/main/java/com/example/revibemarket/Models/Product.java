@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Product {
+
+    // DO YOU SEE THAT ?
     private String category;
     private String sku;
     private String productName;
