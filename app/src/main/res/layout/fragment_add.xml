@@ -45,40 +45,38 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txt_productName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_productName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/modifiedEditText"
+                    android:textSize="15sp"
                     android:hint="Product Name"
                     android:padding="10dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txt_productTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/parent"
                 app:layout_constraintEnd_toEndOf="@+id/txt_productName"
                 app:layout_constraintStart_toStartOf="@+id/txt_productName"
                 app:layout_constraintTop_toBottomOf="@+id/txt_productName">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_productTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/modifiedEditText"
+                    android:textSize="15sp"
                     android:hint="Title"
                     android:padding="10dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Spinner
                 android:id="@+id/spinnerCategory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/modifiedEditText"
+                android:textSize="15sp"
                 android:entries="@array/categories_english"
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="@+id/txt_productTitle"
@@ -117,8 +115,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_createdDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/modifiedEditText"
+                    android:textSize="15sp"
                     android:clickable="false"
                     android:focusable="false"
                     android:hint="Date"
@@ -137,8 +135,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_channels"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/modifiedEditText"
+                    android:textSize="15sp"
                     android:hint="Channels"
                     android:padding="10dp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -152,8 +150,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_stock"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/modifiedEditText"
+                    android:textSize="15sp"
                     android:hint="Stock"
                     android:padding="10dp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -165,12 +163,13 @@
                 android:layout_marginStart="70dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/txt_stock"
-                app:layout_constraintTop_toBottomOf="@+id/txt_channels">
+                app:layout_constraintTop_toBottomOf="@+id/txt_channels"
+                app:suffixText="$">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_price"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/modifiedEditText"
+                    android:textSize="15sp"
                     android:hint="Price"
                     android:padding="10dp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -185,8 +184,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_discount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/modifiedEditText"
+                    android:textSize="15sp"
                     android:hint="Discount"
                     android:inputType="numberDecimal"
                     android:padding="10dp" />
@@ -202,8 +201,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    style="@style/modifiedEditText"
+                    android:textSize="15sp"
                     android:hint="Description"
                     android:padding="10dp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -214,8 +213,7 @@
 
     <Button
         android:id="@+id/btnSaveAddProduct"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/loginButton"
         android:layout_marginBottom="10dp"
         android:background="@drawable/login_button_bk"
         android:text="Add"
