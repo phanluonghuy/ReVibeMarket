@@ -120,7 +120,6 @@
                             android:text="@string/login_signup_hint"
                             android:layout_marginTop="@dimen/loginViewsMargin"/>
 
-
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
