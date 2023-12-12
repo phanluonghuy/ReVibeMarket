@@ -52,8 +52,6 @@ public class Register extends AppCompatActivity {
         View.OnClickListener loginClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Register.this, Login.class);
-                startActivity(intent);
                 finish();
             }
         };
@@ -95,8 +93,6 @@ public class Register extends AppCompatActivity {
                                 User newUser = new User(userID, name, email, address, phone);
                                 usersRef.child(userID).setValue(newUser);
 
-                                Intent intent = new Intent(Register.this,Login.class);
-                                startActivity(intent);
                                 finish();
 //
                             } else {

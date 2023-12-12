@@ -35,6 +35,7 @@ public class Login extends AppCompatActivity {
         if (user != null) {
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
+            finish();
         }
 
 
@@ -50,7 +51,6 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Login.this, Register.class);
                 startActivity(intent);
-                finish();
             }
         });
 
