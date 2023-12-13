@@ -169,7 +169,7 @@
                                 app:cardCornerRadius="10dp">
 
                                 <androidx.constraintlayout.widget.ConstraintLayout
-                                    android:layout_width="390dp"
+                                    android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:background="#FFFFFF"
                                     android:padding="10dp"
@@ -199,9 +199,7 @@
                                         android:id="@+id/txt_channels"
                                         android:layout_width="150dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginStart="70dp"
                                         app:layout_constraintEnd_toEndOf="parent"
-                                        app:layout_constraintStart_toEndOf="@+id/txt_createdDate"
                                         app:layout_constraintTop_toTopOf="parent">
 
                                         <com.google.android.material.textfield.TextInputEditText
@@ -209,7 +207,6 @@
                                             style="@style/modifiedEditText"
                                             android:hint="Channels"
                                             android:padding="10dp"
-                                            android:layout_marginRight="10dp"
                                             android:textSize="15sp" />
                                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -232,9 +229,7 @@
                                         android:id="@+id/txt_price"
                                         android:layout_width="150dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginStart="70dp"
                                         app:layout_constraintEnd_toEndOf="parent"
-                                        app:layout_constraintStart_toEndOf="@+id/txt_stock"
                                         app:layout_constraintTop_toBottomOf="@+id/txt_channels"
                                         app:suffixText="$">
 
@@ -243,14 +238,13 @@
                                             style="@style/modifiedEditText"
                                             android:hint="Price"
                                             android:padding="10dp"
-                                            android:layout_marginRight="10dp"
                                             android:textSize="15sp" />
                                     </com.google.android.material.textfield.TextInputLayout>
 
                                     <com.google.android.material.textfield.TextInputLayout
                                         android:id="@+id/textInputLayout"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         app:layout_constraintStart_toStartOf="parent"
                                         app:layout_constraintTop_toBottomOf="@+id/txt_price"
                                         app:suffixText="%">
@@ -267,7 +261,7 @@
 
                                     <com.google.android.material.textfield.TextInputLayout
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintStart_toStartOf="parent"
                                         app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
