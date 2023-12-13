@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
 
-    private List<Uri> mImageUris;
+    protected List<Uri> mImageUris;
 
     public ImageAdapter(List<Uri> imageUris) {
         mImageUris = imageUris;
@@ -45,12 +46,22 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView imageView;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        public ImageView imageView,imageViewDelete;
 
         public ViewHolder(View view) {
             super(view);
             imageView = view.findViewById(R.id.imageViewImage);
+            imageViewDelete = view.findViewById(R.id.imageViewDelete);
+
+            imageViewDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mImageUris.remove(getAdapterPosition());
+                    notifyItemRemoved(getAdapterPosition());
+
+                }
+            });
         }
     }
 }
