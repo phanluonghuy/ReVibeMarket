@@ -133,11 +133,11 @@ public class AddFragment extends Fragment {
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 requireContext(),
-                android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                android.R.style.Theme_Material_Light_Dialog_MinWidth,
                 dateSetListener,
                 year, month, day);
 
-        Objects.requireNonNull(datePickerDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        //Objects.requireNonNull(datePickerDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.whiteTextColor)));
         datePickerDialog.show();
     }
 
