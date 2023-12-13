@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +22,13 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.revibemarket.Adapter.ImageAdapter;
 import com.example.revibemarket.Models.Product;
 import com.example.revibemarket.Models.Product_Type;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -49,7 +54,10 @@ public class AddFragment extends Fragment {
     private DatabaseReference productsReference, productTypesReference;
     private DatePickerDialog.OnDateSetListener dateSetListener;
     private ImageView addProductImage;
-    private List<Uri> uriList;
+    private List<Uri> uriList = new ArrayList<>();
+
+    private RecyclerView mRecyclerView;
+    private ImageAdapter mImageAdapter;
 
     private static final int PICK_IMAGE_MULTIPLE = 1;
 
@@ -77,6 +85,13 @@ public class AddFragment extends Fragment {
         edtDescription = view.findViewById(R.id.edt_description);
         btnSaveAddProduct = view.findViewById(R.id.btnSaveAddProduct);
         addProductImage = view.findViewById(R.id.add_product_image);
+
+
+        mRecyclerView = view.findViewById(R.id.reycylerViewImg);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+//
+        mImageAdapter = new ImageAdapter(uriList);
+        mRecyclerView.setAdapter(mImageAdapter);
 
         productsReference = FirebaseDatabase.getInstance().getReference().child("products");
         productTypesReference = FirebaseDatabase.getInstance().getReference().child("product_types");
@@ -138,6 +153,7 @@ public class AddFragment extends Fragment {
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_MULTIPLE);
+
     }
 
 
@@ -162,10 +178,13 @@ public class AddFragment extends Fragment {
             }
 
             if (!tempUriList.isEmpty()) {
-                addProductImage.setImageURI(tempUriList.get(0));
+                //addProductImage.setImageURI(tempUriList.get(0));
 
-                uriList.clear();
+                //uriList.clear();
                 uriList.addAll(tempUriList);
+                mImageAdapter.notifyDataSetChanged();
+                mImageAdapter.addImg(tempUriList);
+                Log.d("image count",mImageAdapter.getItemCount()+"");
             }
 
         }

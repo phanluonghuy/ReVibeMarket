@@ -53,9 +53,9 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_productName"
                     style="@style/modifiedEditText"
-                    android:textSize="15sp"
                     android:hint="Product Name"
-                    android:padding="10dp" />
+                    android:padding="10dp"
+                    android:textSize="15sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -68,17 +68,17 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_productTitle"
                     style="@style/modifiedEditText"
-                    android:textSize="15sp"
                     android:hint="Title"
-                    android:padding="10dp" />
+                    android:padding="10dp"
+                    android:textSize="15sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Spinner
                 android:id="@+id/spinnerCategory"
                 style="@style/modifiedEditText"
-                android:textSize="15sp"
-                android:entries="@array/categories_english"
                 android:layout_marginTop="16dp"
+                android:entries="@array/categories_english"
+                android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="@+id/txt_productTitle"
                 app:layout_constraintStart_toStartOf="@+id/txt_productTitle"
                 app:layout_constraintTop_toBottomOf="@+id/txt_productTitle" />
@@ -220,5 +220,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/reycylerViewImg"
+        android:layout_width="130dp"
+        android:layout_height="180dp"
+        app:layout_constraintStart_toEndOf="@+id/cardView"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
