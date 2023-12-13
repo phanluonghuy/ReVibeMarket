@@ -11,18 +11,16 @@ public class Product {
     private String productTitle;
     private String UserID;
     private Product_Type productType;
-    private Date created;
     private ArrayList<String> channels;
 
     public Product() {
     }
 
-    public Product(String productName, String productTitle,Product_Type product_type, String category, Date created, ArrayList<String> channels, String sku, String UserID) {
+    public Product(String productName, String productTitle,Product_Type product_type, String category, ArrayList<String> channels, String sku, String UserID) {
         this.productName = productName;
         this.productTitle = productTitle;
         this.productType = product_type;
         this.category = category;
-        this.created = created;
         this.channels = channels;
         this.sku = sku;
         this.UserID = UserID;
@@ -75,15 +73,6 @@ public class Product {
     public void setCategory(String category) {
         this.category = category;
     }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
     public ArrayList<String> getChannels() {
         return channels;
     }

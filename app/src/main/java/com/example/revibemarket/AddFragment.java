@@ -237,13 +237,20 @@ public class AddFragment extends Fragment {
 
         String userID = currentUser.getUid();
 
-        Product product = new Product(productName, productTitle, productType, spinnerCategory.getSelectedItem().toString(), new Date(), new ArrayList<>(Collections.singletonList(channels)), productTypeSku, userID);
+        Product product = new Product(productName, productTitle, productType, spinnerCategory.getSelectedItem().toString(), new ArrayList<>(Collections.singletonList(channels)), productTypeSku, userID);
         DatabaseReference productRef = productsReference.push();
         productRef.setValue(product).addOnSuccessListener(aVoid -> {
-                    Toast.makeText(requireContext(), "Product Type added successfully", Toast.LENGTH_SHORT).show();
+                    for (int i = 0; i < uriList.size(); i++) {
+                        uploadImage(uriList.get(i),  i, productTypeSku);
+                    }
+                    Toast.makeText(requireContext(), "Product added successfully", Toast.LENGTH_SHORT).show();
+                    uriList.clear();
+                    mImageAdapter.notifyDataSetChanged();
+                    clearFields();
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(requireContext(), "Failed to add Product Type", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "Failed to add Product", Toast.LENGTH_SHORT).show();
+                    clearFields();
                 });
 
 //        DatabaseReference productTypeRef = productTypesReference.child(productTypeSku).push();
