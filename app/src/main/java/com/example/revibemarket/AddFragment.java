@@ -204,7 +204,7 @@ public class AddFragment extends Fragment {
         if (TextUtils.isEmpty(productName) || TextUtils.isEmpty(productTitle)
                 || TextUtils.isEmpty(stock) || TextUtils.isEmpty(price)
                 || TextUtils.isEmpty(discount) || TextUtils.isEmpty(description)
-                || TextUtils.isEmpty(createdDate) || TextUtils.isEmpty(channels)) {
+                || TextUtils.isEmpty(createdDate)) {
 
             Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;

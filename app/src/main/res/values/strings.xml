@@ -15,21 +15,22 @@
     <string name="login_confirm_password_hint">Confirm Password</string>
     <string name="signup_login_hint">Already have an account? Sign In</string>
     <string name="login_signup_hint">Don\'t have an account? Sign Up</string>
-    <string name="signup_address_hint">Address</string>
+    <string name="signup_address_hint" translatable="false">Address</string>
     <string name="collection">Collection</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string-array name="categories_english">
         <item>Clothing</item>
-        <item>Mobile Phones</item>
+        <item>Phones</item>
         <item>Electronics</item>
-        <item>Food and Beverages</item>
+        <item>Food and Drink</item>
         <item>Books</item>
-        <item>Home Appliances</item>
-        <item>Pharmaceuticals</item>
-        <item>Beauty Products</item>
+        <item>Appliances</item>
+        <item>Medicals</item>
+        <item>Beauty</item>
         <item>Automobiles</item>
-        <item>Toys and Games</item>
+        <item>Toys</item>
     </string-array>
+
 
 </resources>
