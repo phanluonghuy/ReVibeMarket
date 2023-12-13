@@ -90,7 +90,7 @@ public class HomeFragment extends Fragment {
                             Log.d("Product Name: ", product.getProductName());
                             Log.d("Product Sku: ", product.getSku());
 //                            Log.d("Product SKU: ", sku);
-                                //fetchPrice(product);
+                            //fetchPrice(product);
 
 //                            fetchPrice(productName, sku);
                         }

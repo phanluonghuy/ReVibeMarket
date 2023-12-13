@@ -318,4 +318,3 @@ public class AddFragment extends Fragment {
         addProductImage.setImageResource(R.drawable.baseline_add_photo_alternate_24);
     }
 }
-
