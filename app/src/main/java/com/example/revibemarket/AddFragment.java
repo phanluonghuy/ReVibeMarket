@@ -94,7 +94,6 @@ public class AddFragment extends Fragment {
         mRecyclerView.setAdapter(mImageAdapter);
 
         productsReference = FirebaseDatabase.getInstance().getReference().child("products");
-        productTypesReference = FirebaseDatabase.getInstance().getReference().child("product_types");
 
         uriList = new ArrayList<>();
     }
@@ -220,7 +219,7 @@ public class AddFragment extends Fragment {
             return;
         }
 
-        String productTypeSku = generateUniqueKey();
+        String productTypeSku =  generateUniqueKey();
         Product_Type productType = new Product_Type(
                 productTypeSku,
                 true,
@@ -233,53 +232,66 @@ public class AddFragment extends Fragment {
                 new Date()
         );
 
-        DatabaseReference productTypeRef = productTypesReference.push();
-        productTypeRef.setValue(productType)
-                .addOnSuccessListener(aVoid -> {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        String userID = currentUser.getUid();
+
+        Product product = new Product(productName, productTitle, productType, spinnerCategory.getSelectedItem().toString(), new Date(), new ArrayList<>(Collections.singletonList(channels)), productTypeSku, userID);
+        DatabaseReference productRef = productsReference.push();
+        productRef.setValue(product).addOnSuccessListener(aVoid -> {
                     Toast.makeText(requireContext(), "Product Type added successfully", Toast.LENGTH_SHORT).show();
-
-                    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                    FirebaseUser currentUser = mAuth.getCurrentUser();
-
-                    if (currentUser != null) {
-                        String userID = currentUser.getUid();
-
-                        Product product = new Product(productName, productTitle, spinnerCategory.getSelectedItem().toString(), new Date(), new ArrayList<>(Collections.singletonList(channels)), productTypeSku, userID);
-
-                        ArrayList<String> productTypeList = new ArrayList<>();
-                        productTypeList.add(productTypeSku);
-                        product.setProductType(productTypeList);
-
-                        DatabaseReference productRef = productsReference.push();
-                        productRef.setValue(product)
-                                .addOnSuccessListener(aVoid1 -> {
-                                    Toast.makeText(requireContext(), "Product added successfully", Toast.LENGTH_SHORT).show();
-                                    clearFields();
-                                })
-                                .addOnFailureListener(e -> {
-                                    Toast.makeText(requireContext(), "Failed to add Product", Toast.LENGTH_SHORT).show();
-                                    productTypeRef.removeValue();
-                                });
-
-                        if (uriList != null && !uriList.isEmpty()) {
-                            for (int i = 0; i < uriList.size(); i++) {
-                                uploadImage(uriList.get(i), i, productTypeSku);
-                            }
-                        } else {
-                            clearFields();
-                        }
-                    } else {
-                        Toast.makeText(requireContext(), "Please log in to add a product", Toast.LENGTH_SHORT).show();
-                    }
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(requireContext(), "Failed to add Product Type", Toast.LENGTH_SHORT).show();
                 });
+
+//        DatabaseReference productTypeRef = productTypesReference.child(productTypeSku).push();
+//        productTypeRef.setValue(productType)
+//                .addOnSuccessListener(aVoid -> {
+//                    Toast.makeText(requireContext(), "Product Type added successfully", Toast.LENGTH_SHORT).show();
+//
+//                    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+//                    FirebaseUser currentUser = mAuth.getCurrentUser();
+//
+//                    if (currentUser != null) {
+//                        String userID = currentUser.getUid();
+//
+//                        Product product = new Product(productName, productTitle, productType, spinnerCategory.getSelectedItem().toString(), new Date(), new ArrayList<>(Collections.singletonList(channels)), productTypeSku, userID);
+//
+////                        ArrayList<String> productTypeList = new ArrayList<>();
+////                        productTypeList.add(productTypeSku);
+////                        product.setProductType(productTypeList);
+//
+//                        DatabaseReference productRef = productsReference.push();
+//                        productRef.setValue(product)
+//                                .addOnSuccessListener(aVoid1 -> {
+//                                    Toast.makeText(requireContext(), "Product added successfully", Toast.LENGTH_SHORT).show();
+//                                    clearFields();
+//                                })
+//                                .addOnFailureListener(e -> {
+//                                    Toast.makeText(requireContext(), "Failed to add Product", Toast.LENGTH_SHORT).show();
+//                                    productTypeRef.removeValue();
+//                                });
+//
+//                        if (uriList != null && !uriList.isEmpty()) {
+//                            for (int i = 0; i < uriList.size(); i++) {
+//                                uploadImage(uriList.get(i),  i, productTypeSku);
+//                            }
+//                        } else {
+//                            clearFields();
+//                        }
+//                    } else {
+//                        Toast.makeText(requireContext(), "Please log in to add a product", Toast.LENGTH_SHORT).show();
+//                    }
+//                })
+//                .addOnFailureListener(e -> {
+//                    Toast.makeText(requireContext(), "Failed to add Product Type", Toast.LENGTH_SHORT).show();
+//                });
     }
 
-    private void uploadImage(Uri imageUri, int imageIndex, String productTypeSku) {
-        String imageName = "image_" + imageIndex + "_" + productTypeSku;
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/" + imageName);
+    private void uploadImage(Uri imageUri, int i, String productTypeSku) {
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Images_Product/" + productTypeSku + "/" + i);
         storageReference.putFile(imageUri)
                 .addOnSuccessListener(taskSnapshot -> {
                     Toast.makeText(requireContext(), "Image uploaded successfully", Toast.LENGTH_SHORT).show();

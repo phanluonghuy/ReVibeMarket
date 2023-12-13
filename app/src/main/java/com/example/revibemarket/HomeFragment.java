@@ -35,20 +35,19 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
     private RecyclerView recyclerCategory;
-    private RecyclerView recyclerBestDeal;
+    private RecyclerView recyclerProduct;
     private BestDealAdapter bestDealAdapter;
-    private List<BestDealItem> bestDealItems;
+    private List<Product> productList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerCategory = rootView.findViewById(R.id.recyclerCategory);
-        recyclerBestDeal = rootView.findViewById(R.id.recyclerCategory);
-
+        recyclerProduct = rootView.findViewById(R.id.recyclerBestDeal);
 
         setupCategoryRecyclerView();
-        setupBestDealRecyclerView();
         fetchProductNameAndSKU();
+        setupProductRecyclerView();
 
 
 
@@ -62,11 +61,11 @@ public class HomeFragment extends Fragment {
         recyclerCategory.setAdapter(categoryAdapter);
     }
 
-    private void setupBestDealRecyclerView() {
-        bestDealItems = new ArrayList<>();
-        bestDealAdapter = new BestDealAdapter(requireContext(), bestDealItems);
-        recyclerBestDeal.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-        recyclerBestDeal.setAdapter(bestDealAdapter);
+    private void setupProductRecyclerView() {
+        productList = new ArrayList<>();
+        bestDealAdapter = new BestDealAdapter(requireContext(), productList);
+        recyclerProduct.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerProduct.setAdapter(bestDealAdapter);
     }
 
 
@@ -80,19 +79,23 @@ public class HomeFragment extends Fragment {
             productsRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    bestDealItems.clear();
-
+//                    bestDealItems.clear();
+//                    if (dataSnapshot.getChildren() == null) return;
                     for (DataSnapshot productSnapshot : dataSnapshot.getChildren()) {
                         Product product = productSnapshot.getValue(Product.class);
                         if (product != null) {
-                            String productName = product.getProductName();
-                            String sku = product.getSku();
-                            Log.d("Product Name: ", productName);
-                            Log.d("Product SKU: ", sku);
+                            productList.add(product);
+//                            String productName = product.getProductName();
+//                            String sku = product.getSku();
+                            Log.d("Product Name: ", product.getProductName());
+                            Log.d("Product Sku: ", product.getSku());
+//                            Log.d("Product SKU: ", sku);
+                                //fetchPrice(product);
 
-                            fetchPrice(productName, sku);
+//                            fetchPrice(productName, sku);
                         }
                     }
+                    bestDealAdapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -102,30 +105,6 @@ public class HomeFragment extends Fragment {
             });
         }
     }
-
-    private void fetchPrice(String productName, String sku) {
-        DatabaseReference productTypesRef = FirebaseDatabase.getInstance().getReference().child("product_types");
-
-        productTypesRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot pt : dataSnapshot.getChildren()) {
-                    Product_Type product_type = pt.getValue(Product_Type.class);
-                    if (product_type != null && sku.equals(product_type.getSku())) {
-                        Double price = product_type.getPrice();
-
-                        fetchImage(productName, sku, price);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("HomeFragment", "Failed to read value.", databaseError.toException());
-            }
-        });
-    }
-
     private void fetchImage(String productName, String sku, Double price) {
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
         StorageReference storageReference = firebaseStorage.getReference().child("images");
@@ -136,7 +115,7 @@ public class HomeFragment extends Fragment {
         imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
             String imageUrl = uri.toString();
             Log.d("IMAGE URL: ", imageUrl);
-            updateDataInBestDeal(productName, sku, imageUrl, price);
+//            updateDataInBestDeal(productName, sku, imageUrl, price);
         }).addOnFailureListener(exception -> {
             if (exception instanceof StorageException && ((StorageException) exception).getErrorCode() == StorageException.ERROR_OBJECT_NOT_FOUND) {
                 Log.e("fetchImage", "Image not found for " + imageFileName);
@@ -148,15 +127,15 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void updateDataInBestDeal(String productName, String sku, String imageUrl, Double price) {
-        BestDealItem newDealItem = new BestDealItem(productName, price, imageUrl, sku);
-        bestDealItems.add(newDealItem);
-
-        Log.d("BestDealItems", "Updated items count: " + bestDealItems.size());
-
-        bestDealAdapter.updateData(bestDealItems);
-        bestDealAdapter.notifyDataSetChanged();
-    }
+//    private void updateDataInBestDeal(String productName, String sku, String imageUrl, Double price) {
+//        BestDealItem newDealItem = new BestDealItem(productName, price, imageUrl, sku);
+//        bestDealItems.add(newDealItem);
+//
+//        Log.d("BestDealItems", "Updated items count: " + bestDealItems.size());
+//
+//        bestDealAdapter.updateData(bestDealItems);
+//        bestDealAdapter.notifyDataSetChanged();
+//    }
 
 
 

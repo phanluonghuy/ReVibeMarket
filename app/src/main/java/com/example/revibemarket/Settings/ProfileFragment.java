@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +40,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 public class ProfileFragment extends Fragment {
     ImageView imageView,btnBack;
@@ -133,8 +135,18 @@ public class ProfileFragment extends Fragment {
                     return;
                 }
                 if (uri != null) {
-                    StorageReference storageReference = FirebaseStorage.getInstance().getReference("Users/" + user.getUid());
+//                    String imageName = "image_" + imageIndex + "_" + productTypeSku;
+//                    StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/" + imageName);
+//                    storageReference.putFile(imageUri)
+//                            .addOnSuccessListener(taskSnapshot -> {
+//                                Toast.makeText(requireContext(), "Image uploaded successfully", Toast.LENGTH_SHORT).show();
+//                            })
+//                            .addOnFailureListener(e -> {
+//                                Toast.makeText(requireContext(), "Failed to upload image", Toast.LENGTH_SHORT).show();
+//                            });
+                    StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Users/" + user.getUid());
                     storageReference.putFile(uri);
+
                 }
                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                         .setDisplayName(txtFullName.getText().toString())

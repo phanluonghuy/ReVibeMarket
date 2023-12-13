@@ -10,17 +10,17 @@ public class Product {
     private String productName;
     private String productTitle;
     private String UserID;
-    private ArrayList<String> productType;
+    private Product_Type productType;
     private Date created;
     private ArrayList<String> channels;
 
     public Product() {
     }
 
-    public Product(String productName, String productTitle, String category, Date created, ArrayList<String> channels, String sku, String UserID) {
+    public Product(String productName, String productTitle,Product_Type product_type, String category, Date created, ArrayList<String> channels, String sku, String UserID) {
         this.productName = productName;
         this.productTitle = productTitle;
-        this.productType = new ArrayList<>();
+        this.productType = product_type;
         this.category = category;
         this.created = created;
         this.channels = channels;
@@ -60,11 +60,11 @@ public class Product {
         this.productTitle = productTitle;
     }
 
-    public ArrayList<String> getProductType() {
+    public Product_Type getProductType() {
         return productType;
     }
 
-    public void setProductType(ArrayList<String> productType) {
+    public void setProductType(Product_Type productType) {
         this.productType = productType;
     }
 

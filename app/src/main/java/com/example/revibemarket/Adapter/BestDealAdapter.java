@@ -11,17 +11,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.revibemarket.Models.BestDealItem;
+import com.example.revibemarket.Models.Product;
 import com.example.revibemarket.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class BestDealAdapter extends RecyclerView.Adapter<BestDealAdapter.ViewHolder> {
-    private List<BestDealItem> bestDealItems;
+    private List<Product> productList;
 
-    public BestDealAdapter(Context context, List<BestDealItem> bestDealItems) {
-        this.bestDealItems = bestDealItems;
+    public BestDealAdapter(Context context, List<Product> productList) {
+        this.productList = productList;
     }
 
     @NonNull
@@ -33,33 +34,34 @@ public class BestDealAdapter extends RecyclerView.Adapter<BestDealAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        BestDealItem item = bestDealItems.get(position);
+        Product item = productList.get(position);
 
-        Log.d("BestDealAdapter", "Binding item: " + item.getTitle());
+//        Log.d("BestDealAdapter", "Binding item: " + item.getProductType().);
 
-        holder.titleTextView.setText(item.getTitle());
+        holder.titleTextView.setText(item.getProductTitle());
 
-        if (item.getPrice() != null) {
-            holder.priceTextView.setText(String.valueOf(item.getPrice()));
-        } else {
-            holder.priceTextView.setText("");
-        }
 
-        Picasso.get().load(item.getImageURL()).into(holder.imageView);
+        holder.priceTextView.setText(String.valueOf(item.getProductType().getPrice()));
+
+
+//        Picasso.get().load(item.getImageURL()).into(holder.imageView);
+//        Glide.with(holder.imageView.getContext())
+//                .load(mImageUris.get(position))
+//                .into(holder.imageView);
     }
 
 
 
     @Override
     public int getItemCount() {
-        return bestDealItems.size();
+        return productList.size();
     }
 
-    public void updateData(List<BestDealItem> newItems) {
+    public void updateData(List<Product> newItems) {
         Log.d("BestDealAdapter", "Updating data with new items: " + newItems.size());
 
-        bestDealItems.clear();
-        bestDealItems.addAll(newItems);
+        productList.clear();
+        productList.addAll(newItems);
         notifyDataSetChanged();
     }
 
