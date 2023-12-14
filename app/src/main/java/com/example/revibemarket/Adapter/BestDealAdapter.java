@@ -1,7 +1,6 @@
 package com.example.revibemarket.Adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.revibemarket.Models.BestDealItem;
 import com.example.revibemarket.Models.Product;
 import com.example.revibemarket.R;
 
@@ -20,9 +18,18 @@ import java.util.List;
 
 public class BestDealAdapter extends RecyclerView.Adapter<BestDealAdapter.ViewHolder> {
     private List<Product> productList;
+    private OnItemClickListener onItemClickListener;
 
     public BestDealAdapter(Context context, List<Product> productList) {
         this.productList = productList;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Product product);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
     }
 
     @NonNull
@@ -36,21 +43,29 @@ public class BestDealAdapter extends RecyclerView.Adapter<BestDealAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Product item = productList.get(position);
 
-//        Log.d("BestDealAdapter", "Binding item: " + item.getProductType().);
+        holder.titleTextView.setText(item.getProductName());
+        holder.priceTextView.setText(String.valueOf(item.getProductType().getPrice() + " $"));
 
-        holder.titleTextView.setText(item.getProductTitle());
+        List<String> imageUrls = item.getProductType().getImages();
 
+        if (imageUrls != null && !imageUrls.isEmpty()) {
+            String imageUrl = imageUrls.get(0);
+            Glide.with(holder.imageView.getContext())
+                    .load(imageUrl)
+                    .into(holder.imageView);
+        } else {
+            holder.imageView.setImageResource(R.drawable.sofa_cut);
+        }
 
-        holder.priceTextView.setText(String.valueOf(item.getProductType().getPrice()));
-
-
-//        Picasso.get().load(item.getImageURL()).into(holder.imageView);
-//        Glide.with(holder.imageView.getContext())
-//                .load(mImageUris.get(position))
-//                .into(holder.imageView);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(item);
+                }
+            }
+        });
     }
-
-
 
     @Override
     public int getItemCount() {
@@ -58,13 +73,10 @@ public class BestDealAdapter extends RecyclerView.Adapter<BestDealAdapter.ViewHo
     }
 
     public void updateData(List<Product> newItems) {
-        Log.d("BestDealAdapter", "Updating data with new items: " + newItems.size());
-
         productList.clear();
         productList.addAll(newItems);
         notifyDataSetChanged();
     }
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView titleTextView;
@@ -79,4 +91,3 @@ public class BestDealAdapter extends RecyclerView.Adapter<BestDealAdapter.ViewHo
         }
     }
 }
-

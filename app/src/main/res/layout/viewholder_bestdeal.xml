@@ -14,6 +14,7 @@
         android:layout_height="30dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/blackheart" />
@@ -42,15 +43,12 @@
             android:id="@+id/BestDealTiTle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
             android:text="Title"
             android:textColor="#000000"
-            android:textStyle="bold"
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/textView10"
-            app:layout_constraintHorizontal_bias="0.0"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -60,21 +58,13 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:text="$"
-            android:textSize="15sp"
             android:textColor="#35c85b"
+            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/BestDealTiTle"
             app:layout_constraintStart_toStartOf="@+id/BestDealTiTle" />
 
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:text="+"
-            android:background="@drawable/plus_best_deal_background"
-            android:gravity="center"
-            android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -55,11 +55,13 @@ public class AddFragment extends Fragment {
     private DatePickerDialog.OnDateSetListener dateSetListener;
     private ImageView addProductImage;
     private List<Uri> uriList = new ArrayList<>();
+    private ArrayList<String> images = new ArrayList<>();
 
     private RecyclerView mRecyclerView;
     private ImageAdapter mImageAdapter;
 
     private static final int PICK_IMAGE_MULTIPLE = 1;
+    String productTypeSku =  generateUniqueKey();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -96,6 +98,7 @@ public class AddFragment extends Fragment {
         productsReference = FirebaseDatabase.getInstance().getReference().child("products");
 
         uriList = new ArrayList<>();
+        images = new ArrayList<>();
     }
 
     private void setupSpinner() {
@@ -136,13 +139,12 @@ public class AddFragment extends Fragment {
                 dateSetListener,
                 year, month, day);
 
-        //Objects.requireNonNull(datePickerDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.whiteTextColor)));
         datePickerDialog.show();
     }
 
     private void setupSaveButton() {
-        btnSaveAddProduct.setOnClickListener(v -> saveProduct());
         addProductImage.setOnClickListener(v -> openImagePicker());
+        btnSaveAddProduct.setOnClickListener(v -> saveProduct());
     }
 
     private void openImagePicker() {
@@ -161,7 +163,6 @@ public class AddFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_MULTIPLE && resultCode == Activity.RESULT_OK && data != null) {
-            boolean isImageProcessing = true;
 
             ArrayList<Uri> tempUriList = new ArrayList<>();
 
@@ -177,13 +178,18 @@ public class AddFragment extends Fragment {
             }
 
             if (!tempUriList.isEmpty()) {
-                //addProductImage.setImageURI(tempUriList.get(0));
 
-                //uriList.clear();
                 uriList.addAll(tempUriList);
+                for (int i = 0; i < tempUriList.size(); i++) {
+                    Uri uri = tempUriList.get(i);
+                    String imageUriString = uri.toString();
+                    images.add(imageUriString);
+                }
                 mImageAdapter.notifyDataSetChanged();
                 mImageAdapter.addImg(tempUriList);
-                Log.d("image count",mImageAdapter.getItemCount()+"");
+                Log.d("image count", String.valueOf(mImageAdapter.getItemCount()));
+
+
             }
 
         }
@@ -219,7 +225,15 @@ public class AddFragment extends Fragment {
             return;
         }
 
-        String productTypeSku =  generateUniqueKey();
+        if (!uriList.isEmpty()) {
+            for (int i = 0; i < uriList.size(); i++) {
+                uploadImage(uriList.get(i), i, productTypeSku);
+            }
+        }
+        if (images.isEmpty()) {
+            Toast.makeText(requireContext(), "Please select at least one image", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Product_Type productType = new Product_Type(
                 productTypeSku,
                 true,
@@ -227,7 +241,7 @@ public class AddFragment extends Fragment {
                 Double.valueOf(price),
                 Double.valueOf(discount),
                 description,
-                new ArrayList<>(),
+                images,
                 new Date(),
                 new Date()
         );
@@ -240,9 +254,7 @@ public class AddFragment extends Fragment {
         Product product = new Product(productName, productTitle, productType, spinnerCategory.getSelectedItem().toString(), new ArrayList<>(Collections.singletonList(channels)), productTypeSku, userID);
         DatabaseReference productRef = productsReference.push();
         productRef.setValue(product).addOnSuccessListener(aVoid -> {
-                    for (int i = 0; i < uriList.size(); i++) {
-                        uploadImage(uriList.get(i),  i, productTypeSku);
-                    }
+
                     Toast.makeText(requireContext(), "Product added successfully", Toast.LENGTH_SHORT).show();
                     uriList.clear();
                     mImageAdapter.notifyDataSetChanged();
@@ -252,61 +264,24 @@ public class AddFragment extends Fragment {
                     Toast.makeText(requireContext(), "Failed to add Product", Toast.LENGTH_SHORT).show();
                     clearFields();
                 });
-
-//        DatabaseReference productTypeRef = productTypesReference.child(productTypeSku).push();
-//        productTypeRef.setValue(productType)
-//                .addOnSuccessListener(aVoid -> {
-//                    Toast.makeText(requireContext(), "Product Type added successfully", Toast.LENGTH_SHORT).show();
-//
-//                    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-//                    FirebaseUser currentUser = mAuth.getCurrentUser();
-//
-//                    if (currentUser != null) {
-//                        String userID = currentUser.getUid();
-//
-//                        Product product = new Product(productName, productTitle, productType, spinnerCategory.getSelectedItem().toString(), new Date(), new ArrayList<>(Collections.singletonList(channels)), productTypeSku, userID);
-//
-////                        ArrayList<String> productTypeList = new ArrayList<>();
-////                        productTypeList.add(productTypeSku);
-////                        product.setProductType(productTypeList);
-//
-//                        DatabaseReference productRef = productsReference.push();
-//                        productRef.setValue(product)
-//                                .addOnSuccessListener(aVoid1 -> {
-//                                    Toast.makeText(requireContext(), "Product added successfully", Toast.LENGTH_SHORT).show();
-//                                    clearFields();
-//                                })
-//                                .addOnFailureListener(e -> {
-//                                    Toast.makeText(requireContext(), "Failed to add Product", Toast.LENGTH_SHORT).show();
-//                                    productTypeRef.removeValue();
-//                                });
-//
-//                        if (uriList != null && !uriList.isEmpty()) {
-//                            for (int i = 0; i < uriList.size(); i++) {
-//                                uploadImage(uriList.get(i),  i, productTypeSku);
-//                            }
-//                        } else {
-//                            clearFields();
-//                        }
-//                    } else {
-//                        Toast.makeText(requireContext(), "Please log in to add a product", Toast.LENGTH_SHORT).show();
-//                    }
-//                })
-//                .addOnFailureListener(e -> {
-//                    Toast.makeText(requireContext(), "Failed to add Product Type", Toast.LENGTH_SHORT).show();
-//                });
     }
+
 
     private void uploadImage(Uri imageUri, int i, String productTypeSku) {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Images_Product/" + productTypeSku + "/" + i);
         storageReference.putFile(imageUri)
                 .addOnSuccessListener(taskSnapshot -> {
-                    Toast.makeText(requireContext(), "Image uploaded successfully", Toast.LENGTH_SHORT).show();
+                    storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                        images.add(uri.toString());
+                        Toast.makeText(requireContext(), "Image uploaded successfully", Toast.LENGTH_SHORT).show();
+                    });
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(requireContext(), "Failed to upload image", Toast.LENGTH_SHORT).show();
                 });
     }
+
+
 
     private String generateUniqueKey() {
         String uuid = UUID.randomUUID().toString();

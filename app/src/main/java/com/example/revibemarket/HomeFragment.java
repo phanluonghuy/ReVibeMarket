@@ -64,7 +64,10 @@ public class HomeFragment extends Fragment {
     private void setupProductRecyclerView() {
         productList = new ArrayList<>();
         bestDealAdapter = new BestDealAdapter(requireContext(), productList);
-        recyclerProduct.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+
+        LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+
+        recyclerProduct.setLayoutManager(horizontalLayoutManager);
         recyclerProduct.setAdapter(bestDealAdapter);
     }
 
@@ -79,20 +82,14 @@ public class HomeFragment extends Fragment {
             productsRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    bestDealItems.clear();
-//                    if (dataSnapshot.getChildren() == null) return;
+
                     for (DataSnapshot productSnapshot : dataSnapshot.getChildren()) {
                         Product product = productSnapshot.getValue(Product.class);
                         if (product != null) {
                             productList.add(product);
-//                            String productName = product.getProductName();
-//                            String sku = product.getSku();
                             Log.d("Product Name: ", product.getProductName());
                             Log.d("Product Sku: ", product.getSku());
-//                            Log.d("Product SKU: ", sku);
-                            //fetchPrice(product);
 
-//                            fetchPrice(productName, sku);
                         }
                     }
                     bestDealAdapter.notifyDataSetChanged();
@@ -107,36 +104,29 @@ public class HomeFragment extends Fragment {
     }
     private void fetchImage(String productName, String sku, Double price) {
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-        StorageReference storageReference = firebaseStorage.getReference().child("images");
-
-        String imageFileName = "image_0_" + sku;
-        StorageReference imageRef = storageReference.child(imageFileName);
-
-        imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+        StorageReference storageReference = firebaseStorage.getReference().child("Images_Product/" + sku + "/" + 0);
+        storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
             String imageUrl = uri.toString();
-            Log.d("IMAGE URL: ", imageUrl);
-//            updateDataInBestDeal(productName, sku, imageUrl, price);
+            Log.d("DUONG DAN HINH ANH: ", imageUrl);
+            for (Product product : productList) {
+                if (product != null && product.getSku() != null && product.getProductName().equals(productName)
+                && product.getSku().equals(sku)) {
+                    List<String> images = product.getProductType().getImages();
+                    if (images != null) {
+                        images.add(imageUrl);
+                        break;
+                    }
+                }
+            }
+            bestDealAdapter.notifyDataSetChanged();
         }).addOnFailureListener(exception -> {
             if (exception instanceof StorageException && ((StorageException) exception).getErrorCode() == StorageException.ERROR_OBJECT_NOT_FOUND) {
-                Log.e("fetchImage", "Image not found for " + imageFileName);
+                Log.e("fetchImage", "Image not found for " + sku + "/" + 0);
                 Toast.makeText(requireContext(), "Image not found", Toast.LENGTH_SHORT).show();
             } else {
-                Log.e("fetchImage", "Error fetching image for " + imageFileName + ": " + exception.getMessage(), exception);
+                Log.e("fetchImage", "Error fetching image for " + sku + "/" + 0 + ": " + exception.getMessage(), exception);
                 Toast.makeText(requireContext(), "Error fetching image", Toast.LENGTH_SHORT).show();
             }
         });
     }
-
-//    private void updateDataInBestDeal(String productName, String sku, String imageUrl, Double price) {
-//        BestDealItem newDealItem = new BestDealItem(productName, price, imageUrl, sku);
-//        bestDealItems.add(newDealItem);
-//
-//        Log.d("BestDealItems", "Updated items count: " + bestDealItems.size());
-//
-//        bestDealAdapter.updateData(bestDealItems);
-//        bestDealAdapter.notifyDataSetChanged();
-//    }
-
-
-
 }
