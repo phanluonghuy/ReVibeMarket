@@ -89,7 +89,7 @@
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:orientation="horizontal">
+                                        android:orientation="vertical">
 
                                         <TextView
                                             android:id="@+id/textView6"
@@ -97,26 +97,12 @@
                                             android:layout_height="wrap_content"
                                             android:text="Category"
                                             android:textSize="24sp"
-                                            android:textStyle="bold"
-                                            app:layout_constraintTop_toBottomOf="@+id/recyclerCategory" />
+                                            android:textStyle="bold" />
 
-                                    </LinearLayout>
-
-                                    <androidx.recyclerview.widget.RecyclerView
-                                        android:id="@+id/recyclerCategory"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="30dp"
-                                        app:layout_constraintBottom_toBottomOf="parent"
-                                        app:layout_constraintEnd_toEndOf="parent"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="230dp"
-                                        android:orientation="horizontal">
+                                        <androidx.recyclerview.widget.RecyclerView
+                                            android:id="@+id/recyclerCategory"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content" />
 
                                         <TextView
                                             android:id="@+id/textView7"
@@ -127,16 +113,16 @@
                                             android:textSize="24sp"
                                             android:textStyle="bold" />
 
+                                        <androidx.recyclerview.widget.RecyclerView
+                                            android:id="@+id/recyclerBestDeal"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+
+                                            android:layout_marginBottom="10dp"
+                                            android:orientation="horizontal"
+                                            app:layout_constraintEnd_toEndOf="parent" />
                                     </LinearLayout>
 
-                                    <androidx.recyclerview.widget.RecyclerView
-                                        android:id="@+id/recyclerBestDeal"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginTop="265dp"
-                                        android:layout_marginBottom="10dp"
-                                        android:orientation="horizontal"
-                                        app:layout_constraintEnd_toEndOf="parent" />
                                 </androidx.cardview.widget.CardView>
                             </LinearLayout>
                         </LinearLayout>

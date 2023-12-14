@@ -87,8 +87,6 @@ public class HomeFragment extends Fragment {
                         Product product = productSnapshot.getValue(Product.class);
                         if (product != null) {
                             productList.add(product);
-                            Log.d("Product Name: ", product.getProductName());
-                            Log.d("Product Sku: ", product.getSku());
 
                         }
                     }
