@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CartItem {
+    private String itemId;
     private String productName;
     private Double price;
     private Double discount;
@@ -15,12 +16,16 @@ public class CartItem {
     public CartItem() {
     }
 
-    public CartItem(String productName, Double price, Double discount, int quantity, String currentUserID) {
+    public CartItem(String itemId, String productName, Double price, Double discount, int quantity, String currentUserID) {
+        this.itemId = itemId;
         this.productName = productName;
         this.price = price;
         this.discount = discount;
         this.quantity = quantity;
         this.currentUserID = currentUserID;
+    }
+    public String getItemId() {
+        return itemId;
     }
 
     public String getProductName() {

@@ -61,6 +61,8 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("com.squareup.picasso:picasso:2.71828")
     implementation("com.google.code.gson:gson:2.10")
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+
 
 
 }

@@ -58,20 +58,6 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
 
         List<String> imageUrls = item.getProductType().getImages();
 
-//        if (imageUrls != null && !imageUrls.isEmpty()) {
-//            String imageUrl = imageUrls.get(0);
-//            Glide.with(holder.imageView.getContext())
-//                    .load(imageUrl)
-//                    .into(holder.imageView);
-//        } else {
-//            holder.imageView.setImageResource(R.drawable.sofa_cut);
-//        }
-//        Glide.with(holder.itemView.getContext())
-//                .load(imageUrls.get(0))
-//                .placeholder(R.drawable.sofa_cut)
-//                .error(R.drawable.sofa_cut)
-//                .into(holder.imageView);
-        //holder.imageView.setImageResource(R.drawable.sofa_cut);
         Log.d("Product img",productList.get(position).getProductType().getImages().size()+"");
         if (!productList.get(position).getProductType().getImages().isEmpty()) {
             Glide.with(holder.imageView.getContext())
@@ -97,11 +83,6 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
         return productList.size();
     }
 
-    public void updateData(List<Product> newItems) {
-        productList.clear();
-        productList.addAll(newItems);
-        notifyDataSetChanged();
-    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView titleTextView;

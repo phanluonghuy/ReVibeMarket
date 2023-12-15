@@ -5,6 +5,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.revibemarket.Adapter.CartItemAdapter;
 import com.example.revibemarket.Models.CartItem;
-import com.example.revibemarket.Models.Product;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,7 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartFragment extends Fragment {
+public class CartFragment extends Fragment implements CartItemAdapter.OnRemoveItemClickListener {
 
     private RecyclerView recyclerView;
     private CartItemAdapter cartItemAdapter;
@@ -42,13 +44,34 @@ public class CartFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.reycylerCartItem);
         tvTotalPrice = view.findViewById(R.id.tvTotalPrice);
+        Spinner spinnerPaymentMethod = view.findViewById(R.id.spinnerPaymentMethod);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         cartItemList = new ArrayList<>();
-        cartItemAdapter = new CartItemAdapter(cartItemList);
+        cartItemAdapter = new CartItemAdapter(cartItemList, this);
         recyclerView.setAdapter(cartItemAdapter);
 
+        String[] paymentMethods = {"Momo", "ZaloPay", "Credit Card"};
+
+        ArrayAdapter<String> paymentMethodAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, paymentMethods);
+        paymentMethodAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinnerPaymentMethod.setAdapter(paymentMethodAdapter);
+
+        spinnerPaymentMethod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selectedPaymentMethod = paymentMethods[position];
+                // TODO: Xử lý khi chọn phương thức thanh toán (cập nhật dữ liệu hoặc thực hiện các thao tác khác)
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                showToast("Please select payment method");
+            }
+        });
 
         fetchCartItems();
 
@@ -77,7 +100,7 @@ public class CartFragment extends Fragment {
 
                     Log.d("CartFragment", "fetchCartItems: " + cartItemList.size());
 
-                    tvTotalPrice.setText(String.format("$%.2f", total[0]));
+                    tvTotalPrice.setText(String.format("$%.2f", total[0] + 3));
                     cartItemAdapter.notifyDataSetChanged();
                 }
 
@@ -91,5 +114,30 @@ public class CartFragment extends Fragment {
 
     private void showToast(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRemoveItemClick(int position, String itemId) {
+        // Xử lý logic xóa sản phẩm tại vị trí position và itemId
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            DatabaseReference cartItemRef = FirebaseDatabase.getInstance().getReference()
+                    .child("carts")
+                    .child(itemId);
+
+            cartItemRef.removeValue()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            getActivity().runOnUiThread(() -> {
+                                cartItemList.remove(position);
+                                cartItemAdapter.notifyItemRemoved(position);
+                                cartItemAdapter.notifyItemRangeChanged(position, cartItemList.size());
+                                showToast("Item removed successfully");
+                            });
+                        } else {
+                            showToast("Failed to remove item");
+                        }
+                    });
+        }
     }
 }

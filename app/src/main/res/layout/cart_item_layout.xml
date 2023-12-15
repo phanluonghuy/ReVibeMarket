@@ -1,46 +1,73 @@
-<!-- res/layout/cart_item_layout.xml -->
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="8dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/imgProduct"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/sofa"
-        android:contentDescription="Product Image"/>
-
-    <LinearLayout
-        android:layout_width="0dp"
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:layout_marginStart="8dp">
+        app:cardCornerRadius="8dp"
+        android:layout_margin="10dp"
+        android:backgroundTint="#EBEBEB">
 
-        <TextView
-            android:id="@+id/tvProductName"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Product Name"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:padding="10dp">
 
-        <TextView
-            android:id="@+id/tvQuantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Quantity: 1"
-            android:textSize="14sp"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp">
+                <ImageView
+                    android:id="@+id/imgProduct"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/sofa"
+                    android:contentDescription="Product Image"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="8dp">
+                <TextView
+                    android:id="@+id/tvProductName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Product Name"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
 
-        <TextView
-            android:id="@+id/tvPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Price: $10.00"
-            android:textSize="14sp"/>
-    </LinearLayout>
-</LinearLayout>
+                <TextView
+                    android:id="@+id/tvQuantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Quantity: 1"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/tvPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Price: $10.00"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnRemove"
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:text="Remove"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#FF0000"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

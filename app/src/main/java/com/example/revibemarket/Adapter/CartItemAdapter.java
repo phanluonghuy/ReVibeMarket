@@ -1,10 +1,10 @@
-// CartItemAdapter.java
 package com.example.revibemarket.Adapter;
 
-import android.util.Log;
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,15 +12,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.revibemarket.Models.CartItem;
 import com.example.revibemarket.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
 public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartItemViewHolder> {
 
-    private List<CartItem> cartItemList;
+    private final List<CartItem> cartItemList;
+    private OnRemoveItemClickListener onRemoveItemClickListener;
 
-    public CartItemAdapter(List<CartItem> cartItemList) {
+    public CartItemAdapter(List<CartItem> cartItemList, OnRemoveItemClickListener listener) {
         this.cartItemList = cartItemList;
+        this.onRemoveItemClickListener = listener;
     }
 
     @NonNull
@@ -34,45 +38,70 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
     public void onBindViewHolder(@NonNull CartItemViewHolder holder, int position) {
         CartItem cartItem = cartItemList.get(position);
 
-        if (holder.productNameTextView == null || holder.quantityTextView == null || holder.Price == null) {
-            return;
-        }
+        if (cartItem != null) {
+            if (holder.tvPrice != null) {
+                holder.tvPrice.setText(String.valueOf(cartItem.getPrice() + " $"));
+            }
 
-        // Set the text values
-        holder.productNameTextView.setText(cartItem != null ? cartItem.getProductName() : "N/A");
-        holder.quantityTextView.setText(cartItem != null ? String.valueOf(cartItem.getQuantity()) : "0");
-        holder.Price.setText(cartItem != null ? String.valueOf(cartItem.getPrice()) : "0");
-        assert cartItem != null;
-        holder.bindData(cartItem);
+            if (holder.productNameTextView != null) {
+                holder.productNameTextView.setText(cartItem.getProductName());
+            }
+
+            if (holder.tvProductQuantity != null) {
+                holder.tvProductQuantity.setText(String.valueOf(cartItem.getQuantity()));
+            }
+
+            holder.btnRemove.setOnClickListener(v -> {
+                if (onRemoveItemClickListener != null) {
+                    onRemoveItemClickListener.onRemoveItemClick(position, cartItem.getItemId());
+
+                    DatabaseReference cartItemRef = FirebaseDatabase.getInstance().getReference()
+                            .child("carts")
+                            .child(cartItem.getItemId());
+
+                    cartItemRef.removeValue()
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+
+                                    ((Activity) holder.itemView.getContext()).runOnUiThread(() -> {
+                                        cartItemList.remove(position);
+                                        notifyItemRemoved(position);
+                                        notifyItemRangeChanged(position, cartItemList.size());
+                                    });
+                                } else {
+
+                                }
+                            });
+                }
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
-        Log.d("CartItemAdapter", "getItemCount: " + cartItemList.size());
         return cartItemList.size();
     }
 
+    public interface OnRemoveItemClickListener {
+        void onRemoveItemClick(int position, String itemId);
+    }
+
+    public void setOnRemoveItemClickListener(OnRemoveItemClickListener listener) {
+        this.onRemoveItemClickListener = listener;
+    }
 
     public static class CartItemViewHolder extends RecyclerView.ViewHolder {
         TextView productNameTextView;
-        TextView Price;
-        TextView quantityTextView;
+        TextView tvPrice;
+        TextView tvProductQuantity;
+        Button btnRemove;
 
         public CartItemViewHolder(@NonNull View itemView) {
             super(itemView);
             productNameTextView = itemView.findViewById(R.id.tvProductName);
-            Price = itemView.findViewById(R.id.tvPrice);
-            quantityTextView = itemView.findViewById(R.id.tvProductQuantity);
-        }
-
-        public void bindData(CartItem cartItem) {
-            if (cartItem.getProductName() != null) {
-                productNameTextView.setText(cartItem.getProductName());
-                quantityTextView.setText(String.valueOf(cartItem.getQuantity()));
-            } else {
-                productNameTextView.setText("N/A");
-                quantityTextView.setText("0");
-            }
+            tvPrice = itemView.findViewById(R.id.tvPrice);
+            tvProductQuantity = itemView.findViewById(R.id.tvProductQuantity);
+            btnRemove = itemView.findViewById(R.id.btnRemove);
         }
     }
 }

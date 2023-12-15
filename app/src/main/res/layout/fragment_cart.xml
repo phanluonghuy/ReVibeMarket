@@ -5,12 +5,13 @@
     android:orientation="vertical"
     style="@style/loginParent"
     tools:context="com.example.revibemarket.LoginRegister.Login">
+
     <ScrollView
-        style="@style/parent">
+        style="@style/parent"
+        android:layout_above="@+id/BuyLayout">
 
         <RelativeLayout
             style="@style/parent">
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -42,9 +43,6 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp">
 
-
-
-
                 <androidx.cardview.widget.CardView
                     style="@style/loginCard"
                     app:cardCornerRadius="@dimen/loginCardRadius"
@@ -53,7 +51,6 @@
                     android:layout_marginTop="@dimen/loginViewsMargin"
                     android:layout_marginBottom="@dimen/loginViewsMargin"
                     android:background="@color/whiteCardColor">
-
 
                     <ScrollView
                         tools:context=".Settings.SettingFragment"
@@ -84,7 +81,24 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="bottom"/>
 
+                            </LinearLayout>
 
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginTop="20dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Payment Methods: "
+                                    android:textSize="16sp"
+                                    android:layout_marginLeft="8dp"/>
+                                <Spinner
+                                    android:id="@+id/spinnerPaymentMethod"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="16dp"/>
                             </LinearLayout>
 
                         </LinearLayout>
@@ -101,24 +115,47 @@
         android:id="@+id/BuyLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFF">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="10dp">
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/fastdelivery"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Shipping fee: $3"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Total Price:"
-                android:textSize="16sp"/>
+                android:textSize="20sp" />
+
             <TextView
                 android:id="@+id/tvTotalPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="$99"
-                android:textSize="24sp"/>
+                android:textSize="28sp" />
 
         </LinearLayout>
 
@@ -129,6 +166,7 @@
             android:layout_centerInParent="true"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/loginViewsMargin"
+            android:layout_marginRight="10dp"
             android:text="BUY" />
     </RelativeLayout>
 
