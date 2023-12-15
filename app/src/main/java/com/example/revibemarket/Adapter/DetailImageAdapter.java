@@ -18,8 +18,9 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageAdapter.
     private List<String> imageUrls;
     private Context context;
 
-    public DetailImageAdapter(Context context) {
+    public DetailImageAdapter(Context context,List<String> imageUrls) {
         this.context = context;
+        this.imageUrls = imageUrls;
     }
 
     @NonNull
@@ -33,8 +34,9 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (imageUrls != null && position < imageUrls.size()) {
             String imageUrl = imageUrls.get(position);
-            Glide.with(context)
+            Glide.with(holder.imageView.getContext())
                     .load(imageUrl)
+                    .override(360,360)
                     .into(holder.imageView);
         }
     }

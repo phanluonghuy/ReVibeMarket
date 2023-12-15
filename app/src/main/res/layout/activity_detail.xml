@@ -95,18 +95,11 @@
                                 android:layout_marginTop="10dp"/>
 
 
-                            <androidx.cardview.widget.CardView
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/RecyclerDetailImg"
+                                android:layout_marginLeft="20dp"
                                 android:layout_width="match_parent"
-                                app:cardCornerRadius="10dp"
-                                android:layout_margin="10dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1">
-
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/RecyclerDetailImg"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content" />
-                            </androidx.cardview.widget.CardView>
+                                android:layout_height="wrap_content" />
                             <TextView
                                 android:id="@+id/tvProductName"
                                 android:layout_width="wrap_content"
@@ -124,7 +117,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:layout_marginTop="16dp"
-                                android:text="Product Description"
+                                android:text="Description"
                                 android:layout_marginLeft="5dp"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
@@ -145,11 +138,10 @@
                                 android:orientation="horizontal">
 
                                 <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
                                     android:orientation="vertical"
                                     android:layout_marginLeft="5dp"
-                                    android:layout_marginTop="8dp"
                                     android:layout_weight="1">
                                     <TextView
                                         android:id="@+id/tvProductPrice"

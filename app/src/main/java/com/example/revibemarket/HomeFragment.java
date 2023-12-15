@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.revibemarket.Adapter.CategoryAdapter;
 import com.example.revibemarket.Adapter.HomeProductAdapter;
 import com.example.revibemarket.Models.Product;
+import com.example.revibemarket.Models.ProductSingleton;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -97,7 +98,9 @@ public class HomeFragment extends Fragment {
 
         recyclerProduct.setLayoutManager(horizontalLayoutManager);
         recyclerProduct.setAdapter(homeProductAdapter);
+
     }
+
 
 
 
@@ -165,5 +168,6 @@ public class HomeFragment extends Fragment {
                         Log.e("ListFiles", "Failed to list files: " + exception.getMessage());
                     }
                 });
+        ProductSingleton.getInstance().setProductList(productList);
     }
 }

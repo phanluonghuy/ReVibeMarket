@@ -16,8 +16,10 @@
     import androidx.recyclerview.widget.RecyclerView;
 
     import com.example.revibemarket.Adapter.DetailImageAdapter;
+    import com.example.revibemarket.Adapter.HomeProductAdapter;
     import com.example.revibemarket.Models.CartItem;
     import com.example.revibemarket.Models.Product;
+    import com.example.revibemarket.Models.ProductSingleton;
     import com.example.revibemarket.Models.User;
     import com.google.firebase.auth.FirebaseAuth;
     import com.google.firebase.auth.FirebaseUser;
@@ -49,10 +51,14 @@
 
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
-                String productJson = bundle.getString("productJson");
-                if (productJson != null) {
-                    Gson gson = new Gson();
-                    Product product = gson.fromJson(productJson, Product.class);
+                String productSku = bundle.getString("productSku");
+                if (productSku != null) {
+                    Product product = ProductSingleton.getInstance().getProductList().stream()
+                            .filter(productDetail -> productSku.equals(productDetail.getSku()))
+                            .findFirst()
+                            .get();
+                    List<String> imageUrls = product.getProductType().getImages();
+                    Log.d("Detail product",product.getProductName());
                     fetchCurrentUserInformation();
                     TextView tvProductName = findViewById(R.id.tvProductName);
                     TextView tvProductDescription = findViewById(R.id.tvProductDescription);
@@ -65,13 +71,24 @@
                     Button btnPlus = findViewById(R.id.btnPlus);
                     Button btnAdd = findViewById(R.id.btnAddtoCart);
 
-                    RecyclerView recyclerView = findViewById(R.id.RecyclerDetailImg);
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-                    recyclerView.setLayoutManager(layoutManager);
-                    DetailImageAdapter imageAdapter = new DetailImageAdapter(this);
-                    recyclerView.setAdapter(imageAdapter);
 
-                    setProductImages(product, imageAdapter);
+
+//                    productList = new ArrayList<>();
+//                    homeProductAdapter = new HomeProductAdapter(requireContext(), productList);
+//
+//                    LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+//
+//                    recyclerProduct.setLayoutManager(horizontalLayoutManager);
+//                    recyclerProduct.setAdapter(homeProductAdapter);
+
+                    RecyclerView recyclerView = findViewById(R.id.RecyclerDetailImg);
+                    DetailImageAdapter detailImageAdapter = new DetailImageAdapter(getApplicationContext(),imageUrls);
+
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false));
+                    recyclerView.setAdapter(detailImageAdapter);
+                    detailImageAdapter.notifyDataSetChanged();
+
+//                    setProductImages(product, imageAdapter);
 
                     setTextViewValue(tvProductName, product.getProductName(), "Product Name");
                     setTextViewValue(tvProductDescription, product.getProductType().getDescription(), "This is a detailed description of the product.");
@@ -85,7 +102,7 @@
                     String userID = product.getUserID();
                     fetchUserAddress(userID, "Address: ", tvSellerAddress);
 
-                    setTextViewValue(tvDiscount, String.valueOf("Discount: $%.2f" + product.getProductType().getDiscount() + "%"), "Discount:");
+                    setTextViewValue(tvDiscount, String.format("Discount: %.1f%%", product.getProductType().getDiscount()), "No Discount");
                     btnMinus.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

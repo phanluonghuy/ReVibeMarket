@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.revibemarket.Adapter.CategoryAdapter;
 import com.example.revibemarket.Adapter.HomeProductAdapter;
 import com.example.revibemarket.Models.Product;
+import com.example.revibemarket.Models.ProductSingleton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -46,8 +47,9 @@ public class ExploreFragment extends Fragment {
         recyclerCategory = rootView.findViewById(R.id.recyclerCategory);
         recyclerProduct = rootView.findViewById(R.id.recyclerBestDeal);
 
+        productList = ProductSingleton.getInstance().getProductList();
+
         setupCategoryRecyclerView();
-        fetchProductNameAndSKU();
         setupProductRecyclerView();
 
         return rootView;
@@ -61,7 +63,6 @@ public class ExploreFragment extends Fragment {
     }
 
     private void setupProductRecyclerView() {
-        productList = new ArrayList<>();
         homeProductAdapter = new HomeProductAdapter(requireContext(), productList);
 
         homeProductAdapter.setOnItemClickListener(new HomeProductAdapter.OnItemClickListener() {
@@ -74,16 +75,12 @@ public class ExploreFragment extends Fragment {
         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerProduct.setLayoutManager(horizontalLayoutManager);
         recyclerProduct.setAdapter(homeProductAdapter);
-
-        fetchProductNameAndSKU();
     }
 
     private void openDetailPage(Product product) {
         try {
             Intent intent = new Intent(requireContext(), DetailActivity.class);
-            Gson gson = new Gson();
-            String productJson = gson.toJson(product);
-            intent.putExtra("productJson", productJson);
+            intent.putExtra("productSku", product.getSku());
             startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,57 +88,4 @@ public class ExploreFragment extends Fragment {
         }
     }
 
-    private void fetchProductNameAndSKU() {
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        if (currentUser != null) {
-            DatabaseReference productsRef = FirebaseDatabase.getInstance().getReference().child("products");
-
-            productsRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    productList.clear();
-
-                    for (DataSnapshot productSnapshot : dataSnapshot.getChildren()) {
-                        Product product = productSnapshot.getValue(Product.class);
-                        if (product != null) {
-                            productList.add(product);
-                        }
-                    }
-                    homeProductAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.e("HomeFragment", "Failed to read value.", databaseError.toException());
-                }
-            });
-        }
-    }
-    private void fetchImage(String productName, String sku, Double price) {
-        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-        StorageReference storageReference = firebaseStorage.getReference().child("Images_Product/" + sku + "/" + 0);
-        storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
-            String imageUrl = uri.toString();
-            for (Product product : productList) {
-                if (product != null && product.getSku() != null && product.getProductName().equals(productName)
-                        && product.getSku().equals(sku)) {
-                    List<String> images = product.getProductType().getImages();
-                    if (images != null) {
-                        images.add(imageUrl);
-                        break;
-                    }
-                }
-            }
-            homeProductAdapter.notifyDataSetChanged();
-        }).addOnFailureListener(exception -> {
-            if (exception instanceof StorageException && ((StorageException) exception).getErrorCode() == StorageException.ERROR_OBJECT_NOT_FOUND) {
-                Log.e("fetchImage", "Image not found for " + sku + "/" + 0);
-                Toast.makeText(requireContext(), "Image not found", Toast.LENGTH_SHORT).show();
-            } else {
-                Log.e("fetchImage", "Error fetching image for " + sku + "/" + 0 + ": " + exception.getMessage(), exception);
-                Toast.makeText(requireContext(), "Error fetching image", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 }
