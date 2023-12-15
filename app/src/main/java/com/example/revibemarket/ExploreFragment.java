@@ -79,16 +79,16 @@ public class ExploreFragment extends Fragment {
     }
 
     private void openDetailPage(Product product) {
-//        try {
-//            Intent intent = new Intent(requireContext(), DetailActivity.class);
-//            Gson gson = new Gson();
-//            String productJson = gson.toJson(product);
-//            intent.putExtra("productJson", productJson);
-//            startActivity(intent);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            Log.e("ExploreFragment", "Error opening detail page", e);
-//        }
+        try {
+            Intent intent = new Intent(requireContext(), DetailActivity.class);
+            Gson gson = new Gson();
+            String productJson = gson.toJson(product);
+            intent.putExtra("productJson", productJson);
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("ExploreFragment", "Error opening detail page", e);
+        }
     }
 
     private void fetchProductNameAndSKU() {
