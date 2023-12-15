@@ -57,6 +57,13 @@ public class Product_Type {
         this.updated = updated;
     }
 
+    public void clearImage() {
+        this.images.clear();
+    }
+    public void addImage(String url) {
+        this.images.add(url);
+    }
+
     public String getSku() {
         return sku;
     }

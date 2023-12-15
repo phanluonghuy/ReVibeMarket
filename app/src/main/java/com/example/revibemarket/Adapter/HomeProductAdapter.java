@@ -1,6 +1,9 @@
 package com.example.revibemarket.Adapter;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,19 +11,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.revibemarket.Models.Product;
 import com.example.revibemarket.R;
 
 import java.util.List;
 
-public class BestDealAdapter extends RecyclerView.Adapter<BestDealAdapter.ViewHolder> {
+public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.ViewHolder> {
     private List<Product> productList;
     private OnItemClickListener onItemClickListener;
 
-    public BestDealAdapter(Context context, List<Product> productList) {
+    public HomeProductAdapter(Context context, List<Product> productList) {
         this.productList = productList;
     }
 
@@ -48,14 +58,29 @@ public class BestDealAdapter extends RecyclerView.Adapter<BestDealAdapter.ViewHo
 
         List<String> imageUrls = item.getProductType().getImages();
 
-        if (imageUrls != null && !imageUrls.isEmpty()) {
-            String imageUrl = imageUrls.get(0);
+//        if (imageUrls != null && !imageUrls.isEmpty()) {
+//            String imageUrl = imageUrls.get(0);
+//            Glide.with(holder.imageView.getContext())
+//                    .load(imageUrl)
+//                    .into(holder.imageView);
+//        } else {
+//            holder.imageView.setImageResource(R.drawable.sofa_cut);
+//        }
+//        Glide.with(holder.itemView.getContext())
+//                .load(imageUrls.get(0))
+//                .placeholder(R.drawable.sofa_cut)
+//                .error(R.drawable.sofa_cut)
+//                .into(holder.imageView);
+        //holder.imageView.setImageResource(R.drawable.sofa_cut);
+        Log.d("Product img",productList.get(position).getProductType().getImages().size()+"");
+        if (!productList.get(position).getProductType().getImages().isEmpty()) {
             Glide.with(holder.imageView.getContext())
-                    .load(imageUrl)
+                    .load(productList.get(position).getProductType().getImages().get(0))
+                    .error(R.drawable.avatar)
+                    .override(330, 330)
                     .into(holder.imageView);
-        } else {
-            holder.imageView.setImageResource(R.drawable.sofa_cut);
         }
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

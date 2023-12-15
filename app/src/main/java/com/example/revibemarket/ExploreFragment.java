@@ -14,8 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.revibemarket.Adapter.BestDealAdapter;
 import com.example.revibemarket.Adapter.CategoryAdapter;
+import com.example.revibemarket.Adapter.HomeProductAdapter;
 import com.example.revibemarket.Models.Product;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -37,7 +37,7 @@ import java.util.List;
 public class ExploreFragment extends Fragment {
     private RecyclerView recyclerCategory;
     private RecyclerView recyclerProduct;
-    private BestDealAdapter bestDealAdapter;
+    private HomeProductAdapter homeProductAdapter;
     private List<Product> productList;
 
     @Override
@@ -62,9 +62,9 @@ public class ExploreFragment extends Fragment {
 
     private void setupProductRecyclerView() {
         productList = new ArrayList<>();
-        bestDealAdapter = new BestDealAdapter(requireContext(), productList);
+        homeProductAdapter = new HomeProductAdapter(requireContext(), productList);
 
-        bestDealAdapter.setOnItemClickListener(new BestDealAdapter.OnItemClickListener() {
+        homeProductAdapter.setOnItemClickListener(new HomeProductAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Product product) {
                 openDetailPage(product);
@@ -73,22 +73,22 @@ public class ExploreFragment extends Fragment {
 
         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerProduct.setLayoutManager(horizontalLayoutManager);
-        recyclerProduct.setAdapter(bestDealAdapter);
+        recyclerProduct.setAdapter(homeProductAdapter);
 
         fetchProductNameAndSKU();
     }
 
     private void openDetailPage(Product product) {
-        try {
-            Intent intent = new Intent(requireContext(), DetailActivity.class);
-            Gson gson = new Gson();
-            String productJson = gson.toJson(product);
-            intent.putExtra("productJson", productJson);
-            startActivity(intent);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("ExploreFragment", "Error opening detail page", e);
-        }
+//        try {
+//            Intent intent = new Intent(requireContext(), DetailActivity.class);
+//            Gson gson = new Gson();
+//            String productJson = gson.toJson(product);
+//            intent.putExtra("productJson", productJson);
+//            startActivity(intent);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            Log.e("ExploreFragment", "Error opening detail page", e);
+//        }
     }
 
     private void fetchProductNameAndSKU() {
@@ -108,7 +108,7 @@ public class ExploreFragment extends Fragment {
                             productList.add(product);
                         }
                     }
-                    bestDealAdapter.notifyDataSetChanged();
+                    homeProductAdapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -133,7 +133,7 @@ public class ExploreFragment extends Fragment {
                     }
                 }
             }
-            bestDealAdapter.notifyDataSetChanged();
+            homeProductAdapter.notifyDataSetChanged();
         }).addOnFailureListener(exception -> {
             if (exception instanceof StorageException && ((StorageException) exception).getErrorCode() == StorageException.ERROR_OBJECT_NOT_FOUND) {
                 Log.e("fetchImage", "Image not found for " + sku + "/" + 0);

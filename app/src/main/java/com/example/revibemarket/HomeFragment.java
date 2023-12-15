@@ -1,6 +1,7 @@
 package com.example.revibemarket;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -18,9 +19,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.revibemarket.Adapter.BestDealAdapter;
 import com.example.revibemarket.Adapter.CategoryAdapter;
+import com.example.revibemarket.Adapter.HomeProductAdapter;
 import com.example.revibemarket.Models.Product;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +32,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
@@ -41,7 +45,7 @@ import java.util.List;
 public class HomeFragment extends Fragment {
     private RecyclerView recyclerCategory;
     private RecyclerView recyclerProduct;
-    private BestDealAdapter bestDealAdapter;
+    private HomeProductAdapter homeProductAdapter;
     private List<Product> productList;
     private EditText edtSearch;
 
@@ -87,12 +91,12 @@ public class HomeFragment extends Fragment {
 
     private void setupProductRecyclerView() {
         productList = new ArrayList<>();
-        bestDealAdapter = new BestDealAdapter(requireContext(), productList);
+        homeProductAdapter = new HomeProductAdapter(requireContext(), productList);
 
         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
 
         recyclerProduct.setLayoutManager(horizontalLayoutManager);
-        recyclerProduct.setAdapter(bestDealAdapter);
+        recyclerProduct.setAdapter(homeProductAdapter);
     }
 
 
@@ -110,11 +114,12 @@ public class HomeFragment extends Fragment {
                     for (DataSnapshot productSnapshot : dataSnapshot.getChildren()) {
                         Product product = productSnapshot.getValue(Product.class);
                         if (product != null) {
+                            product.getProductType().clearImage();
                             productList.add(product);
-
+                            fetchImage(product);
                         }
                     }
-                    bestDealAdapter.notifyDataSetChanged();
+                    homeProductAdapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -124,31 +129,41 @@ public class HomeFragment extends Fragment {
             });
         }
     }
-    private void fetchImage(String productName, String sku, Double price) {
+    private void fetchImage(Product product) {
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-        StorageReference storageReference = firebaseStorage.getReference().child("Images_Product/" + sku + "/" + 0);
-        storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
-            String imageUrl = uri.toString();
-            Log.d("DUONG DAN HINH ANH: ", imageUrl);
-            for (Product product : productList) {
-                if (product != null && product.getSku() != null && product.getProductName().equals(productName)
-                && product.getSku().equals(sku)) {
-                    List<String> images = product.getProductType().getImages();
-                    if (images != null) {
-                        images.add(imageUrl);
-                        break;
+        StorageReference listRef = firebaseStorage.getReference().child("Images_Product/"+product.getSku());
+        ArrayList<String> imgUrl = new ArrayList<>();
+        listRef.listAll()
+                .addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                    @Override
+                    public void onSuccess(ListResult listResult) {
+                        Log.e("ListFiles Product",product.getSku());
+
+                        for (StorageReference item : listResult.getItems()) {
+                            item.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    Log.e("ListFiles", "Success to get download URL: " + uri.toString());
+                                    product.getProductType().addImage(uri.toString());
+                                    if (product.getProductType().getImages().size()==1) {
+                                        homeProductAdapter.notifyDataSetChanged();
+                                    }
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.e("ListFiles", "Failed to get download URL: " + e.getMessage());
+                                }
+                            });
+                        }
+
                     }
-                }
-            }
-            bestDealAdapter.notifyDataSetChanged();
-        }).addOnFailureListener(exception -> {
-            if (exception instanceof StorageException && ((StorageException) exception).getErrorCode() == StorageException.ERROR_OBJECT_NOT_FOUND) {
-                Log.e("fetchImage", "Image not found for " + sku + "/" + 0);
-                Toast.makeText(requireContext(), "Image not found", Toast.LENGTH_SHORT).show();
-            } else {
-                Log.e("fetchImage", "Error fetching image for " + sku + "/" + 0 + ": " + exception.getMessage(), exception);
-                Toast.makeText(requireContext(), "Error fetching image", Toast.LENGTH_SHORT).show();
-            }
-        });
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Log.e("ListFiles", "Failed to list files: " + exception.getMessage());
+                    }
+                });
     }
 }
