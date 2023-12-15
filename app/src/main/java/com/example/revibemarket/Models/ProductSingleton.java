@@ -27,8 +27,4 @@ public class ProductSingleton {
         this.productList = productList;
     }
 
-    public void addProduct(Product product) {
-        productList.add(product);
-    }
-
 }

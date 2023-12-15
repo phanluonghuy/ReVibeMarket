@@ -36,7 +36,7 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageAdapter.
             String imageUrl = imageUrls.get(position);
             Glide.with(holder.imageView.getContext())
                     .load(imageUrl)
-                    .override(360,360)
+//                    .override(360,360)
                     .into(holder.imageView);
         }
     }

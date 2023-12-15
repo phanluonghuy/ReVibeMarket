@@ -51,29 +51,29 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
                 holder.tvProductQuantity.setText(String.valueOf(cartItem.getQuantity()));
             }
 
-            holder.btnRemove.setOnClickListener(v -> {
-                if (onRemoveItemClickListener != null) {
-                    onRemoveItemClickListener.onRemoveItemClick(position, cartItem.getItemId());
-
-                    DatabaseReference cartItemRef = FirebaseDatabase.getInstance().getReference()
-                            .child("carts")
-                            .child(cartItem.getItemId());
-
-                    cartItemRef.removeValue()
-                            .addOnCompleteListener(task -> {
-                                if (task.isSuccessful()) {
-
-                                    ((Activity) holder.itemView.getContext()).runOnUiThread(() -> {
-                                        cartItemList.remove(position);
-                                        notifyItemRemoved(position);
-                                        notifyItemRangeChanged(position, cartItemList.size());
-                                    });
-                                } else {
-
-                                }
-                            });
-                }
-            });
+//            holder.btnRemove.setOnClickListener(v -> {
+//                if (onRemoveItemClickListener != null) {
+//                    onRemoveItemClickListener.onRemoveItemClick(position, cartItem.getItemId());
+//
+//                    DatabaseReference cartItemRef = FirebaseDatabase.getInstance().getReference()
+//                            .child("carts")
+//                            .child(cartItem.getItemId());
+//
+//                    cartItemRef.removeValue()
+//                            .addOnCompleteListener(task -> {
+//                                if (task.isSuccessful()) {
+//
+//                                    ((Activity) holder.itemView.getContext()).runOnUiThread(() -> {
+//                                        cartItemList.remove(position);
+//                                        notifyItemRemoved(position);
+//                                        notifyItemRangeChanged(position, cartItemList.size());
+//                                    });
+//                                } else {
+//
+//                                }
+//                            });
+//                }
+//            });
         }
     }
 
@@ -90,7 +90,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
         this.onRemoveItemClickListener = listener;
     }
 
-    public static class CartItemViewHolder extends RecyclerView.ViewHolder {
+    public class CartItemViewHolder extends RecyclerView.ViewHolder {
         TextView productNameTextView;
         TextView tvPrice;
         TextView tvProductQuantity;
@@ -102,6 +102,14 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvProductQuantity = itemView.findViewById(R.id.tvProductQuantity);
             btnRemove = itemView.findViewById(R.id.btnRemove);
+
+            btnRemove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    cartItemList.remove(getAdapterPosition());
+                    notifyItemRemoved(getAdapterPosition());
+                }
+            });
         }
     }
 }
