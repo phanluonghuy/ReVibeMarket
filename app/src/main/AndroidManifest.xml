@@ -21,6 +21,9 @@
         <activity
             android:name=".LoginRegister.ForgotPassword"
             android:exported="false" />
+        <activity
+            android:name=".SearchActivity"
+            android:exported="false" />
         <activity android:name=".DetailActivity"
             android:exported="false"/>
         <activity

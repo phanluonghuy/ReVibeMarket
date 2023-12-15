@@ -93,6 +93,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user_ = snapshot.getValue(User.class);
+                assert user_ != null;
                 txtEmail.setText(user_.getEmail());
                 txtPhone.setText(user_.getPhone());
                 txtAddress.setText(user_.getAddress());

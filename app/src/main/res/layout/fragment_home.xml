@@ -71,7 +71,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/editTextText2"
+                    android:id="@+id/edtSearch"
                     style="@style/modifiedEditText"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -83,7 +83,7 @@
 
 
                 <ImageButton
-                    android:id="@+id/imageButton"
+                    android:id="@+id/btnSearch"
                     style="@style/iconButton"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"

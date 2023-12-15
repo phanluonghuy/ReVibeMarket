@@ -1,10 +1,16 @@
 package com.example.revibemarket;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,9 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.revibemarket.Adapter.BestDealAdapter;
 import com.example.revibemarket.Adapter.CategoryAdapter;
-import com.example.revibemarket.Models.BestDealItem;
 import com.example.revibemarket.Models.Product;
-import com.example.revibemarket.Models.Product_Type;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -27,6 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
+import com.google.gson.Gson;
 
 
 import java.util.ArrayList;
@@ -38,18 +43,37 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerProduct;
     private BestDealAdapter bestDealAdapter;
     private List<Product> productList;
+    private EditText edtSearch;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerCategory = rootView.findViewById(R.id.recyclerCategory);
         recyclerProduct = rootView.findViewById(R.id.recyclerBestDeal);
-
+        ImageButton search = rootView.findViewById(R.id.btnSearch);
+        edtSearch = rootView.findViewById(R.id.edtSearch);
         setupCategoryRecyclerView();
         fetchProductNameAndSKU();
         setupProductRecyclerView();
 
+        edtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_DONE) {
+                    try {
+                        Intent intent = new Intent(requireContext(), SearchActivity.class);
+                        Gson gson = new Gson();
+                        String searchText = gson.toJson(edtSearch.getText().toString());
+                        intent.putExtra("searchText", searchText);
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
+                }
+                return false;
+            }
+        });
 
         return rootView;
     }

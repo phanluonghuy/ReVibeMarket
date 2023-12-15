@@ -65,21 +65,35 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical"
-                            tools:context=".CartFragment">
+                            tools:context=".SearchActivity">
+
+                            <Button
+                                android:id="@+id/btnBackSearch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableLeft="@drawable/baseline_arrow_back_24"
+                                android:backgroundTint="#FFFFFF"/>
 
                             <TextView
                                 style="@style/viewParent.headerText"
-                                android:text="Cart"
+                                android:text="Search"
                                 android:layout_marginLeft="30dp"
                                 android:layout_marginTop="10dp"/>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal">
+                                android:orientation="vertical"
+                                android:layout_margin="10dp">
+                                <TextView
+                                    android:id="@+id/SearchName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Searching for: "
+                                    android:textSize="20sp"/>
 
                                 <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/reycylerCartItem"
+                                    android:id="@+id/reycylerSearch"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="bottom"/>
@@ -96,40 +110,4 @@
         </RelativeLayout>
 
     </ScrollView>
-
-    <RelativeLayout
-        android:id="@+id/BuyLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Total Price:"
-                android:textSize="16sp"/>
-            <TextView
-                android:id="@+id/tvTotalPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="$99"
-                android:textSize="24sp"/>
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btnBuy"
-            style="@style/loginButton"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-            android:text="BUY" />
-    </RelativeLayout>
-
 </RelativeLayout>
