@@ -8,7 +8,8 @@
 
     <ScrollView
         style="@style/parent"
-        android:layout_above="@+id/BuyLayout">
+        android:layout_above="@+id/BuyLayout"
+        android:layout_alignParentTop="true">
 
         <RelativeLayout
             style="@style/parent">
@@ -74,6 +75,14 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/tvEmptyCart"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Empty cart"
+                                    android:textSize="18sp"
+                                    android:visibility="gone" />
 
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/reycylerCartItem"

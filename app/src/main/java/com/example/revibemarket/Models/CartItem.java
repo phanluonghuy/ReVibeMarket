@@ -13,17 +13,33 @@ public class CartItem {
     private int quantity;
     private String currentUserID;
 
+    private  String SellerID;
+
     public CartItem() {
     }
 
-    public CartItem(String itemId, String productName, Double price, Double discount, int quantity, String currentUserID) {
+    public CartItem(String itemId, String productName, Double price, Double discount, int quantity, String currentUserID, String SellerID) {
         this.itemId = itemId;
         this.productName = productName;
         this.price = price;
         this.discount = discount;
         this.quantity = quantity;
         this.currentUserID = currentUserID;
+        this.SellerID = SellerID;
     }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
+
+    public String getSellerID() {
+        return SellerID;
+    }
+
+    public void setSellerID(String sellerID) {
+        SellerID = sellerID;
+    }
+
     public String getItemId() {
         return itemId;
     }

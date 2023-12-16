@@ -42,6 +42,8 @@ public class DetailActivity extends AppCompatActivity {
 
         btnBack = findViewById(R.id.btnBack);
 
+        fetchCurrentUserInformation();
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             String productSku = bundle.getString("productSku");
@@ -116,7 +118,7 @@ public class DetailActivity extends AppCompatActivity {
                 double price = product.getProductType().getPrice();
                 double discount = product.getProductType().getDiscount();
                 String productName = tvProductName.getText().toString();
-                CartItem cartItem = new CartItem(productSku, productName, price, discount, quantity, currentUserId);
+                CartItem cartItem = new CartItem(productSku, productName, price, discount, quantity, currentUserId, product.getUserID());
 
                 DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference().child("carts");
 
@@ -129,6 +131,7 @@ public class DetailActivity extends AppCompatActivity {
                     cartRef.child(cartItemKey).child("quantity").setValue(cartItem.getQuantity());
                     cartRef.child(cartItemKey).child("currentUserID").setValue(cartItem.getCurrentUserID());
                     cartRef.child(cartItemKey).child("productSku").setValue(cartItem.getItemId());
+                    cartRef.child(cartItemKey).child("SellerID").setValue(cartItem.getSellerID());
                     showToast("Product added to cart");
                 } else {
                     showToast("Error creating cart item");
