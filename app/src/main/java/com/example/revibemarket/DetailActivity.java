@@ -1,6 +1,8 @@
 package com.example.revibemarket;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,7 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.revibemarket.Adapter.DetailImageAdapter;
 import com.example.revibemarket.Models.CartItem;
 import com.example.revibemarket.Models.Product;
-import com.example.revibemarket.Models.ProductSingleton;
+import com.example.revibemarket.ModelsSingleton.CartSession;
+import com.example.revibemarket.ModelsSingleton.ProductSingleton;
 import com.example.revibemarket.Models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,6 +30,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -119,23 +123,21 @@ public class DetailActivity extends AppCompatActivity {
                 double discount = product.getProductType().getDiscount();
                 String productName = tvProductName.getText().toString();
                 CartItem cartItem = new CartItem(productSku, productName, price, discount, quantity, currentUserId, product.getUserID());
+                CartSession cartSession = CartSession.getInstance();
+                cartSession.addCartItem(cartItem,product.getProductType().getImages().get(0));
 
-                DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference().child("carts");
 
-                String cartItemKey = cartRef.push().getKey();
+                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("cart_session", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                Gson gson = new Gson();
+                String cartItemsJson = gson.toJson(CartSession.getInstance().getCartItemList());
+                String imagesUrlJson = gson.toJson(CartSession.getInstance().getImagesUrl());
+                editor.putString("cart_items", cartItemsJson);
+                editor.putString("images_url", imagesUrlJson);
+                editor.apply();
 
-                if (cartItemKey != null) {
-                    cartRef.child(cartItemKey).child("productName").setValue(cartItem.getProductName());
-                    cartRef.child(cartItemKey).child("price").setValue(cartItem.getPrice());
-                    cartRef.child(cartItemKey).child("discount").setValue(cartItem.getDiscount());
-                    cartRef.child(cartItemKey).child("quantity").setValue(cartItem.getQuantity());
-                    cartRef.child(cartItemKey).child("currentUserID").setValue(cartItem.getCurrentUserID());
-                    cartRef.child(cartItemKey).child("productSku").setValue(cartItem.getItemId());
-                    cartRef.child(cartItemKey).child("SellerID").setValue(cartItem.getSellerID());
-                    showToast("Product added to cart");
-                } else {
-                    showToast("Error creating cart item");
-                }
+
+                showToast("Product added to cart");
             });
         } else {
             showToast("Product is null");

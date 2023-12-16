@@ -1,8 +1,11 @@
 package com.example.revibemarket.Models;
 
+import com.example.revibemarket.ModelsSingleton.ProductSingleton;
 import com.google.firebase.database.Exclude;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CartItem {

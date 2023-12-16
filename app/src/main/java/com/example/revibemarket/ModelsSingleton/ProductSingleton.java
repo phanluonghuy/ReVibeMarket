@@ -1,4 +1,6 @@
-package com.example.revibemarket.Models;
+package com.example.revibemarket.ModelsSingleton;
+
+import com.example.revibemarket.Models.Product;
 
 import java.util.ArrayList;
 import java.util.List;

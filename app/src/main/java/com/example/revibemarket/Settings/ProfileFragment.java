@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.revibemarket.Models.User;
+import com.example.revibemarket.ModelsSingleton.UserSession;
 import com.example.revibemarket.R;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,6 +42,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.io.FileNotFoundException;
 
 public class ProfileFragment extends Fragment {
     ImageView imageView,btnBack;
@@ -65,46 +68,34 @@ public class ProfileFragment extends Fragment {
         btnEdit = view.findViewById(R.id.buttonUpdate);
         btnBack = view.findViewById(R.id.buttonBackSetting);
 
-        setEnable(false);
 
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference("Users/" + user.getUid());
+        UserSession userSession = UserSession.getInstance();
 
-        long maxDownloadSize = 1024 * 1024; // 1 MB
-
-        storageReference.getBytes(maxDownloadSize)
-                .addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                    @Override
-                    public void onSuccess(byte[] bytes) {
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                        imageView.setImageBitmap(bitmap);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                    }
-                });
-
-        txtFullName.setText(user.getDisplayName());
-        txtHeaderName.setText(user.getDisplayName());
+        imageView.setImageBitmap(userSession.getImage());
+        txtFullName.setText(userSession.getName());
+        txtHeaderName.setText(userSession.getName());
 
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user_ = snapshot.getValue(User.class);
-                assert user_ != null;
-                txtEmail.setText(user_.getEmail());
-                txtPhone.setText(user_.getPhone());
-                txtAddress.setText(user_.getAddress());
-                setEnable(true);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        txtEmail.setText(userSession.getEmail());
+        txtPhone.setText(userSession.getPhone());
+        txtAddress.setText(userSession.getAddress());
+//        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                User user_ = snapshot.getValue(User.class);
+//                assert user_ != null;
+//                txtEmail.setText(user_.getEmail());
+//                txtPhone.setText(user_.getPhone());
+//                txtAddress.setText(user_.getAddress());
+//                setEnable(true);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -136,17 +127,14 @@ public class ProfileFragment extends Fragment {
                     return;
                 }
                 if (uri != null) {
-//                    String imageName = "image_" + imageIndex + "_" + productTypeSku;
-//                    StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/" + imageName);
-//                    storageReference.putFile(imageUri)
-//                            .addOnSuccessListener(taskSnapshot -> {
-//                                Toast.makeText(requireContext(), "Image uploaded successfully", Toast.LENGTH_SHORT).show();
-//                            })
-//                            .addOnFailureListener(e -> {
-//                                Toast.makeText(requireContext(), "Failed to upload image", Toast.LENGTH_SHORT).show();
-//                            });
                     StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Users/" + user.getUid());
                     storageReference.putFile(uri);
+                    try {
+                        userSession.setImage(BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(uri)));
+                    } catch (FileNotFoundException e) {
+                        Log.d("Profile Fragment load img",e.toString());
+                        throw new RuntimeException(e);
+                    }
 
                 }
                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
@@ -162,7 +150,8 @@ public class ProfileFragment extends Fragment {
                      @Override
                      public void onComplete(@NonNull Task<Void> task) {
                          Toast.makeText(getContext(), "Your profile is updated", Toast.LENGTH_SHORT).show();
-                        backToSettingFragment();
+                         userSession.setUser(updateUser);
+                         backToSettingFragment();
                      }
                  });
             }

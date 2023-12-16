@@ -137,7 +137,6 @@
                             <EditText
                                 android:id="@+id/editTextEmail"
                                 style="@style/modifiedEditText"
-                                android:focusable="false"
                                 android:inputType="textEmailAddress"
                                 android:maxLines="1"
                                 android:text="Email" />

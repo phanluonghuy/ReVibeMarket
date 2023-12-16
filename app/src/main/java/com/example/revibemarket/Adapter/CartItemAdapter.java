@@ -1,30 +1,34 @@
 package com.example.revibemarket.Adapter;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.revibemarket.Models.CartItem;
+import com.example.revibemarket.ModelsSingleton.CartSession;
 import com.example.revibemarket.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
 
 import java.util.List;
 
 public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartItemViewHolder> {
+    private CartSession cartSession;
 
-    private final List<CartItem> cartItemList;
-    private OnRemoveItemClickListener onRemoveItemClickListener;
+    public CartItemAdapter() {
+        cartSession = CartSession.getInstance();
 
-    public CartItemAdapter(List<CartItem> cartItemList, OnRemoveItemClickListener listener) {
-        this.cartItemList = cartItemList;
-        this.onRemoveItemClickListener = listener;
     }
 
     @NonNull
@@ -36,58 +40,20 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
 
     @Override
     public void onBindViewHolder(@NonNull CartItemViewHolder holder, int position) {
-        CartItem cartItem = cartItemList.get(position);
-
-        if (cartItem != null) {
-            if (holder.tvPrice != null) {
-                holder.tvPrice.setText(String.valueOf(cartItem.getPrice() + " $"));
-            }
-
-            if (holder.productNameTextView != null) {
-                holder.productNameTextView.setText(cartItem.getProductName());
-            }
-
-            if (holder.tvProductQuantity != null) {
-                holder.tvProductQuantity.setText(String.valueOf(cartItem.getQuantity()));
-            }
-
-//            holder.btnRemove.setOnClickListener(v -> {
-//                if (onRemoveItemClickListener != null) {
-//                    onRemoveItemClickListener.onRemoveItemClick(position, cartItem.getItemId());
-//
-//                    DatabaseReference cartItemRef = FirebaseDatabase.getInstance().getReference()
-//                            .child("carts")
-//                            .child(cartItem.getItemId());
-//
-//                    cartItemRef.removeValue()
-//                            .addOnCompleteListener(task -> {
-//                                if (task.isSuccessful()) {
-//
-//                                    ((Activity) holder.itemView.getContext()).runOnUiThread(() -> {
-//                                        cartItemList.remove(position);
-//                                        notifyItemRemoved(position);
-//                                        notifyItemRangeChanged(position, cartItemList.size());
-//                                    });
-//                                } else {
-//
-//                                }
-//                            });
-//                }
-//            });
-        }
+        CartItem cartItem = cartSession.getCartItemList().get(position);
+        holder.tvPrice.setText(cartItem.getPrice() + " $");
+        holder.productNameTextView.setText(cartItem.getProductName());
+        holder.tvProductQuantity.setText("Quantity : " + cartItem.getQuantity());
+        Glide.with(holder.imageView.getContext())
+                .load(cartSession.getImagesUrl().get(position))
+                .error(R.drawable.sofa_cut)
+                .override(330, 330)
+                .into(holder.imageView);
     }
 
     @Override
     public int getItemCount() {
-        return cartItemList.size();
-    }
-
-    public interface OnRemoveItemClickListener {
-        void onRemoveItemClick(int position, String itemId);
-    }
-
-    public void setOnRemoveItemClickListener(OnRemoveItemClickListener listener) {
-        this.onRemoveItemClickListener = listener;
+        return cartSession.getCartItemList().size();
     }
 
     public class CartItemViewHolder extends RecyclerView.ViewHolder {
@@ -95,19 +61,30 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
         TextView tvPrice;
         TextView tvProductQuantity;
         Button btnRemove;
+        ImageView imageView;
 
         public CartItemViewHolder(@NonNull View itemView) {
             super(itemView);
             productNameTextView = itemView.findViewById(R.id.tvProductName);
             tvPrice = itemView.findViewById(R.id.tvPrice);
-            tvProductQuantity = itemView.findViewById(R.id.tvProductQuantity);
+            tvProductQuantity = itemView.findViewById(R.id.tvQuantity);
             btnRemove = itemView.findViewById(R.id.btnRemove);
+            imageView = itemView.findViewById(R.id.imgProduct);
 
             btnRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    cartItemList.remove(getAdapterPosition());
+                    cartSession.getCartItemList().remove(getAdapterPosition());
                     notifyItemRemoved(getAdapterPosition());
+
+                    SharedPreferences sharedPreferences = itemView.getContext().getSharedPreferences("cart_session", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    Gson gson = new Gson();
+                    String cartItemsJson = gson.toJson(CartSession.getInstance().getCartItemList());
+                    String imagesUrlJson = gson.toJson(CartSession.getInstance().getImagesUrl());
+                    editor.putString("cart_items", cartItemsJson);
+                    editor.putString("images_url", imagesUrlJson);
+                    editor.apply();
                 }
             });
         }

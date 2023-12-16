@@ -25,6 +25,7 @@ import com.example.revibemarket.Models.Order;
 import com.example.revibemarket.Models.OrderItem;
 import com.example.revibemarket.Models.ShippingInfo;
 import com.example.revibemarket.Models.User;
+import com.example.revibemarket.ModelsSingleton.CartSession;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -39,7 +40,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class CartFragment extends Fragment implements CartItemAdapter.OnRemoveItemClickListener {
+public class CartFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private CartItemAdapter cartItemAdapter;
@@ -60,8 +61,8 @@ public class CartFragment extends Fragment implements CartItemAdapter.OnRemoveIt
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        cartItemList = new ArrayList<>();
-        cartItemAdapter = new CartItemAdapter(cartItemList, this);
+        //cartItemList = new ArrayList<>();
+        cartItemAdapter = new CartItemAdapter();
         recyclerView.setAdapter(cartItemAdapter);
 
         String[] paymentMethods = {"Momo", "ZaloPay", "Credit Card"};
@@ -86,7 +87,7 @@ public class CartFragment extends Fragment implements CartItemAdapter.OnRemoveIt
 
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        fetchCartItems();
+//        fetchCartItems();
         Button btnBuy = view.findViewById(R.id.btnBuy);
         btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -220,29 +221,29 @@ public class CartFragment extends Fragment implements CartItemAdapter.OnRemoveIt
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onRemoveItemClick(int position, String itemId) {
-        if (currentUser != null) {
-            DatabaseReference cartItemRef = FirebaseDatabase.getInstance().getReference()
-                    .child("carts")
-                    .child(currentUser.getUid())
-                    .child(itemId);
-
-            cartItemRef.removeValue()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            getActivity().runOnUiThread(() -> {
-                                cartItemList.remove(position);
-                                cartItemAdapter.notifyItemRemoved(position);
-                                cartItemAdapter.notifyItemRangeChanged(position, cartItemList.size());
-                                showToast("Item removed successfully");
-                            });
-                        } else {
-                            showToast("Failed to remove item");
-                        }
-                    });
-        }
-    }
+//    @Override
+//    public void onRemoveItemClick(int position, String itemId) {
+//        if (currentUser != null) {
+//            DatabaseReference cartItemRef = FirebaseDatabase.getInstance().getReference()
+//                    .child("carts")
+//                    .child(currentUser.getUid())
+//                    .child(itemId);
+//
+//            cartItemRef.removeValue()
+//                    .addOnCompleteListener(task -> {
+//                        if (task.isSuccessful()) {
+//                            getActivity().runOnUiThread(() -> {
+//                                cartItemList.remove(position);
+//                                cartItemAdapter.notifyItemRemoved(position);
+//                                cartItemAdapter.notifyItemRangeChanged(position, cartItemList.size());
+//                                showToast("Item removed successfully");
+//                            });
+//                        } else {
+//                            showToast("Failed to remove item");
+//                        }
+//                    });
+//        }
+//    }
 
     private String generateUniqueKey() {
         String uuid = UUID.randomUUID().toString();

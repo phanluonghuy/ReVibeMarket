@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.revibemarket.LoginRegister.Login;
+import com.example.revibemarket.ModelsSingleton.UserSession;
 import com.example.revibemarket.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -46,7 +47,9 @@ public class SettingFragment extends Fragment {
         editPassword = view.findViewById(R.id.editPassword);
         btnLogout = view.findViewById(R.id.btnLogout);
 
-        reloadProfile();
+
+        textViewName.setText(UserSession.getInstance().getName());
+        imageView.setImageBitmap(UserSession.getInstance().getImage());
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,7 +96,7 @@ public class SettingFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        reloadProfile();
+//        reloadProfile();
     }
 
     private void reloadProfile() {

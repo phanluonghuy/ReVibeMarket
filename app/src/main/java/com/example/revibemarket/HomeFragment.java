@@ -12,8 +12,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.revibemarket.Adapter.CategoryAdapter;
 import com.example.revibemarket.Adapter.HomeProductAdapter;
 import com.example.revibemarket.Models.Product;
-import com.example.revibemarket.Models.ProductSingleton;
+import com.example.revibemarket.ModelsSingleton.ProductSingleton;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,7 +34,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
-import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 
@@ -47,7 +46,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerCategory;
     private RecyclerView recyclerProduct;
     private HomeProductAdapter homeProductAdapter;
-    private List<Product> productList;
+    private List<Product> productList = new ArrayList<>();
     private EditText edtSearch;
 
     @Override
@@ -58,8 +57,12 @@ public class HomeFragment extends Fragment {
         ImageButton search = rootView.findViewById(R.id.btnSearch);
         edtSearch = rootView.findViewById(R.id.edtSearch);
         setupCategoryRecyclerView();
-        fetchProductNameAndSKU();
+//        fetchProductNameAndSKU();
         setupProductRecyclerView();
+
+        if (ProductSingleton.getInstance().getProductList().size()==0) {
+            fetchProductNameAndSKU();
+        }
 
         edtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -79,7 +82,6 @@ public class HomeFragment extends Fragment {
                 return false;
             }
         });
-
         return rootView;
     }
 
@@ -91,7 +93,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void setupProductRecyclerView() {
-        productList = new ArrayList<>();
+        productList = ProductSingleton.getInstance().getProductList();
         homeProductAdapter = new HomeProductAdapter(requireContext(), productList);
 
         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -100,9 +102,6 @@ public class HomeFragment extends Fragment {
         recyclerProduct.setAdapter(homeProductAdapter);
 
     }
-
-
-
 
     private void fetchProductNameAndSKU() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -122,7 +121,6 @@ public class HomeFragment extends Fragment {
                             fetchImage(product);
                         }
                     }
-                    homeProductAdapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -170,4 +168,5 @@ public class HomeFragment extends Fragment {
                 });
         ProductSingleton.getInstance().setProductList(productList);
     }
+
 }
