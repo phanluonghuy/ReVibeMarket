@@ -1,8 +1,7 @@
 package com.example.revibemarket.Adapter;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,16 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.example.revibemarket.Models.Product;
 import com.example.revibemarket.R;
 
@@ -45,7 +37,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_bestdeal, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_product, parent, false);
         return new ViewHolder(view);
     }
 
@@ -53,11 +45,10 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Product item = productList.get(position);
 
-        holder.titleTextView.setText(item.getProductName());
-        holder.priceTextView.setText(String.valueOf(item.getProductType().getPrice() + " $"));
-
-        List<String> imageUrls = item.getProductType().getImages();
-
+        holder.txtName.setText(item.getProductName());
+        holder.txtPrice.setText(String.valueOf(item.getProductType().getPrice() + " $"));
+        holder.txtPrice.setPaintFlags(holder.txtPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        holder.txtNewPrice.setText("$" + item.getProductType().getPrice()*(100-item.getProductType().getDiscount())/100);
         Log.d("Product img",productList.get(position).getProductType().getImages().size()+"");
         if (!productList.get(position).getProductType().getImages().isEmpty()) {
             Glide.with(holder.imageView.getContext())
@@ -83,15 +74,17 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
         return productList.size();
     }
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView titleTextView;
-        public TextView priceTextView;
+        public TextView txtName;
+        public TextView txtPrice;
+        public TextView txtNewPrice;
         public ImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            titleTextView = itemView.findViewById(R.id.BestDealTiTle);
-            priceTextView = itemView.findViewById(R.id.BestDealPrice);
-            imageView = itemView.findViewById(R.id.BestDealImg);
+            txtName = itemView.findViewById(R.id.tv_name);
+            txtPrice = itemView.findViewById(R.id.tv_price);
+            txtNewPrice = itemView.findViewById(R.id.tv_new_price);
+            imageView = itemView.findViewById(R.id.img_product);
         }
     }
 }

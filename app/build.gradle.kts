@@ -36,6 +36,7 @@ android {
 }
 
 dependencies {
+    implementation("com.github.zhpanvip:viewpagerindicator:1.2.2")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.github.dhaval2404:imagepicker:2.1")
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
@@ -61,7 +62,6 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("com.squareup.picasso:picasso:2.71828")
     implementation("com.google.code.gson:gson:2.10")
-    implementation("androidx.viewpager2:viewpager2:1.0.0")
 
 
 

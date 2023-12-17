@@ -8,7 +8,7 @@
     <item
         android:id="@+id/home"
         android:icon="@drawable/home"
-        android:title="Home"/>
+        android:title="Home" />
     <item
         android:id="@+id/explore"
         android:icon="@drawable/direction"

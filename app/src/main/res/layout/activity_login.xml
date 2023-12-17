@@ -47,6 +47,7 @@
                     style="@style/headerText"
                     android:layout_gravity="center"
                     android:text="@string/app_name"
+                    android:fontFamily="@font/poppins_thin"
                     android:layout_marginTop="40dp"/>
 
                 <androidx.cardview.widget.CardView
@@ -70,6 +71,7 @@
                         <TextView
                             style="@style/headerTextPrimary"
                             android:text="Login"
+                            android:fontFamily="@font/poppins_thin"
                             android:layout_marginTop="@dimen/loginViewsMargin"/>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -79,6 +81,7 @@
                             <EditText
                                 android:id="@+id/editTextEmail"
                                 style="@style/modifiedEditText"
+                                android:fontFamily="@font/poppins_light"
                                 android:inputType="textEmailAddress"
                                 android:maxLines="1"
                                 android:hint="@string/login_email_hint"/>
@@ -91,6 +94,7 @@
                             <EditText
                                 android:id="@+id/editTextPassword"
                                 style="@style/modifiedEditText"
+                                android:fontFamily="@font/poppins_light"
                                 android:hint="@string/login_password_hint"
                                 android:maxLines="1"
                                 android:inputType="textPassword"/>
@@ -100,6 +104,7 @@
                             android:id="@+id/buttonForgot"
                             style="@style/viewParent"
                             android:text="Forgot Password?"
+                            android:fontFamily="@font/poppins_thin"
                             android:textColor="@color/primaryTextColor"
                             android:textSize="@dimen/newsMoreTextSize"
                             android:layout_gravity="end"
@@ -109,6 +114,7 @@
                             android:id="@+id/buttonLogin"
                             style="@style/loginButton"
                             android:text="Login"
+                            android:fontFamily="@font/poppins_thin"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/loginViewsMargin" />
 
@@ -116,6 +122,7 @@
                             android:id="@+id/buttonRegister"
                             style="@style/parent"
                             android:textAlignment="center"
+                            android:fontFamily="@font/poppins_light"
                             android:textStyle="bold"
                             android:textColor="@color/primaryTextColor"
                             android:text="@string/login_signup_hint"

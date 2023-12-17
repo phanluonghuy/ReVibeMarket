@@ -69,7 +69,8 @@
 
                             <TextView
                                 style="@style/viewParent.headerText"
-                                android:text="Settings" />
+                                android:text="Settings"
+                                android:fontFamily="@font/poppins_thin"/>
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
@@ -99,6 +100,7 @@
                                     android:layout_marginLeft="20dp"
                                     android:layout_toRightOf="@id/cardView"
                                     android:text="User name"
+                                    android:fontFamily="@font/poppins_thin"
                                     android:textSize="18sp" />
 
 
@@ -107,13 +109,15 @@
 
                             <TextView
                                 style="@style/viewParent.headerText.settingsMiniTitle"
-                                android:text="Profile" />
+                                android:text="Profile"
+                                android:fontFamily="@font/poppins_light"/>
 
                             <TextView
                                 android:id="@+id/profile"
                                 style="@style/viewParent.headerText.settingsTextIcon"
                                 android:drawableLeft="@drawable/ic_edit_profile"
-                                android:text="Edit Profile" />
+                                android:text="Edit Profile"
+                                android:fontFamily="@font/poppins_thin"/>
 
                             <TextView
                                 android:id="@+id/editPassword"
@@ -124,7 +128,8 @@
 
                             <TextView
                                 style="@style/viewParent.headerText.settingsMiniTitle"
-                                android:text="Product" />
+                                android:text="Product"
+                                android:fontFamily="@font/poppins_light"/>
 
                             <TextView
                                 android:id="@+id/product"
@@ -132,7 +137,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:drawableLeft="@drawable/ic_languages"
-                                android:text="My Products" />
+                                android:text="My Products"
+                                android:fontFamily="@font/poppins_thin"/>
 
                             <TextView
                                 android:id="@+id/orders"
@@ -140,28 +146,33 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:drawableLeft="@drawable/ic_languages"
-                                android:text="My Orders" />
+                                android:text="My Orders"
+                                android:fontFamily="@font/poppins_thin"/>
 
                             <TextView
                                 style="@style/viewParent.headerText.settingsMiniTitle"
-                                android:text="Regional" />
+                                android:text="Regional"
+                                android:fontFamily="@font/poppins_light"/>
 
                             <TextView
                                 style="@style/viewParent.headerText.settingsTextIcon"
                                 android:drawableLeft="@drawable/ic_languages"
-                                android:text="Language" />
+                                android:text="Language"
+                                android:fontFamily="@font/poppins_thin"/>
 
                             <TextView
                                 android:id="@+id/btnLogout"
                                 style="@style/viewParent.headerText.settingsTextIcon"
                                 android:drawableLeft="@drawable/ic_logout"
-                                android:text="Logout" />
+                                android:text="Logout"
+                                android:fontFamily="@font/poppins_thin"/>
 
 
                             <TextView
                                 style="@style/viewParent.headerText.settingsMiniTitle"
                                 android:text="@string/app_name"
-                                android:textAlignment="center" />
+                                android:textAlignment="center"
+                                android:fontFamily="@font/poppins_light"/>
                         </LinearLayout>
                     </ScrollView>
                 </androidx.cardview.widget.CardView>

@@ -30,6 +30,7 @@
                     android:id="@+id/textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_thin"
                     android:text="Location"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -56,6 +57,7 @@
 
                 <TextView
                     android:id="@+id/textView3"
+                    android:fontFamily="@font/poppins_thin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ho Chi Minh City"
@@ -72,24 +74,24 @@
 
                 <EditText
                     android:id="@+id/edtSearch"
-                    style="@style/modifiedEditText"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/search"
-                    android:drawablePadding="10dp"
-                    android:ems="10"
-                    android:hint="Search ..."
-                    android:inputType="text" />
-
-
-                <ImageButton
-                    android:id="@+id/btnSearch"
-                    style="@style/iconButton"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/settings" />
+                    android:layout_weight="1"
+                    android:background="@drawable/background_search"
+                    android:fontFamily="@font/poppins_thin"
+                    android:hint="Search Now"
+                    android:paddingStart="15dp"
+                    android:singleLine="true"
+                    android:textColor="@color/miniTitle"
+                    android:textSize="15dp"
+                    android:gravity="center_vertical"
+                    app:layout_constraintVertical_bias="1.0"
+                    android:drawableEnd="@drawable/search"
+                    android:padding="10dp"
+                    android:drawablePadding="10dp"
+                    android:textDirection="anyRtl"/>
+
+
             </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -107,6 +109,7 @@
 
                 <TextView
                     android:id="@+id/textView4"
+                    android:fontFamily="@font/poppins_thin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
@@ -121,6 +124,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
+                    android:fontFamily="@font/poppins_thin"
                     android:text="New Arrivals"
                     android:textColor="@color/colorPrimary"
                     android:textSize="24sp"
@@ -132,6 +136,7 @@
                 <Button
                     android:id="@+id/button"
                     style="@style/loginButton"
+                    android:fontFamily="@font/poppins_thin"
                     android:layout_marginTop="24dp"
                     android:layout_marginBottom="8dp"
                     android:text="Shop Now"
@@ -144,6 +149,7 @@
 
             <TextView
                 android:id="@+id/textView6"
+                android:fontFamily="@font/poppins_thin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Category"
@@ -170,6 +176,7 @@
                     android:id="@+id/textView7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_thin"
                     android:layout_weight="1"
                     android:text="Best Deal"
                     android:textSize="24sp"
@@ -179,6 +186,7 @@
                     android:id="@+id/textView8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_light"
                     android:layout_weight="1"
                     android:text="See all"
                     android:gravity="right"

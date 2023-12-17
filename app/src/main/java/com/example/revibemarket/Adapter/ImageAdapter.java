@@ -46,6 +46,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
+    public void clearImg() {
+        this.mImageUris.clear();
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView,imageViewDelete;
 

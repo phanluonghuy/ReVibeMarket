@@ -1,10 +1,12 @@
 package com.example.revibemarket.Adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.revibemarket.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,10 +24,23 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     private final List<String> categories;
     private final Context context;
 
-    public CategoryAdapter(Context context, List<String> categories) {
-        this.context = context;
-        this.categories = categories;
+    private List<String> selectedCategories = new ArrayList<>();
+
+    private OnItemClickListener onItemClickListener;
+    public interface OnItemClickListener {
+        void onItemClick(String category, List<String> selectedCategories);
     }
+
+
+    public CategoryAdapter(Context context,List<String> categories) {
+        this.categories = categories;
+        this.context = context;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
+
 
     @NonNull
     @Override
@@ -55,6 +71,25 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         } else {
             Log.e("CategoryAdapter", "No image resource found for category: " + category);
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (selectedCategories.contains(category)) {
+                    // Item is already selected, remove it from the list
+                    selectedCategories.remove(category);
+                    holder.itemView.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+                } else {
+                    // Item is not selected, add it to the list
+                    selectedCategories.add(category);
+                    holder.itemView.setBackgroundResource(R.drawable.background_search);
+                }
+
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(category, selectedCategories);
+                }
+            }
+        });
     }
 
 
@@ -92,8 +127,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtTitle = itemView.findViewById(R.id.txtTitle);
-            imageView = itemView.findViewById(R.id.imageView2);
+            txtTitle = itemView.findViewById(R.id.tv_category_name);
+            imageView = itemView.findViewById(R.id.img_category);
+
         }
     }
 }

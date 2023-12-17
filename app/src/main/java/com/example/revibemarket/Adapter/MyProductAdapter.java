@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +17,17 @@ import com.example.revibemarket.ModelsSingleton.CartSession;
 import com.example.revibemarket.ModelsSingleton.ProductSingleton;
 import com.example.revibemarket.ModelsSingleton.UserSession;
 import com.example.revibemarket.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,7 +45,7 @@ public class MyProductAdapter extends RecyclerView.Adapter<MyProductAdapter.View
     @NonNull
     @Override
     public MyProductAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_item_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_item_layout, parent, false);
         return new MyProductAdapter.ViewHolder(view);
 
     }
@@ -41,6 +53,8 @@ public class MyProductAdapter extends RecyclerView.Adapter<MyProductAdapter.View
     @Override
     public void onBindViewHolder(@NonNull MyProductAdapter.ViewHolder holder, int position) {
             holder.productNameTextView.setText(productList.get(position).getProductName());
+            holder.textViewDiscount.setText("Discount:" + productList.get(position).getProductType().getDiscount()+"%");
+            holder.tvPrice.setText("$" + productList.get(position).getProductType().getPrice());
             Glide.with(holder.imageView.getContext())
                 .load(productList.get(position).getProductType().getImages().get(0))
                 .error(R.drawable.sofa_cut)
@@ -49,8 +63,7 @@ public class MyProductAdapter extends RecyclerView.Adapter<MyProductAdapter.View
 
     }
 
-    @Override
-    public int getItemCount() {
+    @Override public int getItemCount() {
         return productList.size();
     }
 
@@ -59,7 +72,7 @@ public class MyProductAdapter extends RecyclerView.Adapter<MyProductAdapter.View
         TextView productNameTextView;
         TextView tvPrice,textViewDiscount,tvPriceAfter;
         TextView tvProductQuantity;
-        Button btnRemove;
+        Button btnRemove,btnEdit;
         ImageView imageView;
 
 
@@ -68,6 +81,63 @@ public class MyProductAdapter extends RecyclerView.Adapter<MyProductAdapter.View
             productNameTextView = itemView.findViewById(R.id.tvProductName);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             imageView = itemView.findViewById(R.id.imgProduct);
+            textViewDiscount = itemView.findViewById(R.id.textViewDiscount);
+            btnRemove = itemView.findViewById(R.id.btnRemove);
+            btnEdit = itemView.findViewById(R.id.buttonEdit);
+
+            btnRemove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Toast.makeText(imageView.getContext(), productList.get(getAdapterPosition()).getSku(),Toast.LENGTH_SHORT).show();
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+                    Query query = ref.child("products").orderByChild("sku").equalTo(productList.get(getAdapterPosition()).getSku());
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot appleSnapshot: snapshot.getChildren()) {
+                                appleSnapshot.getRef().removeValue();
+                                Toast.makeText(imageView.getContext(), "Delete successful !",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(imageView.getContext(), "Delete failed !",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                   StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("Images_Product/" + productList.get(getAdapterPosition()).getSku());
+                   storageRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                       @Override
+                       public void onSuccess(ListResult listResult) {
+                           for (StorageReference item : listResult.getItems()) {
+                               item.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                   @Override
+                                   public void onSuccess(Void unused) {
+                                       Toast.makeText(imageView.getContext(), "Delete image successful !",Toast.LENGTH_SHORT).show();
+                                   }
+                               }).addOnFailureListener(new OnFailureListener() {
+                                   @Override
+                                   public void onFailure(@NonNull Exception e) {
+                                       Toast.makeText(imageView.getContext(), "Delete image 1 failed !",Toast.LENGTH_SHORT).show();
+                                   }
+                               });
+                           }
+                       }
+                   }).addOnFailureListener(new OnFailureListener() {
+                       @Override
+                       public void onFailure(@NonNull Exception e) {
+                           Toast.makeText(imageView.getContext(), "Delete image failed !",Toast.LENGTH_SHORT).show();
+                       }
+                   });
+                }
+            });
+            btnEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
     }
 }

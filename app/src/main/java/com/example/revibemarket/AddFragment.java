@@ -51,7 +51,7 @@ public class AddFragment extends Fragment {
             edtStock, edtPrice, edtDiscount, edtDescription;
     private Spinner spinnerCategory;
     private Button btnSaveAddProduct;
-    private DatabaseReference productsReference, productTypesReference;
+    private DatabaseReference productsReference;
     private DatePickerDialog.OnDateSetListener dateSetListener;
     private ImageView addProductImage;
     private List<Uri> uriList = new ArrayList<>();
@@ -80,10 +80,10 @@ public class AddFragment extends Fragment {
         edtProductTitle = view.findViewById(R.id.edt_productTitle);
         spinnerCategory = view.findViewById(R.id.spinnerCategory);
         edtCreatedDate = view.findViewById(R.id.edt_createdDate);
-        edtChannels = view.findViewById(R.id.edt_channels);
         edtStock = view.findViewById(R.id.edt_stock);
         edtPrice = view.findViewById(R.id.edt_price);
         edtDiscount = view.findViewById(R.id.edt_discount);
+        edtChannels = view.findViewById(R.id.edt_channels);
         edtDescription = view.findViewById(R.id.edt_description);
         btnSaveAddProduct = view.findViewById(R.id.btnSaveAddProduct);
         addProductImage = view.findViewById(R.id.add_product_image);
@@ -91,7 +91,6 @@ public class AddFragment extends Fragment {
 
         mRecyclerView = view.findViewById(R.id.reycylerViewImg);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-//
         mImageAdapter = new ImageAdapter(uriList);
         mRecyclerView.setAdapter(mImageAdapter);
 
@@ -298,5 +297,6 @@ public class AddFragment extends Fragment {
         edtDiscount.getText().clear();
         edtDescription.getText().clear();
         addProductImage.setImageResource(R.drawable.baseline_add_photo_alternate_24);
+        mImageAdapter.clearImg();
     }
 }

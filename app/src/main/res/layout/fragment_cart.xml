@@ -1,185 +1,232 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    style="@style/loginParent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context="com.example.revibemarket.LoginRegister.Login">
 
-    <ScrollView
-        style="@style/parent"
-        android:layout_above="@+id/BuyLayout"
-        android:layout_alignParentTop="true">
-
-        <RelativeLayout
-            style="@style/parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:weightSum="12">
-
-                <LinearLayout
-                    style="@style/parent"
-                    android:background="@drawable/login_shape_bk"
-                    android:orientation="vertical"
-                    android:layout_weight="3">
-
-                    <ImageView
-                        style="@style/parent"
-                        android:background="@drawable/ic_login_bk"
-                        android:contentDescription="login background" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp">
-
-                <androidx.cardview.widget.CardView
-                    style="@style/loginCard"
-                    app:cardCornerRadius="@dimen/loginCardRadius"
-                    android:elevation="5dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/loginViewsMargin"
-                    android:layout_marginBottom="@dimen/loginViewsMargin"
-                    android:background="@color/whiteCardColor">
-
-                    <ScrollView
-                        tools:context=".Settings.SettingFragment"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/contentBodyColor">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            tools:context=".CartFragment">
-
-                            <TextView
-                                style="@style/viewParent.headerText"
-                                android:text="Cart"
-                                android:layout_marginLeft="30dp"
-                                android:layout_marginTop="10dp"/>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:id="@+id/tvEmptyCart"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Empty cart"
-                                    android:textSize="18sp"
-                                    android:visibility="gone" />
-
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/reycylerCartItem"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="bottom"/>
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                    </ScrollView>
-                </androidx.cardview.widget.CardView>
-
-            </LinearLayout>
-        </RelativeLayout>
-
-    </ScrollView>
-
-    <RelativeLayout
-        android:id="@+id/BuyLayout"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#FFFFFF">
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:orientation="vertical">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_cart"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                tools:layout_editor_absoluteX="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:fontFamily="@font/poppins_light"
+                    android:text="My Cart"
+                    android:textColor="@color/contentTextColor"
+                    android:textSize="26sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_cart"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintBottom_toTopOf="@id/guideline3"
+            app:layout_constraintEnd_toEndOf="@id/guideline2"
+            app:layout_constraintStart_toStartOf="@id/guideline1"
+            app:layout_constraintTop_toBottomOf="@id/progress_plus_minus" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/linear"
+            app:layout_constraintTop_toBottomOf="@+id/rv_cart"
+            app:layout_constraintEnd_toEndOf="@id/guideline2"
+            app:layout_constraintStart_toStartOf="@id/guideline1">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="20dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="Payment Methods: "
-                    android:textSize="16sp" />
-
-                <Spinner
-                    android:id="@+id/spinnerPaymentMethod"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/fastdelivery"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Shipping fee: $3"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="18sp"/>
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:layout_weight="1"
-                android:text="Total Price:"
-                android:textSize="20sp" />
+                android:fontFamily="@font/sf_pro_display"
+                android:text="Payment method"
+                android:textColor="@color/contentTextColor"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tvTotalPrice"
+            <Spinner
+                android:id="@+id/spinnerPaymentMethod"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$99"
-                android:textSize="28sp" />
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/sf_pro_display"
+                android:textColor="@color/contentTextColor"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </LinearLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/total_box_background"
+            app:layout_constraintBottom_toTopOf="@+id/btn_Buy"
+            app:layout_constraintEnd_toEndOf="@id/guideline2"
+            app:layout_constraintStart_toStartOf="@id/guideline1">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/sf_pro_display"
+                android:text="Total"
+                android:textColor="@color/contentTextColor"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_totalprice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/sf_pro_display"
+                android:textColor="@color/contentTextColor"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
-            android:id="@+id/btnBuy"
-            style="@style/loginButton"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/loginViewsMargin"
-            android:layout_marginRight="10dp"
-            android:text="BUY" />
-    </RelativeLayout>
+            android:id="@+id/btn_Buy"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/button_icon"
+            android:fontFamily="@font/poppins_thin"
+            android:text="Order"
+            android:textAllCaps="false"
+            android:textColor="@color/contentBodyColor"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guideline2"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@id/guideline1" />
 
-</RelativeLayout>
+
+        <!--    Your Shopping Card-->
+        <!--    İs Empty-->
+
+
+<!--        <TextView-->
+<!--            android:id="@+id/tv_empty_cart"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:fontFamily="@font/poppins_light"-->
+<!--            android:gravity="center"-->
+<!--            android:text="@string/g_your_shopping_cart_is_empty"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="@dimen/_15ssp"-->
+<!--            android:visibility="gone"-->
+<!--            app:layout_constraintEnd_toEndOf="@id/img_empty_box_texture"-->
+<!--            app:layout_constraintStart_toStartOf="@id/img_empty_box_texture"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/img_empty_box_texture" />-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/img_empty_box_texture"-->
+<!--            android:layout_width="@dimen/_200sdp"-->
+<!--            android:layout_height="@dimen/_250sdp"-->
+<!--            android:src="@drawable/ic_emprt_box_texture"-->
+<!--            android:visibility="gone"-->
+<!--            app:layout_constraintBottom_toBottomOf="@id/img_empty_box"-->
+<!--            app:layout_constraintEnd_toEndOf="@id/img_empty_box"-->
+<!--            app:layout_constraintStart_toStartOf="@id/img_empty_box"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/toolbar_cart"-->
+<!--            app:layout_constraintTop_toTopOf="@id/img_empty_box" />-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/img_empty_box"-->
+<!--            android:layout_width="@dimen/_120sdp"-->
+<!--            android:layout_height="@dimen/_120sdp"-->
+<!--            android:layout_marginTop="130dp"-->
+<!--            android:background="@drawable/empty_box_background"-->
+<!--            android:src="@drawable/ic_empty_box"-->
+<!--            android:visibility="gone"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/toolbar_cart" />-->
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progress_plus_minus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar_cart" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.04" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.96" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.68" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.core.widget.NestedScrollView>

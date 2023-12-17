@@ -27,6 +27,7 @@
                     <ImageView
                         android:id="@+id/imageViewLogin"
                         style="@style/parent"
+                        android:fontFamily="@font/poppins_thin"
                         android:background="@drawable/ic_login_bk"
                         android:contentDescription="login background" />
 
@@ -69,6 +70,7 @@
                         <TextView
                             style="@style/headerTextPrimary"
                             android:text="@string/register"
+                            android:fontFamily="@font/poppins_thin"
                             android:layout_marginTop="@dimen/loginViewsMargin"/>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -77,6 +79,7 @@
                             <EditText
                                 android:id="@+id/editTextName"
                                 style="@style/modifiedEditText"
+                                android:fontFamily="@font/poppins_light"
                                 android:inputType="text"
                                 android:maxLines="1"
                                 android:hint="Name"/>
@@ -88,6 +91,7 @@
                             <EditText
                                 android:id="@+id/editTextPhone"
                                 style="@style/modifiedEditText"
+                                android:fontFamily="@font/poppins_light"
                                 android:inputType="text"
                                 android:maxLines="1"
                                 android:hint="Mobile Number"/>
@@ -99,6 +103,7 @@
                             <EditText
                                 android:id="@+id/editTextEmail"
                                 style="@style/modifiedEditText"
+                                android:fontFamily="@font/poppins_light"
                                 android:inputType="textEmailAddress"
                                 android:maxLines="1"
                                 android:hint="@string/login_email_hint"/>
@@ -110,6 +115,7 @@
                             <EditText
                                 android:id="@+id/editTextPassword"
                                 style="@style/modifiedEditText"
+                                android:fontFamily="@font/poppins_light"
                                 android:hint="@string/login_password_hint"
                                 android:maxLines="1"
                                 android:inputType="textPassword"/>
@@ -120,6 +126,7 @@
                             <EditText
                                 android:id="@+id/editTextConfirmPassword"
                                 style="@style/modifiedEditText"
+                                android:fontFamily="@font/poppins_light"
                                 android:hint="@string/login_confirm_password_hint"
                                 android:maxLines="1"
                                 android:inputType="textPassword"/>
@@ -131,6 +138,7 @@
                             <EditText
                                 android:id="@+id/editTextAddress"
                                 style="@style/modifiedEditText"
+                                android:fontFamily="@font/poppins_light"
                                 android:hint="@string/signup_address_hint"
                                 android:maxLines="1"
                                 android:inputType="text"/>
@@ -139,6 +147,7 @@
                         <Button
                             android:id="@+id/buttonRegister"
                             style="@style/loginButton"
+                            android:fontFamily="@font/poppins_thin"
                             android:layout_marginTop="15dp"
                             android:layout_gravity="center"
                             android:text="Register" />
@@ -147,6 +156,7 @@
                             android:id="@+id/buttonBackToLogin"
                             style="@style/parent"
                             android:textAlignment="center"
+                            android:fontFamily="@font/poppins_light"
                             android:textStyle="bold"
                             android:textColor="@color/primaryTextColor"
                             android:text="@string/signup_login_hint"

@@ -43,7 +43,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
             productNameTextView = itemView.findViewById(R.id.BestDealTiTle);
-            productPriceTextView = itemView.findViewById(R.id.BestDealPrice);
+            productPriceTextView = itemView.findViewById(R.id.tv_new_price);
         }
 
         public void bind(Product product) {

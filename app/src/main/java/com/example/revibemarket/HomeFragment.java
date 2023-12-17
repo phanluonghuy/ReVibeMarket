@@ -54,7 +54,7 @@ public class HomeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerCategory = rootView.findViewById(R.id.recyclerCategory);
         recyclerProduct = rootView.findViewById(R.id.recyclerBestDeal);
-        ImageButton search = rootView.findViewById(R.id.btnSearch);
+//        ImageButton search = rootView.findViewById(R.id.btnSearch);
         edtSearch = rootView.findViewById(R.id.edtSearch);
         setupCategoryRecyclerView();
 //        fetchProductNameAndSKU();

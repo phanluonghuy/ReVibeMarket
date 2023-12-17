@@ -3,11 +3,13 @@ package com.example.revibemarket;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +39,7 @@ import com.google.gson.Gson;
 import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
-    Button btnBack;
+    ImageView btnBack;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String currentUserId;
 
@@ -46,7 +48,7 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        btnBack = findViewById(R.id.btnBack);
+        btnBack = findViewById(R.id.img_close);
 
         fetchCurrentUserInformation();
 
@@ -79,15 +81,16 @@ public class DetailActivity extends AppCompatActivity {
             Log.d("Detail product", product.getProductName());
 
             TextView tvProductName = findViewById(R.id.tvProductName);
-            TextView tvProductDescription = findViewById(R.id.tvProductDescription);
-            TextView tvProductPrice = findViewById(R.id.tvProductPrice);
-            TextView tvProductStock = findViewById(R.id.tvProductStock);
-            TextView tvSellerAddress = findViewById(R.id.tvSellerAddress);
-            TextView tvDiscount = findViewById(R.id.tvProductDiscount);
+            TextView tvProductDescription = findViewById(R.id.tv_product_description);
+            TextView tvProductPrice = findViewById(R.id.tv_product_offer_price);
+            TextView tvProductStock = findViewById(R.id.tv_stock);
+            TextView tvSellerAddress = findViewById(R.id.tv_address);
+            TextView tvDiscount = findViewById(R.id.tv_product_discount);
+            TextView tvProductPriceOld = findViewById(R.id.tv_product_price);
             EditText edtQuantity = findViewById(R.id.edtQuantity);
-            Button btnMinus = findViewById(R.id.btnMinus);
-            Button btnPlus = findViewById(R.id.btnPlus);
-            Button btnAdd = findViewById(R.id.btnAddtoCart);
+            ImageView btnMinus = findViewById(R.id.tv_btnMinus);
+            ImageView btnPlus = findViewById(R.id.tv_btnPlus);
+            Button btnAdd = findViewById(R.id.btn_add_to_cart);
 
             RecyclerView recyclerView = findViewById(R.id.RecyclerDetailImg);
             if (recyclerView != null) {
@@ -104,15 +107,18 @@ public class DetailActivity extends AppCompatActivity {
             setTextViewValue(tvProductName, product.getProductName(), "Product Name");
             setTextViewValue(tvProductDescription, product.getProductType().getDescription(), "This is a detailed description of the product.");
 
-            String priceText = String.format("Price: $%.2f", product.getProductType().getPrice());
+            String priceText = String.format("$%.2f", product.getProductType().getPrice()*((100-product.getProductType().getDiscount())/100));
             setTextViewValue(tvProductPrice, priceText, "");
+            String priceOld = String.format("$%.2f", product.getProductType().getPrice());
+            setTextViewValue(tvProductPriceOld, priceOld, "");
+            tvProductPriceOld.setPaintFlags(tvProductPriceOld.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-            setTextViewValue(tvProductStock, "Stock: " + product.getProductType().getStock(), "Stock:");
+            setTextViewValue(tvProductStock, product.getProductType().getStock() + "", "Stock:");
 
             String userID = product.getUserID();
             fetchUserAddress(userID, tvSellerAddress);
 
-            setTextViewValue(tvDiscount, String.format("Discount: %.1f%%", product.getProductType().getDiscount()), "No Discount");
+            setTextViewValue(tvDiscount, String.format("-%.1f%%", product.getProductType().getDiscount()), "No Discount");
 
             btnMinus.setOnClickListener(v -> decrementQuantity(edtQuantity));
 
@@ -179,7 +185,7 @@ public class DetailActivity extends AppCompatActivity {
         if (textView != null) {
             textView.setText(!TextUtils.isEmpty(value) ? value : defaultValue);
         } else {
-            showToast(textView.getId() + " is null");
+//            showToast(textView.getId() + " is null");
         }
     }
 
@@ -192,8 +198,8 @@ public class DetailActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     String address = dataSnapshot.child("address").getValue(String.class);
 
-                    String fullAddress = "Address: " + (!TextUtils.isEmpty(address) ? address : "");
-                    setTextViewValue(tvSellerAddress, fullAddress, "Address: ");
+                    String fullAddress = "" + (!TextUtils.isEmpty(address) ? address : "");
+                    setTextViewValue(tvSellerAddress, fullAddress, "No");
                 } else {
                     showToast("User not found");
                 }
