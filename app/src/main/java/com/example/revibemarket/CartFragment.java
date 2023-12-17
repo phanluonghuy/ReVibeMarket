@@ -57,8 +57,8 @@ public class CartFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
 
-        recyclerView = view.findViewById(R.id.reycylerCartItem);
-        tvTotalPrice = view.findViewById(R.id.tvTotalPrice);
+        recyclerView = view.findViewById(R.id.rv_cart);
+        tvTotalPrice = view.findViewById(R.id.tv_totalprice);
 
         tvTotalPrice.setText(cal_totalPrice()+"$");
 
@@ -68,6 +68,7 @@ public class CartFragment extends Fragment {
 
         cartItemAdapter = new CartItemAdapter();
         recyclerView.setAdapter(cartItemAdapter);
+
 
         recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
             @Override
@@ -104,7 +105,7 @@ public class CartFragment extends Fragment {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
 //        fetchCartItems();
-        Button btnBuy = view.findViewById(R.id.btnBuy);
+        Button btnBuy = view.findViewById(R.id.btn_Buy);
         btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

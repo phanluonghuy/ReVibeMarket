@@ -92,8 +92,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtTitle = itemView.findViewById(R.id.txtTitle);
-            imageView = itemView.findViewById(R.id.imageView2);
+            txtTitle = itemView.findViewById(R.id.tv_category_name);
+            imageView = itemView.findViewById(R.id.img_category);
         }
     }
 }

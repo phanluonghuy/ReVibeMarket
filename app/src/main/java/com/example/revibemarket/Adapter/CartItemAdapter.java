@@ -3,6 +3,7 @@ package com.example.revibemarket.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,11 +42,14 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
     @Override
     public void onBindViewHolder(@NonNull CartItemViewHolder holder, int position) {
         CartItem cartItem = cartSession.getCartItemList().get(position);
-        holder.tvPrice.setText(cartItem.getPrice() + " $");
+        holder.tvPrice.setText("$"+cartItem.getPrice());
+        holder.tvPrice.setPaintFlags(holder.tvPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+
         holder.productNameTextView.setText(cartItem.getProductName());
-        holder.tvProductQuantity.setText("Quantity : " + cartItem.getQuantity());
-        holder.textViewDiscount.setText("Discount : " + cartItem.getDiscount() + "%");
-        holder.tvPriceAfter.setText(cartItem.getPrice()*((100-cartItem.getDiscount())/100) + "$");
+        holder.tvProductQuantity.setText(cartItem.getQuantity()+"");
+        holder.textViewDiscount.setText("-" + cartItem.getDiscount() + "%");
+        holder.tvPriceAfter.setText("$" + cartItem.getPrice()*((100-cartItem.getDiscount())/100));
         Glide.with(holder.imageView.getContext())
                 .load(cartSession.getImagesUrl().get(position))
                 .error(R.drawable.sofa_cut)
@@ -72,30 +76,30 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
 
         public CartItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            productNameTextView = itemView.findViewById(R.id.tvProductName);
-            tvPrice = itemView.findViewById(R.id.tvPrice);
-            tvPriceAfter = itemView.findViewById(R.id.tvPriceAfter);
-            tvProductQuantity = itemView.findViewById(R.id.tvQuantity);
-            btnRemove = itemView.findViewById(R.id.btnRemove);
-            textViewDiscount = itemView.findViewById(R.id.textViewDiscount);
-            imageView = itemView.findViewById(R.id.imgProduct);
+            productNameTextView = itemView.findViewById(R.id.tv_cart_product_name);
+            tvPrice = itemView.findViewById(R.id.tv_product_cart_price);
+            tvPriceAfter = itemView.findViewById(R.id.tv_product_cart_price_total);
+            tvProductQuantity = itemView.findViewById(R.id.tv_quantity);
+            //btnRemove = itemView.findViewById(R.id.btnRemove);
+            textViewDiscount = itemView.findViewById(R.id.tv_product_discount);
+            imageView = itemView.findViewById(R.id.img_cart_product);
 
-            btnRemove.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    cartSession.getCartItemList().remove(getAdapterPosition());
-                    cartSession.getImagesUrl().remove(getAdapterPosition());
-                    notifyItemRemoved(getAdapterPosition());
-                    SharedPreferences sharedPreferences = itemView.getContext().getSharedPreferences("cart_session", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    Gson gson = new Gson();
-                    String cartItemsJson = gson.toJson(CartSession.getInstance().getCartItemList());
-                    String imagesUrlJson = gson.toJson(CartSession.getInstance().getImagesUrl());
-                    editor.putString("cart_items", cartItemsJson);
-                    editor.putString("images_url", imagesUrlJson);
-                    editor.apply();
-                }
-            });
+//            btnRemove.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    cartSession.getCartItemList().remove(getAdapterPosition());
+//                    cartSession.getImagesUrl().remove(getAdapterPosition());
+//                    notifyItemRemoved(getAdapterPosition());
+//                    SharedPreferences sharedPreferences = itemView.getContext().getSharedPreferences("cart_session", Context.MODE_PRIVATE);
+//                    SharedPreferences.Editor editor = sharedPreferences.edit();
+//                    Gson gson = new Gson();
+//                    String cartItemsJson = gson.toJson(CartSession.getInstance().getCartItemList());
+//                    String imagesUrlJson = gson.toJson(CartSession.getInstance().getImagesUrl());
+//                    editor.putString("cart_items", cartItemsJson);
+//                    editor.putString("images_url", imagesUrlJson);
+//                    editor.apply();
+//                }
+//            });
         }
     }
 }

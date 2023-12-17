@@ -18,11 +18,11 @@ import com.example.revibemarket.R;
 
 import java.util.List;
 
-public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.ViewHolder> {
+public class ExploreProductAdapter extends RecyclerView.Adapter<ExploreProductAdapter.ViewHolder> {
     private List<Product> productList;
     private OnItemClickListener onItemClickListener;
 
-    public HomeProductAdapter(Context context, List<Product> productList) {
+    public ExploreProductAdapter(Context context, List<Product> productList) {
         this.productList = productList;
     }
 
@@ -37,7 +37,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_product, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_bestdeal, parent, false);
         return new ViewHolder(view);
     }
 
@@ -46,9 +46,11 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
         Product item = productList.get(position);
 
         holder.txtName.setText(item.getProductName());
-        holder.txtPrice.setText(String.valueOf(item.getProductType().getPrice() + " $"));
+        holder.txtPrice.setText( "$" + item.getProductType().getPrice());
         holder.txtPrice.setPaintFlags(holder.txtPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         holder.txtNewPrice.setText("$" + item.getProductType().getPrice()*(100-item.getProductType().getDiscount())/100);
+        holder.txtDiscount.setText("-" + item.getProductType().getDiscount() + "%");
+
         Log.d("Product img",productList.get(position).getProductType().getImages().size()+"");
         if (!productList.get(position).getProductType().getImages().isEmpty()) {
             Glide.with(holder.imageView.getContext())
@@ -76,15 +78,17 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView txtName;
         public TextView txtPrice;
-        public TextView txtNewPrice;
+        public TextView txtDiscount;
         public ImageView imageView;
+        public TextView txtNewPrice;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtName = itemView.findViewById(R.id.tv_name);
-            txtPrice = itemView.findViewById(R.id.tv_price);
             txtNewPrice = itemView.findViewById(R.id.tv_new_price);
-            imageView = itemView.findViewById(R.id.img_product);
+            txtName = itemView.findViewById(R.id.BestDealTiTle);
+            txtPrice = itemView.findViewById(R.id.tv_new_price);
+            txtDiscount = itemView.findViewById(R.id.tv_discount);
+            imageView = itemView.findViewById(R.id.BestDealImg);
         }
     }
 }

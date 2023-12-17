@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.revibemarket.Adapter.CategoryAdapter;
-import com.example.revibemarket.Adapter.HomeProductAdapter;
+import com.example.revibemarket.Adapter.ExploreProductAdapter;
 import com.example.revibemarket.Models.Product;
 import com.example.revibemarket.ModelsSingleton.ProductSingleton;
 
@@ -24,7 +24,7 @@ import java.util.List;
 public class ExploreFragment extends Fragment {
     private RecyclerView recyclerCategory;
     private RecyclerView recyclerProduct;
-    private HomeProductAdapter homeProductAdapter;
+    private ExploreProductAdapter exploreProductAdapter;
     private List<Product> productList;
 
     @Override
@@ -49,18 +49,18 @@ public class ExploreFragment extends Fragment {
     }
 
     private void setupProductRecyclerView() {
-        homeProductAdapter = new HomeProductAdapter(requireContext(), productList);
+        exploreProductAdapter = new ExploreProductAdapter(requireContext(), productList);
 
-        homeProductAdapter.setOnItemClickListener(new HomeProductAdapter.OnItemClickListener() {
+        exploreProductAdapter.setOnItemClickListener(new ExploreProductAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Product product) {
                 openDetailPage(product);
             }
         });
 
-        LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
         recyclerProduct.setLayoutManager(horizontalLayoutManager);
-        recyclerProduct.setAdapter(homeProductAdapter);
+        recyclerProduct.setAdapter(exploreProductAdapter);
     }
 
     private void openDetailPage(Product product) {
