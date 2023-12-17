@@ -4,8 +4,7 @@ import java.util.List;
 
 public class Order {
     private String customerId;
-    private String sellerID;
-    private String paymentId;
+    private String paymentMethod;
     private String paymentStatus;
     private String date;
     private String status;
@@ -17,10 +16,9 @@ public class Order {
         // Default constructor required for Firebase
     }
 
-    public Order(String customerId, String sellerID, String paymentId, String paymentStatus, String date, String status, double totalCost, List<OrderItem> items, ShippingInfo shipping) {
+    public Order(String customerId, String paymentMethod, String paymentStatus, String date, String status, double totalCost, List<OrderItem> items, ShippingInfo shipping) {
         this.customerId = customerId;
-        this.sellerID = sellerID;
-        this.paymentId = paymentId;
+        this.paymentMethod = paymentMethod;
         this.paymentStatus = paymentStatus;
         this.date = date;
         this.status = status;
@@ -37,20 +35,12 @@ public class Order {
         this.customerId = customerId;
     }
 
-    public String getSellerID() {
-        return sellerID;
+    public String getPaymentMethod() {
+        return paymentMethod;
     }
 
-    public void setSellerID(String sellerID) {
-        this.sellerID = sellerID;
-    }
-
-    public String getPaymentId() {
-        return paymentId;
-    }
-
-    public void setPaymentId(String paymentId) {
-        this.paymentId = paymentId;
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     public String getPaymentStatus() {

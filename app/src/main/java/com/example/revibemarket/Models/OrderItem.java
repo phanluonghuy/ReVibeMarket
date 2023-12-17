@@ -1,6 +1,8 @@
 package com.example.revibemarket.Models;
 
 public class OrderItem {
+
+    private String sellerID;
     private String sku;
     private int quantity;
     private String productTitle;
@@ -11,13 +13,23 @@ public class OrderItem {
     public OrderItem() {
     }
 
-    public OrderItem(String sku, int quantity, String productTitle, double price, double discount, double total) {
+    public OrderItem(String sellerID, String sku, int quantity, String productTitle, double price, double discount, double total) {
+        this.sellerID = sellerID;
         this.sku = sku;
         this.quantity = quantity;
         this.productTitle = productTitle;
         this.price = price;
         this.discount = discount;
         this.total = total;
+    }
+
+
+    public String getSellerID() {
+        return sellerID;
+    }
+
+    public void setSellerID(String sellerID) {
+        this.sellerID = sellerID;
     }
 
     public String getSku() {

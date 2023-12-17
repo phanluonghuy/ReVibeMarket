@@ -96,6 +96,13 @@ public class HomeFragment extends Fragment {
         productList = ProductSingleton.getInstance().getProductList();
         homeProductAdapter = new HomeProductAdapter(requireContext(), productList);
 
+        homeProductAdapter.setOnItemClickListener(new HomeProductAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Product product) {
+                openDetailPage(product);
+            }
+        });
+
         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
 
         recyclerProduct.setLayoutManager(horizontalLayoutManager);
@@ -167,6 +174,17 @@ public class HomeFragment extends Fragment {
                     }
                 });
         ProductSingleton.getInstance().setProductList(productList);
+    }
+
+    private void openDetailPage(Product product) {
+        try {
+            Intent intent = new Intent(requireContext(), DetailActivity.class);
+            intent.putExtra("productSku", product.getSku());
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("ExploreFragment", "Error opening detail page", e);
+        }
     }
 
 }

@@ -44,6 +44,8 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
         holder.tvPrice.setText(cartItem.getPrice() + " $");
         holder.productNameTextView.setText(cartItem.getProductName());
         holder.tvProductQuantity.setText("Quantity : " + cartItem.getQuantity());
+        holder.textViewDiscount.setText("Discount : " + cartItem.getDiscount() + "%");
+        holder.tvPriceAfter.setText(cartItem.getPrice()*((100-cartItem.getDiscount())/100) + "$");
         Glide.with(holder.imageView.getContext())
                 .load(cartSession.getImagesUrl().get(position))
                 .error(R.drawable.sofa_cut)
@@ -56,9 +58,14 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
         return cartSession.getCartItemList().size();
     }
 
+        public void clearCart() {
+        cartSession.clearAllCartItem();
+        notifyDataSetChanged();
+    }
+
     public class CartItemViewHolder extends RecyclerView.ViewHolder {
         TextView productNameTextView;
-        TextView tvPrice;
+        TextView tvPrice,textViewDiscount,tvPriceAfter;
         TextView tvProductQuantity;
         Button btnRemove;
         ImageView imageView;
@@ -67,16 +74,18 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
             super(itemView);
             productNameTextView = itemView.findViewById(R.id.tvProductName);
             tvPrice = itemView.findViewById(R.id.tvPrice);
+            tvPriceAfter = itemView.findViewById(R.id.tvPriceAfter);
             tvProductQuantity = itemView.findViewById(R.id.tvQuantity);
             btnRemove = itemView.findViewById(R.id.btnRemove);
+            textViewDiscount = itemView.findViewById(R.id.textViewDiscount);
             imageView = itemView.findViewById(R.id.imgProduct);
 
             btnRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     cartSession.getCartItemList().remove(getAdapterPosition());
+                    cartSession.getImagesUrl().remove(getAdapterPosition());
                     notifyItemRemoved(getAdapterPosition());
-
                     SharedPreferences sharedPreferences = itemView.getContext().getSharedPreferences("cart_session", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     Gson gson = new Gson();

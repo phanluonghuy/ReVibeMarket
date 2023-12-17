@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.revibemarket.LoginRegister.Login;
 import com.example.revibemarket.ModelsSingleton.UserSession;
+import com.example.revibemarket.MyProductFragment;
 import com.example.revibemarket.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,9 +33,10 @@ public class SettingFragment extends Fragment {
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     ImageView imageView;
     TextView textViewName;
-    TextView editProfile,editPassword;
+    TextView editProfile,editPassword,editProduct;
     ProfileFragment profileFragment = new ProfileFragment();
     ChangePasswordFragment changePasswordFragment = new ChangePasswordFragment();
+    MyProductFragment myProductFragment = new MyProductFragment();
     TextView btnLogout;
 
     @Override
@@ -45,6 +47,7 @@ public class SettingFragment extends Fragment {
         textViewName = view.findViewById(R.id.usernameTextView);
         editProfile = view.findViewById(R.id.profile);
         editPassword = view.findViewById(R.id.editPassword);
+        editProduct = view.findViewById(R.id.product);
         btnLogout = view.findViewById(R.id.btnLogout);
 
 
@@ -62,6 +65,18 @@ public class SettingFragment extends Fragment {
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                 }
+            }
+        });
+
+        editProduct.setOnClickListener(e ->{
+            FragmentManager fragmentManager = getFragmentManager();
+
+            if (fragmentManager != null) {
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                fragmentTransaction.replace(R.id.container, myProductFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 

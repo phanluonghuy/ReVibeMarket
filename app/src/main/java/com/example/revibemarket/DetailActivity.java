@@ -15,9 +15,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.revibemarket.Adapter.DetailImageAdapter;
+import com.example.revibemarket.Adapter.SnapHelperOneByOne;
 import com.example.revibemarket.Models.CartItem;
 import com.example.revibemarket.Models.Product;
 import com.example.revibemarket.ModelsSingleton.CartSession;
@@ -91,6 +93,8 @@ public class DetailActivity extends AppCompatActivity {
             if (recyclerView != null) {
                 DetailImageAdapter detailImageAdapter = new DetailImageAdapter(getApplicationContext(), imageUrls);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
+                linearSnapHelper.attachToRecyclerView(recyclerView);
                 recyclerView.setAdapter(detailImageAdapter);
                 detailImageAdapter.notifyDataSetChanged();
             } else {
@@ -123,10 +127,17 @@ public class DetailActivity extends AppCompatActivity {
                 double discount = product.getProductType().getDiscount();
                 String productName = tvProductName.getText().toString();
                 CartItem cartItem = new CartItem(productSku, productName, price, discount, quantity, currentUserId, product.getUserID());
-                CartSession cartSession = CartSession.getInstance();
-                cartSession.addCartItem(cartItem,product.getProductType().getImages().get(0));
 
+                CartSession.getInstance().getCartItemList().stream()
+                        .filter(item -> item.getItemId().equals(cartItem.getItemId()))
+                        .findFirst()
+                        .ifPresent(cartItem1 -> cartItem1.setQuantity(cartItem1.getQuantity() + cartItem.getQuantity()));
 
+                if (CartSession.getInstance().getCartItemList().stream()
+                        .noneMatch(item -> item.getItemId().equals(cartItem.getItemId()))) {
+                    CartSession cartSession = CartSession.getInstance();
+                    cartSession.addCartItem(cartItem, product.getProductType().getImages().get(0));
+                }
                 SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("cart_session", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 Gson gson = new Gson();
@@ -136,8 +147,7 @@ public class DetailActivity extends AppCompatActivity {
                 editor.putString("images_url", imagesUrlJson);
                 editor.apply();
 
-
-                showToast("Product added to cart");
+                showToast("Product added to cart successful");
             });
         } else {
             showToast("Product is null");

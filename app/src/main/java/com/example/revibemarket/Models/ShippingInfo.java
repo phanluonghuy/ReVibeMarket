@@ -1,19 +1,29 @@
 package com.example.revibemarket.Models;
 
+import java.util.UUID;
+
 public class ShippingInfo {
+    private String shippingID;
     private String address;
-    private String origin;
     private String carrier;
     private String tracking;
 
     public ShippingInfo() {
     }
 
-    public ShippingInfo(String address, String origin, String carrier, String tracking) {
+    public ShippingInfo(String shippingID, String address, String carrier, String tracking) {
+        this.shippingID = shippingID;
         this.address = address;
-        this.origin = origin;
         this.carrier = carrier;
         this.tracking = tracking;
+    }
+
+    public String getShippingID() {
+        return shippingID;
+    }
+
+    public void setShippingID(String shippingID) {
+        this.shippingID = shippingID;
     }
 
     public String getAddress() {
@@ -24,13 +34,6 @@ public class ShippingInfo {
         this.address = address;
     }
 
-    public String getOrigin() {
-        return origin;
-    }
-
-    public void setOrigin(String origin) {
-        this.origin = origin;
-    }
 
     public String getCarrier() {
         return carrier;

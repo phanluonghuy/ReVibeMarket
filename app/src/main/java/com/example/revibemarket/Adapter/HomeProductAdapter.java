@@ -82,8 +82,6 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
     public int getItemCount() {
         return productList.size();
     }
-
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView titleTextView;
         public TextView priceTextView;

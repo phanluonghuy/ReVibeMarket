@@ -1,9 +1,9 @@
 package com.example.revibemarket;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +25,7 @@ import com.example.revibemarket.Models.OrderItem;
 import com.example.revibemarket.Models.ShippingInfo;
 import com.example.revibemarket.Models.User;
 import com.example.revibemarket.ModelsSingleton.CartSession;
+import com.example.revibemarket.ModelsSingleton.UserSession;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class CartFragment extends Fragment {
 
@@ -49,6 +50,7 @@ public class CartFragment extends Fragment {
     private FirebaseUser currentUser;
     private String SellerAddress;
     private String SellerEmail;
+    private Spinner spinnerPaymentMethod;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,15 +59,29 @@ public class CartFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.reycylerCartItem);
         tvTotalPrice = view.findViewById(R.id.tvTotalPrice);
-        Spinner spinnerPaymentMethod = view.findViewById(R.id.spinnerPaymentMethod);
+
+        tvTotalPrice.setText(cal_totalPrice()+"$");
+
+        spinnerPaymentMethod = view.findViewById(R.id.spinnerPaymentMethod);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        //cartItemList = new ArrayList<>();
         cartItemAdapter = new CartItemAdapter();
         recyclerView.setAdapter(cartItemAdapter);
 
-        String[] paymentMethods = {"Momo", "ZaloPay", "Credit Card"};
+        recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+            @Override
+            public void onChildViewAttachedToWindow(@NonNull View view) {
+            }
+
+            @Override
+            public void onChildViewDetachedFromWindow(@NonNull View view) {
+                cal_totalPrice();
+                tvTotalPrice.setText(cal_totalPrice()+"$");
+            }
+        });
+
+        String[] paymentMethods = {"Momo", "ZaloPay", "Credit Card", "COD"};
 
         ArrayAdapter<String> paymentMethodAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, paymentMethods);
         paymentMethodAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -105,31 +121,29 @@ public class CartFragment extends Fragment {
 
     private void saveOrder() {
         List<OrderItem> orderItems = new ArrayList<>();
-        double totalCost = 0;
 
-        for (CartItem cartItem : cartItemList) {
+        List<CartItem> cartItems = CartSession.getInstance().getCartItemList();
+        for (CartItem cartItem : cartItems) {
             OrderItem orderItem = new OrderItem();
+            orderItem.setSellerID(cartItem.getSellerID());
             orderItem.setSku(cartItem.getItemId());
             orderItem.setQuantity(cartItem.getQuantity());
             orderItem.setProductTitle(cartItem.getProductName());
             orderItem.setPrice(cartItem.getPrice());
             orderItem.setDiscount(cartItem.getDiscount());
-            orderItem.setTotal((cartItem.getQuantity() * cartItem.getPrice()) * (cartItem.getDiscount() / 100));
+            orderItem.setTotal(cartItem.getPrice()*((100-cartItem.getDiscount())/100)*cartItem.getQuantity());
             orderItems.add(orderItem);
-
-            totalCost += orderItem.getTotal();
         }
 
-        ShippingInfo shippingInfo = new ShippingInfo("Address", "Origin", "Carrier", "Tracking");
+        ShippingInfo shippingInfo = new ShippingInfo(generateUniqueKey(),UserSession.getInstance().getAddress(), "Carrier", "ReVibeShipping");
 
         Order order = new Order(
                 currentUser.getUid(),
-                "SellerID",
-                generateUniqueKey(),
+                spinnerPaymentMethod.getSelectedItem().toString(),
                 "Pending",
                 getCurrentDate(),
                 "Processing",
-                totalCost,
+                cal_totalPrice(),
                 orderItems,
                 shippingInfo
         );
@@ -138,7 +152,7 @@ public class CartFragment extends Fragment {
 
         ordersRef.push().setValue(order)
                 .addOnSuccessListener(aVoid -> {
-                    clearCart();
+                    cartItemAdapter.clearCart();
                     showToast("Order placed successfully");
                 })
                 .addOnFailureListener(e -> {
@@ -248,5 +262,15 @@ public class CartFragment extends Fragment {
     private String generateUniqueKey() {
         String uuid = UUID.randomUUID().toString();
         return uuid.replaceAll("-", "").substring(0, 28);
+    }
+    private double cal_totalPrice()
+    {
+        AtomicReference<Double> totalPrice = new AtomicReference<>((double) 0);
+        List<CartItem> cartItems = CartSession.getInstance().getCartItemList();
+        CartSession.getInstance().getCartItemList().stream()
+                .forEach(cartItem -> {
+                    totalPrice.updateAndGet(v -> new Double((double) (v + cartItem.getPrice() * (100 - cartItem.getDiscount())/100) * cartItem.getQuantity()));
+                });
+        return totalPrice.get();
     }
 }
