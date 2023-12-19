@@ -1,87 +1,129 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    app:cardElevation="0dp"
+    android:id="@+id/card_view">
 
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="8dp"
-        android:layout_margin="10dp"
-        android:backgroundTint="#EBEBEB">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
+        <!--        <ProgressBar-->
+        <!--            android:id="@+id/progressbar_plus_minus"-->
+        <!--            android:layout_width="26dp"-->
+        <!--            android:layout_height="26dp"-->
+        <!--            android:indeterminateTint="@color/miniTitle"-->
+        <!--            android:visibility="gone"-->
+        <!--            app:layout_constraintBottom_toTopOf="@id/img_plus"-->
+        <!--            app:layout_constraintEnd_toEndOf="@id/img_plus"-->
+        <!--            app:layout_constraintStart_toStartOf="@id/img_plus"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/img_minus" />-->
+
+        <ImageView
+            android:id="@+id/img_cart_product"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="5dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/avatar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/line"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_cart_product_name"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/poppins_light"
+            android:text="Premium chair"
+            android:textColor="@color/contentTextColor"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/img_cart_product"
+            app:layout_constraintTop_toTopOf="@id/img_cart_product" />
+
+        <TextView
+            android:id="@+id/tv_product_cart_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:fontFamily="@font/poppins_light"
+            android:maxHeight="130dp"
+            android:text="$1600"
+            android:textColor="@color/miniTitle"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/tv_cart_product_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_cart_product_name" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp">
-                <ImageView
-                    android:id="@+id/imgProduct"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/sofa"
-                    android:contentDescription="Product Image"/>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_marginStart="8dp">
-                <TextView
-                    android:id="@+id/tvProductName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Product Name"
-                    android:textSize="20sp"
-                    android:textStyle="bold"/>
 
-                <TextView
-                    android:id="@+id/tvQuantity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Quantity: 1"
-                    android:textSize="16sp"/>
+        <ImageView
+            android:id="@+id/img_minus"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="3.5dp"
+            android:src="@drawable/ic_minus"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-                <TextView
-                    android:id="@+id/textViewDiscount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Discount : " />
+        <ImageView
+            android:id="@+id/img_plus"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="1dp"
+            android:src="@drawable/ic_plus"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/tvPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Price: $10.00"
-                    android:textSize="18sp"/>
+        <TextView
+            android:id="@+id/tv_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            app:layout_constraintBottom_toTopOf="@id/img_minus"
+            app:layout_constraintEnd_toEndOf="@id/img_minus"
+            app:layout_constraintStart_toStartOf="@id/img_minus"
+            app:layout_constraintTop_toBottomOf="@id/img_plus" />
 
-                <TextView
-                    android:id="@+id/tvPriceAfter"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Price: $9.90"
-                    android:textSize="18sp" />
-            </LinearLayout>
+        <View
 
-            </LinearLayout>
+            android:id="@+id/line"
+            android:layout_width="0dp"
+            android:layout_height="1.3dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-            <Button
-                android:id="@+id/btnRemove"
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:text="Remove"
-                android:textStyle="bold"
-                android:textSize="12sp"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="#FF0000"
-                android:layout_alignParentEnd="true" />
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_product_cart_price_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_light"
+            android:textColor="@color/contentTextColor"
+            android:textSize="20sp"
+            android:text="$19000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_product_cart_price" />
 
-    </androidx.cardview.widget.CardView>
-</RelativeLayout>
+        <TextView
+            android:id="@+id/tv_product_discount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_light"
+            android:layout_marginStart="4dp"
+            android:text="-20%"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_product_cart_price_total"
+            app:layout_constraintStart_toEndOf="@+id/tv_product_cart_price_total"
+            app:layout_constraintTop_toTopOf="@+id/tv_product_cart_price_total" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

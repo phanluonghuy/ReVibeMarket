@@ -80,7 +80,7 @@ public class DetailActivity extends AppCompatActivity {
             List<String> imageUrls = product.getProductType().getImages();
             Log.d("Detail product", product.getProductName());
 
-            TextView tvProductName = findViewById(R.id.tvProductName);
+            TextView tvProductName = findViewById(R.id.tv_product_name);
             TextView tvProductDescription = findViewById(R.id.tv_product_description);
             TextView tvProductPrice = findViewById(R.id.tv_product_offer_price);
             TextView tvProductStock = findViewById(R.id.tv_stock);

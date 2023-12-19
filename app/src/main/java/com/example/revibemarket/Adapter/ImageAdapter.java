@@ -12,11 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.revibemarket.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
 
     protected List<Uri> mImageUris;
+    private List<Uri> deleteUris = new ArrayList<>();
 
     public ImageAdapter(List<Uri> imageUris) {
         mImageUris = imageUris;
@@ -41,12 +43,17 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         return mImageUris.size();
     }
 
+    public List<Uri> getDeleteUris() {
+        return deleteUris;
+    }
+
     public void addImg(List<Uri> uriList) {
         this.mImageUris.addAll(uriList);
         notifyDataSetChanged();
     }
 
     public void clearImg() {
+        this.deleteUris.addAll(mImageUris);
         this.mImageUris.clear();
         notifyDataSetChanged();
     }
@@ -62,6 +69,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
             imageViewDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    deleteUris.add(mImageUris.get(getAdapterPosition()));
                     mImageUris.remove(getAdapterPosition());
                     notifyItemRemoved(getAdapterPosition());
 

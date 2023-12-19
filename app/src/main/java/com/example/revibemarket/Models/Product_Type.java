@@ -11,7 +11,7 @@ public class Product_Type {
     private Double discount;
     private String description;
 
-    private ArrayList<String> images;
+    private ArrayList<String> images = new ArrayList<>();
     private Date created;
     private Date updated;
 

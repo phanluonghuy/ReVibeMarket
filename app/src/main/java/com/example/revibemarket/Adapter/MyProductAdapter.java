@@ -1,8 +1,12 @@
 package com.example.revibemarket.Adapter;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.revibemarket.EditActivity;
 import com.example.revibemarket.Models.Product;
 import com.example.revibemarket.ModelsSingleton.CartSession;
 import com.example.revibemarket.ModelsSingleton.ProductSingleton;
@@ -29,6 +34,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -135,7 +141,9 @@ public class MyProductAdapter extends RecyclerView.Adapter<MyProductAdapter.View
             btnEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent intent = new Intent(itemView.getContext(), EditActivity.class);
+                    intent.putExtra("sku",productList.get(getAdapterPosition()).getSku());
+                    itemView.getContext().startActivity(intent);
                 }
             });
         }

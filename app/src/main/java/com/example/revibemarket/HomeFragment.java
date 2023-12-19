@@ -139,7 +139,7 @@ public class HomeFragment extends Fragment {
     }
     private void fetchImage(Product product) {
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-        StorageReference listRef = firebaseStorage.getReference().child("Images_Product/"+product.getSku());
+        StorageReference listRef = firebaseStorage.getReference().child("Images_Product/"+ product.getSku());
         ArrayList<String> imgUrl = new ArrayList<>();
         listRef.listAll()
                 .addOnSuccessListener(new OnSuccessListener<ListResult>() {

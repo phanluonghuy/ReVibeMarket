@@ -30,7 +30,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
                     android:fontFamily="@font/poppins_light"
-                    android:text="My Cart"
+                    android:text="My Order"
                     android:textColor="@color/contentTextColor"
                     android:textSize="26sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -54,52 +54,12 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/linear"
-            app:layout_constraintTop_toBottomOf="@+id/rv_cart"
-            app:layout_constraintEnd_toEndOf="@id/guideline2"
-            app:layout_constraintStart_toStartOf="@id/guideline1">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/sf_pro_display"
-                android:text="Payment method"
-                android:textColor="@color/contentTextColor"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Spinner
-                android:id="@+id/spinnerPaymentMethod"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="20dp"
-                android:fontFamily="@font/sf_pro_display"
-                android:textColor="@color/contentTextColor"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linear"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
             android:background="@drawable/total_box_background"
-            app:layout_constraintBottom_toTopOf="@+id/btn_Buy"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline2"
             app:layout_constraintStart_toStartOf="@id/guideline1">
 
@@ -112,7 +72,7 @@
                 android:layout_marginBottom="20dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/sf_pro_display"
-                android:text="Total"
+                android:text="Total orders"
                 android:textColor="@color/contentTextColor"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -136,64 +96,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
-            android:id="@+id/btn_Buy"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/button_icon"
-            android:fontFamily="@font/poppins_thin"
-            android:text="ORDER"
-            android:textAllCaps="false"
-            android:textColor="@color/contentBodyColor"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/guideline2"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@id/guideline1" />
 
-
-        <!--    Your Shopping Card-->
-        <!--    İs Empty-->
-
-
-<!--        <TextView-->
-<!--            android:id="@+id/tv_empty_cart"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:fontFamily="@font/poppins_light"-->
-<!--            android:gravity="center"-->
-<!--            android:text="@string/g_your_shopping_cart_is_empty"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textSize="@dimen/_15ssp"-->
-<!--            android:visibility="gone"-->
-<!--            app:layout_constraintEnd_toEndOf="@id/img_empty_box_texture"-->
-<!--            app:layout_constraintStart_toStartOf="@id/img_empty_box_texture"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/img_empty_box_texture" />-->
-
-<!--        <ImageView-->
-<!--            android:id="@+id/img_empty_box_texture"-->
-<!--            android:layout_width="@dimen/_200sdp"-->
-<!--            android:layout_height="@dimen/_250sdp"-->
-<!--            android:src="@drawable/ic_emprt_box_texture"-->
-<!--            android:visibility="gone"-->
-<!--            app:layout_constraintBottom_toBottomOf="@id/img_empty_box"-->
-<!--            app:layout_constraintEnd_toEndOf="@id/img_empty_box"-->
-<!--            app:layout_constraintStart_toStartOf="@id/img_empty_box"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/toolbar_cart"-->
-<!--            app:layout_constraintTop_toTopOf="@id/img_empty_box" />-->
-
-<!--        <ImageView-->
-<!--            android:id="@+id/img_empty_box"-->
-<!--            android:layout_width="@dimen/_120sdp"-->
-<!--            android:layout_height="@dimen/_120sdp"-->
-<!--            android:layout_marginTop="130dp"-->
-<!--            android:background="@drawable/empty_box_background"-->
-<!--            android:src="@drawable/ic_empty_box"-->
-<!--            android:visibility="gone"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/toolbar_cart" />-->
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/progress_plus_minus"

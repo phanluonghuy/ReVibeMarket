@@ -60,7 +60,7 @@ public class CartFragment extends Fragment {
         recyclerView = view.findViewById(R.id.rv_cart);
         tvTotalPrice = view.findViewById(R.id.tv_totalprice);
 
-        tvTotalPrice.setText(cal_totalPrice()+"$");
+        tvTotalPrice.setText(String.format("%.2f",cal_totalPrice())+"$");
 
         spinnerPaymentMethod = view.findViewById(R.id.spinnerPaymentMethod);
 
@@ -77,8 +77,7 @@ public class CartFragment extends Fragment {
 
             @Override
             public void onChildViewDetachedFromWindow(@NonNull View view) {
-                cal_totalPrice();
-                tvTotalPrice.setText(cal_totalPrice()+"$");
+                tvTotalPrice.setText(String.format("%.2f",cal_totalPrice())+"$");
             }
         });
 
@@ -258,7 +257,7 @@ public class CartFragment extends Fragment {
 //                        }
 //                    });
 //        }
-//    }
+//    }cartItem.getPrice()*((100-cartItem.getDiscount())/100)
 
     private String generateUniqueKey() {
         String uuid = UUID.randomUUID().toString();

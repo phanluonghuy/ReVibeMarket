@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.revibemarket.LoginRegister.Login;
 import com.example.revibemarket.ModelsSingleton.UserSession;
+import com.example.revibemarket.MyOrderFragment;
 import com.example.revibemarket.MyProductFragment;
 import com.example.revibemarket.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -33,10 +34,11 @@ public class SettingFragment extends Fragment {
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     ImageView imageView;
     TextView textViewName;
-    TextView editProfile,editPassword,editProduct;
+    TextView editProfile,editPassword,editProduct,editOrder;
     ProfileFragment profileFragment = new ProfileFragment();
     ChangePasswordFragment changePasswordFragment = new ChangePasswordFragment();
     MyProductFragment myProductFragment = new MyProductFragment();
+    MyOrderFragment myOrderFragment = new MyOrderFragment();
     TextView btnLogout;
 
     @Override
@@ -48,6 +50,7 @@ public class SettingFragment extends Fragment {
         editProfile = view.findViewById(R.id.profile);
         editPassword = view.findViewById(R.id.editPassword);
         editProduct = view.findViewById(R.id.product);
+        editOrder = view.findViewById(R.id.orders);
         btnLogout = view.findViewById(R.id.btnLogout);
 
 
@@ -75,6 +78,18 @@ public class SettingFragment extends Fragment {
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                 fragmentTransaction.replace(R.id.container, myProductFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
+        editOrder.setOnClickListener(e -> {
+            FragmentManager fragmentManager = getFragmentManager();
+
+            if (fragmentManager != null) {
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                fragmentTransaction.replace(R.id.container, myOrderFragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }

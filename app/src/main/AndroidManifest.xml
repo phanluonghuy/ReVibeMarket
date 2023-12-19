@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_DATABASE" />
 
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -19,13 +18,17 @@
         android:theme="@style/Theme.ReVibeMarket"
         tools:targetApi="31">
         <activity
+            android:name=".EditActivity"
+            android:exported="false" />
+        <activity
             android:name=".LoginRegister.ForgotPassword"
             android:exported="false" />
         <activity
             android:name=".SearchActivity"
             android:exported="false" />
-        <activity android:name=".DetailActivity"
-            android:exported="false"/>
+        <activity
+            android:name=".DetailActivity"
+            android:exported="false" />
         <activity
             android:name=".LoginRegister.Register"
             android:exported="false" />
@@ -41,7 +44,7 @@
         <activity
             android:name=".LoginRegister.MainActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>
