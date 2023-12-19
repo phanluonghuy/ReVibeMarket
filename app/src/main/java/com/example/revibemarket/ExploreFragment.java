@@ -55,9 +55,16 @@ public class ExploreFragment extends Fragment implements CategoryAdapter.OnItemC
             }
         });
 
+        if (ProductSingleton.getInstance().isModify()) {
+            ProductSingleton.getInstance().fetchProductNameAndSKU(new ProductSingleton.DataFetchedListener() {
+                @Override
+                public void onDataFetched() {
+                    productList = ProductSingleton.getInstance().getProductList();
+                    exploreProductAdapter.notifyDataSetChanged();
 
-
-        productList = ProductSingleton.getInstance().getProductList();
+                }
+            });
+        } else productList = ProductSingleton.getInstance().getProductList();
 
         setupCategoryRecyclerView();
         setupProductRecyclerView();

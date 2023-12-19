@@ -366,6 +366,7 @@ public class EditActivity extends AppCompatActivity {
                                 .addOnSuccessListener(aVoid -> {
                                     // Update successful
                                     Toast.makeText(getApplicationContext(), "Product updated successfully", Toast.LENGTH_SHORT).show();
+                                    ProductSingleton.getInstance().setModify(true);
                                 })
                                 .addOnFailureListener(e -> {
                                     // Update failed

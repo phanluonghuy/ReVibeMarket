@@ -61,6 +61,7 @@ public class MyProductAdapter extends RecyclerView.Adapter<MyProductAdapter.View
             holder.productNameTextView.setText(productList.get(position).getProductName());
             holder.textViewDiscount.setText("Discount: " + productList.get(position).getProductType().getDiscount()+"%");
             holder.tvPrice.setText("$" + productList.get(position).getProductType().getPrice());
+            holder.tvProductQuantity.setText("Quantity : " + productList.get(position).getProductType().getStock());
             Glide.with(holder.imageView.getContext())
                 .load(productList.get(position).getProductType().getImages().get(0))
                 .error(R.drawable.sofa_cut)
@@ -88,15 +89,21 @@ public class MyProductAdapter extends RecyclerView.Adapter<MyProductAdapter.View
             tvPrice = itemView.findViewById(R.id.tvPrice);
             imageView = itemView.findViewById(R.id.imgProduct);
             textViewDiscount = itemView.findViewById(R.id.textViewDiscount);
+            tvProductQuantity = itemView.findViewById(R.id.tvQuantity);
             btnRemove = itemView.findViewById(R.id.btnRemove);
             btnEdit = itemView.findViewById(R.id.buttonEdit);
 
             btnRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    String sku = productList.get(getAdapterPosition()).getSku();
+                    Product product = productList.get(getAdapterPosition());
+                    productList.remove(getAdapterPosition());
+                    ProductSingleton.getInstance().setModify(true);
+                    notifyDataSetChanged();
                     //Toast.makeText(imageView.getContext(), productList.get(getAdapterPosition()).getSku(),Toast.LENGTH_SHORT).show();
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-                    Query query = ref.child("products").orderByChild("sku").equalTo(productList.get(getAdapterPosition()).getSku());
+                    Query query = ref.child("products").orderByChild("sku").equalTo(sku);
                     query.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -112,7 +119,7 @@ public class MyProductAdapter extends RecyclerView.Adapter<MyProductAdapter.View
                         }
                     });
 
-                   StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("Images_Product/" + productList.get(getAdapterPosition()).getSku());
+                   StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("Images_Product/" + sku);
                    storageRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
                        @Override
                        public void onSuccess(ListResult listResult) {
@@ -136,6 +143,7 @@ public class MyProductAdapter extends RecyclerView.Adapter<MyProductAdapter.View
                            Toast.makeText(imageView.getContext(), "Delete image failed !",Toast.LENGTH_SHORT).show();
                        }
                    });
+
                 }
             });
             btnEdit.setOnClickListener(new View.OnClickListener() {

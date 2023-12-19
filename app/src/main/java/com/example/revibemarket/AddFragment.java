@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.revibemarket.Adapter.ImageAdapter;
 import com.example.revibemarket.Models.Product;
 import com.example.revibemarket.Models.Product_Type;
+import com.example.revibemarket.ModelsSingleton.ProductSingleton;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -257,7 +258,7 @@ public class AddFragment extends Fragment {
                     Toast.makeText(requireContext(), "Product added successfully", Toast.LENGTH_SHORT).show();
                     uriList.clear();
                     mImageAdapter.notifyDataSetChanged();
-                    clearFields();
+                    ProductSingleton.getInstance().setModify(true);
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(requireContext(), "Failed to add Product", Toast.LENGTH_SHORT).show();

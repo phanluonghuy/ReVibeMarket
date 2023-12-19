@@ -31,12 +31,13 @@ import java.util.List;
 
 public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartItemViewHolder> {
     private CartSession cartSession;
+    private Context context;
 
-    public CartItemAdapter() {
+    public CartItemAdapter(Context context) {
         cartSession = CartSession.getInstance();
+        this.context = context;
 
     }
-
     @NonNull
     @Override
     public CartItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -69,6 +70,14 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
 
     public void clearCart() {
         cartSession.clearAllCartItem();
+        SharedPreferences sharedPreferences = context.getSharedPreferences("cart_session", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String cartItemsJson = gson.toJson(CartSession.getInstance().getCartItemList());
+        String imagesUrlJson = gson.toJson(CartSession.getInstance().getImagesUrl());
+        editor.putString("cart_items", cartItemsJson);
+        editor.putString("images_url", imagesUrlJson);
+        editor.apply();
         notifyDataSetChanged();
     }
 

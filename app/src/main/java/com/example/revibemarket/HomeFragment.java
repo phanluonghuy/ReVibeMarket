@@ -60,9 +60,31 @@ public class HomeFragment extends Fragment {
 //        fetchProductNameAndSKU();
         setupProductRecyclerView();
 
+        Log.d("onCreateView","onCreateView");
+
+
+
         if (ProductSingleton.getInstance().getProductList().size()==0) {
-            fetchProductNameAndSKU();
+            ProductSingleton.getInstance().fetchProductNameAndSKU(new ProductSingleton.DataFetchedListener() {
+                @Override
+                public void onDataFetched() {
+                    productList = ProductSingleton.getInstance().getProductList();
+                    homeProductAdapter.notifyDataSetChanged();
+                }
+            });
         }
+
+        if (ProductSingleton.getInstance().isModify()) {
+            ProductSingleton.getInstance().fetchProductNameAndSKU(new ProductSingleton.DataFetchedListener() {
+                @Override
+                public void onDataFetched() {
+                    productList = ProductSingleton.getInstance().getProductList();
+                    homeProductAdapter.notifyDataSetChanged();
+                }
+            });
+        }
+
+
 
         edtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -187,4 +209,22 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+//        Log.d("onResume","onResume");
+//        ProductSingleton.getInstance().fetchProductNameAndSKU(new ProductSingleton.OnFetchCompleteListener() {
+//            @Override
+//            public void onFetchComplete() {
+//                productList = ProductSingleton.getInstance().getProductList();
+//                homeProductAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onFetchError(String errorMessage) {
+//
+//            }
+//        });
+
+    }
 }
