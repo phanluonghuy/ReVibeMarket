@@ -20,6 +20,7 @@ import com.example.revibemarket.Adapter.ExploreProductAdapter;
 import com.example.revibemarket.Models.Product;
 import com.example.revibemarket.ModelsSingleton.ProductSingleton;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class ExploreFragment extends Fragment implements CategoryAdapter.OnItemC
     private RecyclerView recyclerProduct;
     private ExploreProductAdapter exploreProductAdapter;
     private EditText edtSearch;
-    private List<Product> productList;
+    private List<Product> productList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,19 +56,29 @@ public class ExploreFragment extends Fragment implements CategoryAdapter.OnItemC
             }
         });
 
+
+        setupCategoryRecyclerView();
+        setupProductRecyclerView();
+
+        if (ProductSingleton.getInstance().getProductList().size()==0) {
+            ProductSingleton.getInstance().fetchProductNameAndSKU(new ProductSingleton.DataFetchedListener() {
+                @Override
+                public void onDataFetched() {
+                    productList = ProductSingleton.getInstance().getProductList();
+                    exploreProductAdapter.notifyDataSetChanged();
+                }
+            });
+        }
+
         if (ProductSingleton.getInstance().isModify()) {
             ProductSingleton.getInstance().fetchProductNameAndSKU(new ProductSingleton.DataFetchedListener() {
                 @Override
                 public void onDataFetched() {
                     productList = ProductSingleton.getInstance().getProductList();
                     exploreProductAdapter.notifyDataSetChanged();
-
                 }
             });
-        } else productList = ProductSingleton.getInstance().getProductList();
-
-        setupCategoryRecyclerView();
-        setupProductRecyclerView();
+        }
 
 
         return rootView;
@@ -100,6 +111,7 @@ public class ExploreFragment extends Fragment implements CategoryAdapter.OnItemC
     }
 
     private void setupProductRecyclerView() {
+        productList = ProductSingleton.getInstance().getProductList();
         exploreProductAdapter = new ExploreProductAdapter(requireContext(), productList);
 
         exploreProductAdapter.setOnItemClickListener(new ExploreProductAdapter.OnItemClickListener() {

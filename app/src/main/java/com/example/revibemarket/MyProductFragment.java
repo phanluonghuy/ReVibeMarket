@@ -31,15 +31,4 @@ public class MyProductFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.d("onPause","onPause");
-        ProductSingleton.getInstance().fetchProductNameAndSKU(new ProductSingleton.DataFetchedListener() {
-            @Override
-            public void onDataFetched() {
-
-            }
-        });
-    }
 }

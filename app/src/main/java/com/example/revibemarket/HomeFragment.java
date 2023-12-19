@@ -84,8 +84,6 @@ public class HomeFragment extends Fragment {
             });
         }
 
-
-
         edtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -132,72 +130,6 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void fetchProductNameAndSKU() {
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        if (currentUser != null) {
-            DatabaseReference productsRef = FirebaseDatabase.getInstance().getReference().child("products");
-
-            productsRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                    for (DataSnapshot productSnapshot : dataSnapshot.getChildren()) {
-                        Product product = productSnapshot.getValue(Product.class);
-                        if (product != null) {
-                            product.getProductType().clearImage();
-                            productList.add(product);
-                            fetchImage(product);
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.e("HomeFragment", "Failed to read value.", databaseError.toException());
-                }
-            });
-        }
-    }
-    private void fetchImage(Product product) {
-        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-        StorageReference listRef = firebaseStorage.getReference().child("Images_Product/"+ product.getSku());
-        ArrayList<String> imgUrl = new ArrayList<>();
-        listRef.listAll()
-                .addOnSuccessListener(new OnSuccessListener<ListResult>() {
-                    @Override
-                    public void onSuccess(ListResult listResult) {
-                        Log.e("ListFiles Product",product.getSku());
-
-                        for (StorageReference item : listResult.getItems()) {
-                            item.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    Log.e("ListFiles", "Success to get download URL: " + uri.toString());
-                                    product.getProductType().addImage(uri.toString());
-                                    if (product.getProductType().getImages().size()==1) {
-                                        homeProductAdapter.notifyDataSetChanged();
-                                    }
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.e("ListFiles", "Failed to get download URL: " + e.getMessage());
-                                }
-                            });
-                        }
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        Log.e("ListFiles", "Failed to list files: " + exception.getMessage());
-                    }
-                });
-        ProductSingleton.getInstance().setProductList(productList);
-    }
-
     private void openDetailPage(Product product) {
         try {
             Intent intent = new Intent(requireContext(), DetailActivity.class);
@@ -207,24 +139,5 @@ public class HomeFragment extends Fragment {
             e.printStackTrace();
             Log.e("ExploreFragment", "Error opening detail page", e);
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-//        Log.d("onResume","onResume");
-//        ProductSingleton.getInstance().fetchProductNameAndSKU(new ProductSingleton.OnFetchCompleteListener() {
-//            @Override
-//            public void onFetchComplete() {
-//                productList = ProductSingleton.getInstance().getProductList();
-//                homeProductAdapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onFetchError(String errorMessage) {
-//
-//            }
-//        });
-
     }
 }

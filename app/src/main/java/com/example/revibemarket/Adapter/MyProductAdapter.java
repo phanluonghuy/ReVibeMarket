@@ -97,7 +97,6 @@ public class MyProductAdapter extends RecyclerView.Adapter<MyProductAdapter.View
                 @Override
                 public void onClick(View v) {
                     String sku = productList.get(getAdapterPosition()).getSku();
-                    Product product = productList.get(getAdapterPosition());
                     productList.remove(getAdapterPosition());
                     ProductSingleton.getInstance().setModify(true);
                     notifyDataSetChanged();

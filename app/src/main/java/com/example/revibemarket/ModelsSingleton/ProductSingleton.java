@@ -120,7 +120,7 @@ public class ProductSingleton {
                     Log.e("HomeFragment", "Failed to read value.", databaseError.toException());
                 }
             });
-
+            modify = false;
         }
     }
 
