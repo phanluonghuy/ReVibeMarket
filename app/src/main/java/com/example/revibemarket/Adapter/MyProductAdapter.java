@@ -59,7 +59,7 @@ public class MyProductAdapter extends RecyclerView.Adapter<MyProductAdapter.View
     @Override
     public void onBindViewHolder(@NonNull MyProductAdapter.ViewHolder holder, int position) {
             holder.productNameTextView.setText(productList.get(position).getProductName());
-            holder.textViewDiscount.setText("Discount:" + productList.get(position).getProductType().getDiscount()+"%");
+            holder.textViewDiscount.setText("Discount: " + productList.get(position).getProductType().getDiscount()+"%");
             holder.tvPrice.setText("$" + productList.get(position).getProductType().getPrice());
             Glide.with(holder.imageView.getContext())
                 .load(productList.get(position).getProductType().getImages().get(0))

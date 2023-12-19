@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:layout_marginBottom="15dp"
+    android:background="@drawable/login_button_bk">
+
+    <TextView
+        android:id="@+id/textViewDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/poppins_thin"
+        android:textColor="@color/whiteTextColor"
+        android:text="12 12 2022"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textViewStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/poppins_thin"
+        android:textColor="@color/whiteTextColor"
+        android:text="Pending"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textViewPaymentMethod"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/poppins_thin"
+        android:textColor="@color/whiteTextColor"
+        android:text="Payment : Momo" />
+
+    <TextView
+        android:id="@+id/textViewPaymentStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/poppins_thin"
+        android:textColor="@color/whiteTextColor"
+        android:text="Status : Pending" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_thin"
+        android:textSize="20sp"
+        android:layout_weight="1"
+        android:text="List of product"
+        android:textColor="@color/whiteTextColor"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerOrderProduct"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/whiteTextColor" />
+
+    <TextView
+        android:id="@+id/textViewTotalPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_thin"
+        android:textColor="@color/whiteTextColor"
+        android:textSize="24sp"
+        android:gravity="right"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="25dp"
+        android:text="$99.2" />
+</LinearLayout>

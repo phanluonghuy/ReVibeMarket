@@ -43,7 +43,7 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_cart"
+            android:id="@+id/rv_my_orders"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="5dp"
@@ -57,7 +57,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/linear"
-            app:layout_constraintTop_toBottomOf="@+id/rv_cart"
+            app:layout_constraintTop_toBottomOf="@+id/rv_my_orders"
             app:layout_constraintEnd_toEndOf="@id/guideline2"
             app:layout_constraintStart_toStartOf="@id/guideline1">
 

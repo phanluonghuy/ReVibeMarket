@@ -43,11 +43,11 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_cart"
+            android:id="@+id/rv_my_orders"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="5dp"
-            app:layout_constraintBottom_toTopOf="@id/guideline3"
+            app:layout_constraintBottom_toTopOf="@+id/linear"
             app:layout_constraintEnd_toEndOf="@id/guideline2"
             app:layout_constraintStart_toStartOf="@id/guideline1"
             app:layout_constraintTop_toBottomOf="@id/progress_plus_minus" />
@@ -80,7 +80,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_totalprice"
+                android:id="@+id/tv_totalOrder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical"
@@ -123,12 +123,6 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.96" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.68" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

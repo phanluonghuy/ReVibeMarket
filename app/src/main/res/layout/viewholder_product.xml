@@ -19,7 +19,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:scaleType="centerCrop"/>
+            android:scaleType="fitCenter"/>
 
         <LinearLayout
             android:id="@+id/linear_product_name"

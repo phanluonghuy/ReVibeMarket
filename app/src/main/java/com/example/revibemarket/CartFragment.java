@@ -3,7 +3,6 @@ package com.example.revibemarket;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -57,7 +56,7 @@ public class CartFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
 
-        recyclerView = view.findViewById(R.id.rv_cart);
+        recyclerView = view.findViewById(R.id.rv_my_orders);
         tvTotalPrice = view.findViewById(R.id.tv_totalprice);
 
         tvTotalPrice.setText(String.format("%.2f",cal_totalPrice())+"$");
