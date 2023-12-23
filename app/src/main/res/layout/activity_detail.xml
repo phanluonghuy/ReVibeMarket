@@ -129,7 +129,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/poppins_light"
-                    android:text="Description"
+                    android:text="@string/description"
                     android:textSize="19sp"
                     android:textColor="@color/contentTextColor" />
 
@@ -192,7 +192,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:fontFamily="@font/poppins_light"
-                        android:text="Stock"
+                        android:text="@string/stock"
                         android:textColor="@color/contentTextColor"
                         android:textSize="18sp" />
 
@@ -225,7 +225,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:fontFamily="@font/poppins_light"
-                        android:text="Address"
+                        android:text="@string/address"
                         android:textColor="@color/contentTextColor"
                         android:textSize="18sp" />
 
@@ -252,7 +252,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Quantity"
+                android:text="@string/quantity"
                 android:fontFamily="@font/poppins_light"
                 android:textColor="@color/contentTextColor"
                 android:layout_weight="1"
@@ -296,7 +296,7 @@
                 android:layout_height="52dp"
                 android:background="@drawable/login_button_bk"
                 android:fontFamily="@font/poppins_thin"
-                android:text="Add to cart"
+                android:text="@string/add_to_cart"
                 android:textAllCaps="false"
                 android:textColor="@color/contentBodyColor"
                 android:textSize="15sp"

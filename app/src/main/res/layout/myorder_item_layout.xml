@@ -52,7 +52,7 @@
         android:fontFamily="@font/poppins_thin"
         android:textSize="20sp"
         android:layout_weight="1"
-        android:text="List of product"
+        android:text="@string/list_of_product"
         android:textColor="@color/whiteTextColor"/>
 
     <androidx.recyclerview.widget.RecyclerView

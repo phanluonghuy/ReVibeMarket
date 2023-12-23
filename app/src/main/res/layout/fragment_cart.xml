@@ -30,7 +30,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
                     android:fontFamily="@font/poppins_light"
-                    android:text="My Cart"
+                    android:text="@string/my_cart"
                     android:textColor="@color/contentTextColor"
                     android:textSize="26sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -52,14 +52,43 @@
             app:layout_constraintStart_toStartOf="@id/guideline1"
             app:layout_constraintTop_toBottomOf="@id/progress_plus_minus" />
 
+        <LinearLayout
+            android:id="@+id/emptyCart"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/guideline3"
+            app:layout_constraintEnd_toEndOf="@id/guideline2"
+            app:layout_constraintStart_toStartOf="@id/guideline1"
+            app:layout_constraintTop_toBottomOf="@id/progress_plus_minus" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scaleType="center"
+                app:srcCompat="@drawable/emptycart" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sf_pro_display"
+                android:textColor="@color/contentTextColor"
+                android:gravity="center"
+                android:textSize="25sp"
+                android:layout_marginBottom="30dp"
+                android:text="@string/your_cart_is_empty" />
+        </LinearLayout>
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/linear"
-            app:layout_constraintTop_toBottomOf="@+id/rv_my_orders"
             app:layout_constraintEnd_toEndOf="@id/guideline2"
-            app:layout_constraintStart_toStartOf="@id/guideline1">
+            app:layout_constraintStart_toStartOf="@id/guideline1"
+            app:layout_constraintTop_toBottomOf="@+id/rv_my_orders">
 
             <TextView
                 android:layout_width="0dp"
@@ -70,7 +99,7 @@
                 android:layout_marginBottom="20dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/sf_pro_display"
-                android:text="Payment method"
+                android:text="@string/payment_method"
                 android:textColor="@color/contentTextColor"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -112,7 +141,7 @@
                 android:layout_marginBottom="20dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/sf_pro_display"
-                android:text="Total"
+                android:text="@string/total"
                 android:textColor="@color/contentTextColor"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -143,7 +172,7 @@
             android:layout_marginBottom="20dp"
             android:background="@drawable/button_icon"
             android:fontFamily="@font/poppins_thin"
-            android:text="ORDER"
+            android:text="@string/order"
             android:textAllCaps="false"
             android:textColor="@color/contentBodyColor"
             android:textSize="16sp"

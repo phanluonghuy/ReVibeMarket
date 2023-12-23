@@ -76,7 +76,7 @@
 
                             <TextView
                                 style="@style/viewParent.headerText"
-                                android:text="Search"
+                                android:text="@string/search"
                                 android:layout_marginLeft="30dp"
                                 android:layout_marginTop="10dp"/>
 
@@ -89,7 +89,7 @@
                                     android:id="@+id/SearchName"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Searching for: "
+                                    android:text="@string/searching_for"
                                     android:textSize="20sp"/>
 
                                 <androidx.recyclerview.widget.RecyclerView

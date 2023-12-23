@@ -31,7 +31,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_thin"
-                    android:text="Location"
+                    android:text="@string/location"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -125,7 +125,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:fontFamily="@font/poppins_thin"
-                    android:text="New Arrivals"
+                    android:text="@string/new_arrivals"
                     android:textColor="@color/colorPrimary"
                     android:textSize="24sp"
                     app:layout_constraintEnd_toEndOf="@+id/textView4"
@@ -134,12 +134,12 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/buttonShowNow"
                     style="@style/loginButton"
                     android:fontFamily="@font/poppins_thin"
                     android:layout_marginTop="24dp"
                     android:layout_marginBottom="8dp"
-                    android:text="Shop Now"
+                    android:text="@string/shop_now"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/textView5"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -152,7 +152,7 @@
                 android:fontFamily="@font/poppins_thin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Category"
+                android:text="@string/category"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@+id/recyclerCategory" />
@@ -178,7 +178,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_thin"
                     android:layout_weight="1"
-                    android:text="Best Deal"
+                    android:text="@string/best_deal"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -188,7 +188,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_light"
                     android:layout_weight="1"
-                    android:text="See all"
+                    android:text="@string/see_all"
                     android:gravity="right"
                     android:textColor="@color/primaryTextColor" />
             </LinearLayout>
@@ -202,6 +202,21 @@
                 app:layout_constraintBottom_toTopOf="@+id/textView8"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottieAnimationViewHome"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView7"
+                app:layout_constraintBottom_toTopOf="@+id/textView8"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"
+                android:scaleType="centerCrop"
+                app:lottie_repeatMode="restart"
+                app:lottie_loop="true"
+                app:lottie_speed="1.5"
+                app:lottie_autoPlay="true"
+                app:lottie_rawRes="@raw/loading" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

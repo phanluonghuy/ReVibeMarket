@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.L;
 import com.bumptech.glide.Glide;
 import com.example.revibemarket.EditActivity;
 import com.example.revibemarket.Models.Product;

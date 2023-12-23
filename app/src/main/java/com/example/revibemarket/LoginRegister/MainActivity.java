@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.revibemarket.AddFragment;
 import com.example.revibemarket.CartFragment;
@@ -47,52 +49,62 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    BottomNavigationView bottomNavigationView;
-    HomeFragment homeFragment = new HomeFragment();
-    CartFragment cartFragment = new CartFragment();
-    AddFragment addFragment = new AddFragment();
-    ExploreFragment exploreFragment = new ExploreFragment();
-    ProfileFragment profileFragment = new ProfileFragment();
-    SettingFragment settingFragment = new SettingFragment();
+    private BottomNavigationView bottomNavigationView;
+    private HomeFragment homeFragment = new HomeFragment();
+    private CartFragment cartFragment = new CartFragment();
+    private AddFragment addFragment = new AddFragment();
+    private ExploreFragment exploreFragment = new ExploreFragment();
+    private SettingFragment settingFragment = new SettingFragment();
 
-    FragmentManager fragmentManager = getSupportFragmentManager();
-
-    private CartSession cartSession;
+    private FragmentManager fragmentManager = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
         getSupportFragmentManager().beginTransaction().replace(R.id.container,homeFragment).commit();
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment itemSelected = null ;
-                if (item.getItemId() == R.id.home) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container,homeFragment).commit();
-                    return true;
-                } else if (item.getItemId() == R.id.cart) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container,cartFragment).commit();
-                    return true;
-                } else if (item.getItemId() == R.id.add) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container,addFragment).commit();
-                    return true;
-                } else if (item.getItemId() == R.id.explore) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container,exploreFragment).commit();
-                    return true;
-                } else if (item.getItemId() == R.id.profile) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container,settingFragment).commit();
-                    return true;
-                }
-                return false;
-            }
-        });
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
+
+        // Load sessions
         loadCartSession(this);
         loadUserSession();
-
     }
+
+    private boolean onNavigationItemSelected(MenuItem item) {
+        Fragment selectedFragment = null;
+
+        int itemId = item.getItemId();
+
+        if (itemId == R.id.home) {
+            selectedFragment = homeFragment;
+        } else if (itemId == R.id.cart) {
+            selectedFragment = cartFragment;
+        } else if (itemId == R.id.add) {
+            if (FirebaseAuth.getInstance().getCurrentUser().isAnonymous()) {
+                Toast.makeText(getApplicationContext(), "User needs to login!", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            selectedFragment = addFragment;
+        } else if (itemId == R.id.explore) {
+            selectedFragment = exploreFragment;
+        } else if (itemId == R.id.profile) {
+            selectedFragment = settingFragment;
+        }
+
+
+        if (selectedFragment != null) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, selectedFragment)
+                    .addToBackStack(null)
+                    .commit();
+            return true;
+        }
+
+        return false;
+    }
+
     public void loadCartSession(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("cart_session", Context.MODE_PRIVATE);
         Gson gson = new Gson();
@@ -106,9 +118,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     private void loadUserSession() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user.isAnonymous()) {
+            return;
+        }
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
 
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {

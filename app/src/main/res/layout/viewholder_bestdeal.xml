@@ -68,7 +68,7 @@
             android:layout_marginStart="26dp"
             android:background="@drawable/login_button_bk"
             android:fontFamily="@font/poppins_light"
-            android:text="See product"
+            android:text="@string/see_product"
             android:textAllCaps="false"
             android:textColor="@color/whiteTextColor"
             android:textSize="13dp"

@@ -51,8 +51,6 @@
                     android:layout_marginTop="40dp"/>
 
                 <androidx.cardview.widget.CardView
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
                     style="@style/loginCard"
                     app:cardCornerRadius="@dimen/loginCardRadius"
                     android:elevation="5dp"
@@ -70,7 +68,7 @@
 
                         <TextView
                             style="@style/headerTextPrimary"
-                            android:text="Login"
+                            android:text="@string/login"
                             android:fontFamily="@font/poppins_thin"
                             android:layout_marginTop="@dimen/loginViewsMargin"/>
 
@@ -103,7 +101,7 @@
                         <TextView
                             android:id="@+id/buttonForgot"
                             style="@style/viewParent"
-                            android:text="Forgot Password?"
+                            android:text="@string/forgot_password"
                             android:fontFamily="@font/poppins_thin"
                             android:textColor="@color/primaryTextColor"
                             android:textSize="@dimen/newsMoreTextSize"
@@ -113,7 +111,7 @@
                         <Button
                             android:id="@+id/buttonLogin"
                             style="@style/loginButton"
-                            android:text="Login"
+                            android:text="@string/login"
                             android:fontFamily="@font/poppins_thin"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/loginViewsMargin" />
@@ -127,6 +125,42 @@
                             android:textColor="@color/primaryTextColor"
                             android:text="@string/login_signup_hint"
                             android:layout_marginTop="@dimen/loginViewsMargin"/>
+                        <TextView
+                            style="@style/parent"
+                            android:textAlignment="center"
+                            android:fontFamily="@font/poppins_thin"
+                            android:textStyle="bold"
+                            android:textColor="@color/primaryTextColor"
+                            android:text="@string/login_as"
+                            android:layout_marginTop="@dimen/loginViewsMargin"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/btnFacebook"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icons8_facebook_50" />
+
+                            <ImageView
+                                android:id="@+id/btnGithub"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icons8_github_50" />
+
+                            <ImageView
+                                android:id="@+id/btnAnonymous"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/icons8_anonymous_50" />
+                        </LinearLayout>
 
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>

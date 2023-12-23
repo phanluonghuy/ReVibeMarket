@@ -61,7 +61,7 @@
                         style="@style/headerText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Welcome,"
+                        android:text="@string/welcome"
                         android:fontFamily="@font/poppins_thin"
                         app:layout_constraintBottom_toTopOf="@+id/textViewName"
                         app:layout_constraintEnd_toEndOf="@+id/textViewName"
@@ -115,7 +115,7 @@
                         android:padding="@dimen/loginViewsMargin">
                         <TextView
                             style="@style/modifiedEditText"
-                            android:text="Full Name"
+                            android:text="@string/full_name"
                             android:maxLines="1"
                             android:layout_marginTop="@dimen/loginViewsMargin"/>
                         <com.google.android.material.textfield.TextInputLayout
@@ -147,7 +147,7 @@
                         </com.google.android.material.textfield.TextInputLayout>
                         <TextView
                             style="@style/modifiedEditText"
-                            android:text="Phone"
+                            android:text="@string/phone"
                             android:maxLines="1"
                             android:layout_marginTop="@dimen/loginViewsMargin"/>
                         <com.google.android.material.textfield.TextInputLayout
@@ -163,7 +163,7 @@
                         </com.google.android.material.textfield.TextInputLayout>
                         <TextView
                             style="@style/modifiedEditText"
-                            android:text="Address"
+                            android:text="@string/address"
                             android:maxLines="1"
                             android:layout_marginTop="@dimen/loginViewsMargin"/>
                         <com.google.android.material.textfield.TextInputLayout
@@ -185,7 +185,7 @@
                 <Button
                     android:id="@+id/buttonUpdate"
                     style="@style/loginButton"
-                    android:text="Update profile"
+                    android:text="@string/update_profile"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/loginViewsMargin"
                     android:fontFamily="@font/poppins_thin"/>

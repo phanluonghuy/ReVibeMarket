@@ -36,6 +36,8 @@ android {
 }
 
 dependencies {
+    implementation("com.airbnb.android:lottie:6.2.0")
+    implementation("com.facebook.android:facebook-android-sdk:latest.release")
     implementation("com.github.zhpanvip:viewpagerindicator:1.2.2")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.github.dhaval2404:imagepicker:2.1")

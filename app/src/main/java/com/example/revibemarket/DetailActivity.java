@@ -200,8 +200,6 @@ public class DetailActivity extends AppCompatActivity {
 
                     String fullAddress = "" + (!TextUtils.isEmpty(address) ? address : "");
                     setTextViewValue(tvSellerAddress, fullAddress, "No");
-                } else {
-                    showToast("User not found");
                 }
             }
 
@@ -254,7 +252,7 @@ public class DetailActivity extends AppCompatActivity {
                         currentUserId = currentUser.getId();
                     }
                 } else {
-                    showToast("User not found");
+//                    showToast("User not found");
                 }
             }
 

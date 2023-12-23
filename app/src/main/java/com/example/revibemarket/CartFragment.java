@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,14 +51,18 @@ public class CartFragment extends Fragment {
     private String SellerAddress;
     private String SellerEmail;
     private Spinner spinnerPaymentMethod;
+    private LinearLayout linearLayout;
+    private LoadingDialog loadingDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
 
+        loadingDialog =  new LoadingDialog(getActivity(),"Your order is processing");
         recyclerView = view.findViewById(R.id.rv_my_orders);
         tvTotalPrice = view.findViewById(R.id.tv_totalprice);
+        linearLayout = view.findViewById(R.id.emptyCart);
 
         tvTotalPrice.setText(String.format("%.2f",cal_totalPrice())+"$");
 
@@ -107,7 +112,7 @@ public class CartFragment extends Fragment {
         btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (currentUser != null) {
+                if (!currentUser.isAnonymous()) {
                     saveOrder();
                 } else {
                     showToast("User not logged in. Please log in to place an order.");
@@ -119,6 +124,7 @@ public class CartFragment extends Fragment {
     }
 
     private void saveOrder() {
+        loadingDialog.loadingDialog();
         List<OrderItem> orderItems = new ArrayList<>();
 
         List<CartItem> cartItems = CartSession.getInstance().getCartItemList();
@@ -152,7 +158,8 @@ public class CartFragment extends Fragment {
         ordersRef.push().setValue(order)
                 .addOnSuccessListener(aVoid -> {
                     cartItemAdapter.clearCart();
-                    showToast("Order placed successfully");
+//                    showToast("Order placed successfully");
+                    loadingDialog.dismissDialog();
                 })
                 .addOnFailureListener(e -> {
                     showToast("Failed to place order");
@@ -270,6 +277,8 @@ public class CartFragment extends Fragment {
                 .forEach(cartItem -> {
                     totalPrice.updateAndGet(v -> new Double((double) (v + cartItem.getPrice() * (100 - cartItem.getDiscount())/100) * cartItem.getQuantity()));
                 });
+        if (totalPrice.get()!=0) linearLayout.setVisibility(View.GONE);
+         else linearLayout.setVisibility(View.VISIBLE);
         return totalPrice.get();
     }
 }

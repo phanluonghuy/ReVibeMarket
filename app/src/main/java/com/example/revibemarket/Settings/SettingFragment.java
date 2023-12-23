@@ -34,11 +34,12 @@ public class SettingFragment extends Fragment {
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     ImageView imageView;
     TextView textViewName;
-    TextView editProfile,editPassword,editProduct,editOrder;
+    TextView editProfile,editPassword,editProduct,editOrder,editLanguage;
     ProfileFragment profileFragment = new ProfileFragment();
     ChangePasswordFragment changePasswordFragment = new ChangePasswordFragment();
     MyProductFragment myProductFragment = new MyProductFragment();
     MyOrderFragment myOrderFragment = new MyOrderFragment();
+    LanguageFragment languageFragment = new LanguageFragment();
     TextView btnLogout;
 
     @Override
@@ -51,14 +52,23 @@ public class SettingFragment extends Fragment {
         editPassword = view.findViewById(R.id.editPassword);
         editProduct = view.findViewById(R.id.product);
         editOrder = view.findViewById(R.id.orders);
+        editLanguage = view.findViewById(R.id.editLanguage);
         btnLogout = view.findViewById(R.id.btnLogout);
 
 
-        textViewName.setText(UserSession.getInstance().getName());
-        imageView.setImageBitmap(UserSession.getInstance().getImage());
+
+        if (!user.isAnonymous()) {
+            textViewName.setText(UserSession.getInstance().getName());
+            imageView.setImageBitmap(UserSession.getInstance().getImage());
+        }
+
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (user.isAnonymous()) {
+                    Toast.makeText(getContext(),"User need to login!",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 FragmentManager fragmentManager = getFragmentManager();
 
                 if (fragmentManager != null) {
@@ -72,6 +82,10 @@ public class SettingFragment extends Fragment {
         });
 
         editProduct.setOnClickListener(e ->{
+            if (user.isAnonymous()) {
+                Toast.makeText(getContext(),"User need to login!",Toast.LENGTH_SHORT).show();
+                return;
+            }
             FragmentManager fragmentManager = getFragmentManager();
 
             if (fragmentManager != null) {
@@ -84,6 +98,10 @@ public class SettingFragment extends Fragment {
         });
 
         editOrder.setOnClickListener(e -> {
+            if (user.isAnonymous()) {
+                Toast.makeText(getContext(),"User need to login!",Toast.LENGTH_SHORT).show();
+                return;
+            }
             FragmentManager fragmentManager = getFragmentManager();
 
             if (fragmentManager != null) {
@@ -98,12 +116,30 @@ public class SettingFragment extends Fragment {
         editPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (user.isAnonymous()) {
+                    Toast.makeText(getContext(),"User need to login!",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 FragmentManager fragmentManager = getFragmentManager();
 
                 if (fragmentManager != null) {
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                     fragmentTransaction.replace(R.id.container, changePasswordFragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
+            }
+        });
+
+        editLanguage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getFragmentManager();
+                if (fragmentManager != null) {
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                    fragmentTransaction.replace(R.id.container, languageFragment);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                 }

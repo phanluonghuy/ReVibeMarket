@@ -64,9 +64,13 @@ public class AddFragment extends Fragment {
     private static final int PICK_IMAGE_MULTIPLE = 1;
     String productTypeSku =  generateUniqueKey();
 
+    private int totalImages,successfulUploads;
+    private LoadingDialog loadingDialog;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add, container, false);
+        loadingDialog =  new LoadingDialog(getActivity(),"Your product is uploading");
 
         initViews(view);
         setupSpinner();
@@ -225,6 +229,9 @@ public class AddFragment extends Fragment {
             return;
         }
 
+        totalImages = uriList.size();
+        successfulUploads = 0;
+
         if (!uriList.isEmpty()) {
             for (int i = 0; i < uriList.size(); i++) {
                 uploadImage(uriList.get(i), i, productTypeSku);
@@ -234,6 +241,9 @@ public class AddFragment extends Fragment {
             Toast.makeText(requireContext(), "Please select at least one image", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        loadingDialog.loadingDialog();
+
         Product_Type productType = new Product_Type(
                 productTypeSku,
                 true,
@@ -255,7 +265,7 @@ public class AddFragment extends Fragment {
         DatabaseReference productRef = productsReference.push();
         productRef.setValue(product).addOnSuccessListener(aVoid -> {
 
-                    Toast.makeText(requireContext(), "Product added successfully", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(requireContext(), "Product added successfully", Toast.LENGTH_SHORT).show();
                     uriList.clear();
                     mImageAdapter.notifyDataSetChanged();
                     ProductSingleton.getInstance().setModify(true);
@@ -273,7 +283,14 @@ public class AddFragment extends Fragment {
                 .addOnSuccessListener(taskSnapshot -> {
                     storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
                         images.add(uri.toString());
-                        Toast.makeText(requireContext(), "Image uploaded successfully", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(requireContext(), "Image uploaded successfully", Toast.LENGTH_SHORT).show();
+                        successfulUploads++;
+                        if (successfulUploads == totalImages) {
+                            // All images are uploaded successfully, perform your action here
+                            // For example, show a completion message or navigate to another screen
+                            loadingDialog.dismissDialog();
+                            clearFields();
+                        }
                     });
                 })
                 .addOnFailureListener(e -> {

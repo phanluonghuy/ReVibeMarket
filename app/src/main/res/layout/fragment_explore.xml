@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
                 android:fontFamily="@font/poppins_light"
-                android:text="Explore"
+                android:text="@string/explore"
                 android:textColor="@color/contentTextColor"
                 android:textSize="26sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -112,7 +112,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_thin"
                                 android:padding="10dp"
-                                android:text="Category"
+                                android:text="@string/category"
                                 android:textSize="24sp"
                                 android:textStyle="bold" />
 
@@ -128,7 +128,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_thin"
                                 android:padding="10dp"
-                                android:text="All Products"
+                                android:text="@string/all_products"
                                 android:textSize="24sp"
                                 android:textStyle="bold" />
 

@@ -69,7 +69,7 @@
 
                             <TextView
                                 style="@style/viewParent.headerText"
-                                android:text="Settings"
+                                android:text="@string/settings"
                                 android:fontFamily="@font/poppins_thin"/>
 
                             <RelativeLayout
@@ -99,8 +99,8 @@
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="20dp"
                                     android:layout_toRightOf="@id/cardView"
-                                    android:text="User name"
                                     android:fontFamily="@font/poppins_thin"
+                                    android:text="@string/anonymous"
                                     android:textSize="18sp" />
 
 
@@ -109,14 +109,14 @@
 
                             <TextView
                                 style="@style/viewParent.headerText.settingsMiniTitle"
-                                android:text="Profile"
+                                android:text="@string/profile"
                                 android:fontFamily="@font/poppins_light"/>
 
                             <TextView
                                 android:id="@+id/profile"
                                 style="@style/viewParent.headerText.settingsTextIcon"
                                 android:drawableLeft="@drawable/ic_edit_profile"
-                                android:text="Edit Profile"
+                                android:text="@string/edit_profile"
                                 android:fontFamily="@font/poppins_thin"/>
 
                             <TextView
@@ -124,11 +124,11 @@
                                 style="@style/viewParent.headerText.settingsTextIcon"
                                 android:layout_marginTop="10dp"
                                 android:drawableLeft="@drawable/ic_edit_password"
-                                android:text="Change Password" />
+                                android:text="@string/change_password" />
 
                             <TextView
                                 style="@style/viewParent.headerText.settingsMiniTitle"
-                                android:text="Product"
+                                android:text="@string/product"
                                 android:fontFamily="@font/poppins_light"/>
 
                             <TextView
@@ -137,7 +137,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:drawableLeft="@drawable/ic_languages"
-                                android:text="My Products"
+                                android:text="@string/my_products"
                                 android:fontFamily="@font/poppins_thin"/>
 
                             <TextView
@@ -146,25 +146,26 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:drawableLeft="@drawable/ic_languages"
-                                android:text="My Orders"
+                                android:text="@string/my_orders"
                                 android:fontFamily="@font/poppins_thin"/>
 
                             <TextView
                                 style="@style/viewParent.headerText.settingsMiniTitle"
-                                android:text="Regional"
+                                android:text="@string/regional"
                                 android:fontFamily="@font/poppins_light"/>
 
                             <TextView
+                                android:id="@+id/editLanguage"
                                 style="@style/viewParent.headerText.settingsTextIcon"
                                 android:drawableLeft="@drawable/ic_languages"
-                                android:text="Language"
+                                android:text="@string/language"
                                 android:fontFamily="@font/poppins_thin"/>
 
                             <TextView
                                 android:id="@+id/btnLogout"
                                 style="@style/viewParent.headerText.settingsTextIcon"
                                 android:drawableLeft="@drawable/ic_logout"
-                                android:text="Logout"
+                                android:text="@string/logout"
                                 android:fontFamily="@font/poppins_thin"/>
 
 

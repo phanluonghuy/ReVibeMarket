@@ -3,12 +3,14 @@ package com.example.revibemarket;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -16,15 +18,19 @@ import android.widget.TextView;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.revibemarket.Adapter.CategoryAdapter;
 import com.example.revibemarket.Adapter.HomeProductAdapter;
 import com.example.revibemarket.Models.Product;
 import com.example.revibemarket.ModelsSingleton.ProductSingleton;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -48,38 +54,72 @@ public class HomeFragment extends Fragment {
     private HomeProductAdapter homeProductAdapter;
     private List<Product> productList = new ArrayList<>();
     private EditText edtSearch;
+    private LottieAnimationView lottieAnimationView;
+    private ExploreFragment exploreFragment = new ExploreFragment();
+
+    private Button buttonShowNow;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerCategory = rootView.findViewById(R.id.recyclerCategory);
         recyclerProduct = rootView.findViewById(R.id.recyclerBestDeal);
-//        ImageButton search = rootView.findViewById(R.id.btnSearch);
+        buttonShowNow = rootView.findViewById(R.id.buttonShowNow);
+        lottieAnimationView = rootView.findViewById(R.id.lottieAnimationViewHome);
         edtSearch = rootView.findViewById(R.id.edtSearch);
         setupCategoryRecyclerView();
-//        fetchProductNameAndSKU();
         setupProductRecyclerView();
 
-        Log.d("onCreateView","onCreateView");
+        buttonShowNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getFragmentManager();
+
+                if (fragmentManager != null) {
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                    fragmentTransaction.replace(R.id.container, exploreFragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
+            }
+        });
+
 
 
 
         if (ProductSingleton.getInstance().getProductList().size()==0) {
+            recyclerProduct.setVisibility(View.GONE);
+            lottieAnimationView.setVisibility(View.VISIBLE);
             ProductSingleton.getInstance().fetchProductNameAndSKU(new ProductSingleton.DataFetchedListener() {
                 @Override
                 public void onDataFetched() {
                     productList = ProductSingleton.getInstance().getProductList();
                     homeProductAdapter.notifyDataSetChanged();
+                    recyclerProduct.setVisibility(View.VISIBLE);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            lottieAnimationView.setVisibility(View.GONE);
+                        }
+                    },300);
+
+
                 }
             });
         }
 
         if (ProductSingleton.getInstance().isModify()) {
+            recyclerProduct.setVisibility(View.GONE);
+            lottieAnimationView.setVisibility(View.VISIBLE);
             ProductSingleton.getInstance().fetchProductNameAndSKU(new ProductSingleton.DataFetchedListener() {
                 @Override
                 public void onDataFetched() {
                     productList = ProductSingleton.getInstance().getProductList();
                     homeProductAdapter.notifyDataSetChanged();
+                    recyclerProduct.setVisibility(View.VISIBLE);
+                    lottieAnimationView.setVisibility(View.GONE);
                 }
             });
         }

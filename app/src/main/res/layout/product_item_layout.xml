@@ -87,7 +87,7 @@
                     android:layout_marginRight="10dp"
                     android:fontFamily="@font/poppins_light"
                     android:backgroundTint="@color/imageBorderColor"
-                    android:text="Remove"
+                    android:text="@string/remove"
                     android:textColor="#FFFFFF"
                     android:textSize="15sp" />
 
@@ -100,7 +100,7 @@
                     android:layout_marginLeft="10dp"
                     android:fontFamily="@font/poppins_light"
                     android:backgroundTint="@color/primaryTextColor"
-                    android:text="edit"
+                    android:text="@string/edit"
                     android:textColor="#FFFFFF"
                     android:textSize="15sp"/>
             </LinearLayout>
