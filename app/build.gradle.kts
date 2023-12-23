@@ -36,6 +36,7 @@ android {
 }
 
 dependencies {
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
     implementation("com.airbnb.android:lottie:6.2.0")
     implementation("com.facebook.android:facebook-android-sdk:latest.release")
     implementation("com.github.zhpanvip:viewpagerindicator:1.2.2")

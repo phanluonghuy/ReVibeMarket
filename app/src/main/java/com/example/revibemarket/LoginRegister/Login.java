@@ -1,6 +1,7 @@
 package com.example.revibemarket.LoginRegister;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -18,15 +19,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.L;
 import com.example.revibemarket.Models.User;
 import com.example.revibemarket.R;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.OAuthProvider;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
@@ -40,10 +49,12 @@ public class Login extends AppCompatActivity {
     EditText edtEmail, edtPassword;
     Button btnLogin;
     TextView btnBackToRegister,buttonForgot;
-    ImageView btnfacebook,btnGithub,btnAnonymous;
+    ImageView btnfacebook,btnGithub,btnAnonymous,btnGoogle;
     FirebaseAuth mAuth;
     private static final String PREFS_NAME = "SaveLauguage";
     private static final String LANG_KEY = "language";
+    int RC_SIGN_IN = 74;
+    private GoogleSignInClient googleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +75,7 @@ public class Login extends AppCompatActivity {
         btnfacebook = findViewById(R.id.btnFacebook);
         btnGithub = findViewById(R.id.btnGithub);
         btnAnonymous = findViewById(R.id.btnAnonymous);
+        btnGoogle = findViewById(R.id.btnGoogle);
         edtEmail = findViewById(R.id.editTextEmail);
         edtPassword = findViewById(R.id.editTextPassword);
         btnLogin = findViewById(R.id.buttonLogin);
@@ -125,6 +137,26 @@ public class Login extends AppCompatActivity {
                                 }
                             }
                         });
+            }
+        });
+
+        btnfacebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"Coming soon",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestIdToken(getString(R.string.default_web_client_id))
+                        .requestEmail().build();
+
+                googleSignInClient = GoogleSignIn.getClient(getApplicationContext(),gso);
+
+                googleSignIn();
             }
         });
 
@@ -239,6 +271,54 @@ public class Login extends AppCompatActivity {
             }
         });
     }
+
+    private void googleSignIn() {
+        Intent intent = googleSignInClient.getSignInIntent();
+        startActivityForResult(intent,RC_SIGN_IN);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuth(account.getIdToken());
+
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(),"Login by google failed !",Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    }
+    private void firebaseAuth(String idToken) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken,null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            String userID = user.getUid();
+
+                            User newUser = new User(userID, task.getResult().getUser().getEmail());
+                            usersRef.child(userID).setValue(newUser);
+
+                            Intent intent = new Intent(Login.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("Login google",e.toString());
+                    }
+                });
+    }
+
     private void setInitialLanguage() {
         String savedLanguage = getCurrentLanguage();
         setLocale(savedLanguage);

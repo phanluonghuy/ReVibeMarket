@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -58,7 +59,7 @@ public class HomeFragment extends Fragment {
     private ExploreFragment exploreFragment = new ExploreFragment();
 
     private Button buttonShowNow;
-    private BottomNavigationView bottomNavigationView;
+    private TextView textViewSeeAll;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,24 +69,41 @@ public class HomeFragment extends Fragment {
         buttonShowNow = rootView.findViewById(R.id.buttonShowNow);
         lottieAnimationView = rootView.findViewById(R.id.lottieAnimationViewHome);
         edtSearch = rootView.findViewById(R.id.edtSearch);
+        textViewSeeAll = rootView.findViewById(R.id.textViewSeeAll);
         setupCategoryRecyclerView();
         setupProductRecyclerView();
+
+        edtSearch.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+
+                if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if(event.getRawX() >= (edtSearch.getRight() - edtSearch.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        homeProductAdapter.getFilter().filter(edtSearch.getText().toString());
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
 
         buttonShowNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fragmentManager = getFragmentManager();
-
-                if (fragmentManager != null) {
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                    fragmentTransaction.replace(R.id.container, exploreFragment);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
-                }
+                loadExploreFragment();
             }
         });
 
+        textViewSeeAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadExploreFragment();
+            }
+        });
 
 
 
@@ -145,11 +163,39 @@ public class HomeFragment extends Fragment {
         return rootView;
     }
 
+    private void loadExploreFragment() {
+        FragmentManager fragmentManager = getFragmentManager();
+
+        if (fragmentManager != null) {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+            fragmentTransaction.replace(R.id.container, exploreFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+    }
+
     private void setupCategoryRecyclerView() {
         List<String> categories = Arrays.asList(getResources().getStringArray(R.array.categories_english));
         CategoryAdapter categoryAdapter = new CategoryAdapter(requireActivity(), categories);
         recyclerCategory.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerCategory.setAdapter(categoryAdapter);
+        categoryAdapter.setOnItemClickListener(new CategoryAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(String category, List<String> selectedCategories) {
+                // Handle item click and selection state here
+                if (selectedCategories.isEmpty()) {
+                    // Item is selected
+                    Log.d("CategoryAdapter", "Selected category: " + category);
+                } else {
+                    // Item is not selected
+                    Log.d("CategoryAdapter", "Deselected category: " + category);
+                }
+                homeProductAdapter.getFilterCategory().filter(selectedCategories.toString());
+                // Handle the list of selected categories
+                Log.d("CategoryAdapter", "Selected categories: " + selectedCategories.toString());
+            }
+        });
     }
 
     private void setupProductRecyclerView() {

@@ -86,6 +86,6 @@
         <item>Automobiles</item>
         <item>Toys</item>
     </string-array>
-
+    <string name="default_web_client_id" translatable="false">226368054818-fgh5mndc4mj7s5pb1mmrbvfnq831unci.apps.googleusercontent.com</string>
 
 </resources>

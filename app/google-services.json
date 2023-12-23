@@ -13,7 +13,20 @@
           "package_name": "com.example.revibemarket"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "226368054818-86jbt0hphf58ovnq47bppnbms5dka9nq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.revibemarket",
+            "certificate_hash": "2b192d9fff6cc9923bc4985d239fa973d60e0407"
+          }
+        },
+        {
+          "client_id": "226368054818-fgh5mndc4mj7s5pb1mmrbvfnq831unci.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDO7OWn-PCWv_M1oIQAZBC72eAZ05eeLxY"
@@ -21,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "226368054818-fgh5mndc4mj7s5pb1mmrbvfnq831unci.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
