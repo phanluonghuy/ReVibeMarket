@@ -136,18 +136,18 @@
                                 style="@style/viewParent.headerText.settingsTextIcon"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:drawableLeft="@drawable/ic_languages"
-                                android:text="@string/my_products"
-                                android:fontFamily="@font/poppins_thin"/>
+                                android:drawableLeft="@drawable/product"
+                                android:fontFamily="@font/poppins_thin"
+                                android:text="@string/my_products" />
 
                             <TextView
                                 android:id="@+id/orders"
                                 style="@style/viewParent.headerText.settingsTextIcon"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:drawableLeft="@drawable/ic_languages"
-                                android:text="@string/my_orders"
-                                android:fontFamily="@font/poppins_thin"/>
+                                android:drawableLeft="@drawable/order"
+                                android:fontFamily="@font/poppins_thin"
+                                android:text="@string/my_orders" />
 
                             <TextView
                                 style="@style/viewParent.headerText.settingsMiniTitle"
