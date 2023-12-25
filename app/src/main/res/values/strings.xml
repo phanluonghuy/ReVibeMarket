@@ -10,7 +10,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="register">REGISTER</string>
-    <string name="login_email_hint">Email</string>
+    <string name="login_email_hint" translatable="false">Email</string>
     <string name="login_password_hint">Password</string>
     <string name="login_confirm_password_hint">Confirm Password</string>
     <string name="signup_login_hint">Already have an account? Sign In</string>
@@ -87,5 +87,8 @@
         <item>Toys</item>
     </string-array>
     <string name="default_web_client_id" translatable="false">226368054818-fgh5mndc4mj7s5pb1mmrbvfnq831unci.apps.googleusercontent.com</string>
+    <string name="sold_product">Sold Product</string>
+    <string name="buyer">Buyer:</string>
+    <string name="accept">Accept</string>
 
 </resources>

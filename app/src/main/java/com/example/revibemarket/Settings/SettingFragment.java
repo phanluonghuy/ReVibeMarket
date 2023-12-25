@@ -22,6 +22,7 @@ import com.example.revibemarket.ModelsSingleton.UserSession;
 import com.example.revibemarket.MyOrderFragment;
 import com.example.revibemarket.MyProductFragment;
 import com.example.revibemarket.R;
+import com.example.revibemarket.SoldFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,12 +35,13 @@ public class SettingFragment extends Fragment {
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     ImageView imageView;
     TextView textViewName;
-    TextView editProfile,editPassword,editProduct,editOrder,editLanguage;
+    TextView editProfile,editPassword,editProduct,editOrder,editLanguage,editSold;
     ProfileFragment profileFragment = new ProfileFragment();
     ChangePasswordFragment changePasswordFragment = new ChangePasswordFragment();
     MyProductFragment myProductFragment = new MyProductFragment();
     MyOrderFragment myOrderFragment = new MyOrderFragment();
     LanguageFragment languageFragment = new LanguageFragment();
+    SoldFragment soldFragment = new SoldFragment();
     TextView btnLogout;
 
     @Override
@@ -53,6 +55,7 @@ public class SettingFragment extends Fragment {
         editProduct = view.findViewById(R.id.product);
         editOrder = view.findViewById(R.id.orders);
         editLanguage = view.findViewById(R.id.editLanguage);
+        editSold = view.findViewById(R.id.soldProduct);
         btnLogout = view.findViewById(R.id.btnLogout);
 
 
@@ -108,6 +111,22 @@ public class SettingFragment extends Fragment {
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                 fragmentTransaction.replace(R.id.container, myOrderFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
+        editSold.setOnClickListener(e ->{
+            if (user.isAnonymous()) {
+                Toast.makeText(getContext(),"User need to login!",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            FragmentManager fragmentManager = getFragmentManager();
+
+            if (fragmentManager != null) {
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                fragmentTransaction.replace(R.id.container, soldFragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }

@@ -164,6 +164,8 @@ public class CartFragment extends Fragment {
                 .addOnFailureListener(e -> {
                     showToast("Failed to place order");
                 });
+
+
     }
 
     private String getCurrentDate() {

@@ -69,4 +69,7 @@
     <string name="remove">Xoá</string>
     <string name="edit">Chỉnh sửa</string>
     <string name="see_product">Xem  chi tiết</string>
+    <string name="sold_product">Sản phẩm đã bán</string>
+    <string name="buyer">Nguời mua :</string>
+    <string name="accept">Chấp nhận</string>
 </resources>

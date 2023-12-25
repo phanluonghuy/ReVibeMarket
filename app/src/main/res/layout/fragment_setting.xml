@@ -150,6 +150,15 @@
                                 android:text="@string/my_orders" />
 
                             <TextView
+                                android:id="@+id/soldProduct"
+                                style="@style/viewParent.headerText.settingsTextIcon"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableLeft="@drawable/sell"
+                                android:fontFamily="@font/poppins_thin"
+                                android:text="@string/sold_product" />
+
+                            <TextView
                                 style="@style/viewParent.headerText.settingsMiniTitle"
                                 android:text="@string/regional"
                                 android:fontFamily="@font/poppins_light"/>
